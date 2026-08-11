@@ -1,7 +1,7 @@
 # 동아시아학제연구모임 (East Asia Interdisciplinary Studies Group)
 
 Group site, built with Jekyll. Color palette and lineage badge nod to
-[문우림 (Munwoorim)](https://cvt.kfas.or.kr/intro/type1.php), the KFAS
+[문우림 (文友林, Forest of Learning)](https://cvt.kfas.or.kr/intro/type1.php), the KFAS
 program this group grew out of. Layout is modeled loosely on the
 [Geneva Symmetry Group](https://genevasymmetrygroup.wordpress.com/) site
 (nav bar, news feed, sidebar).
