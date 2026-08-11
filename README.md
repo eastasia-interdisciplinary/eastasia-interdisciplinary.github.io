@@ -30,6 +30,8 @@ Then open http://127.0.0.1:4000/.
 
 ## Deployment
 
-Pushing to `main` triggers `.github/workflows/pages.yml`, which builds
-the site and deploys it via GitHub Actions. In the repo's **Settings →
-Pages**, set the source to **GitHub Actions**.
+Lives at [eastasia-interdisciplinary.github.io](https://eastasia-interdisciplinary.github.io/)
+via the `eastasia-interdisciplinary` GitHub org's special `<org>.github.io`
+repo. Pushing to `main` triggers `.github/workflows/pages.yml`, which
+builds the site and deploys it via GitHub Actions. In the repo's
+**Settings → Pages**, set the source to **GitHub Actions**.
