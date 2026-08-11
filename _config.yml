@@ -7,16 +7,22 @@ url: "https://eastasia-interdisciplinary.github.io"
 baseurl: "" # root org page site, no path prefix
 
 # Parent program, shown in the sidebar as a nod to lineage
-parent_name: 문우림 (Munwoorim)
+parent_name: 문우림
+parent_name_en: Forest of Learning
+parent_hanja: 文友林
 parent_url: "https://cvt.kfas.or.kr/intro/type1.php"
+parent_blurb: >-
+  한국고등교육재단이 운영하는 학부생 인재성장 프로그램으로, 동아시아 고전을
+  함께 읽고 한·중·일 역사의 현장을 직접 답사하며 학문적 우정을 쌓는 2년
+  과정입니다.
 
 markdown: kramdown
 permalink: /news/:year/:month/:day/:title/
 
 collections:
-  balje:
+  seminar:
     output: true
-    permalink: /balje/:year-:month-:day-:title/
+    permalink: /seminar/:year-:month-:day-:title/
     sort_by: date
 
 plugins:

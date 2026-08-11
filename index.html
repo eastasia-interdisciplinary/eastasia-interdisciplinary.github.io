@@ -24,8 +24,18 @@ layout: default
       <strong>{{ site.title }}</strong>({{ site.tagline }})은
       {{ site.description }}
     </p>
+  </div>
+
+  <div class="sidebar-box">
+    <h3>{{ site.parent_name }}과의 인연</h3>
     <p>
-      <span class="lineage-badge">🌳 <a href="{{ site.parent_url }}" target="_blank" rel="noopener">{{ site.parent_name }}</a>에서 이어짐</span>
+      <span class="lineage-badge">
+        🌳 <a href="{{ site.parent_url }}" target="_blank" rel="noopener">{{ site.parent_name }} ({{ site.parent_hanja }}, {{ site.parent_name_en }})</a>
+      </span>
+    </p>
+    <p>{{ site.parent_blurb }}</p>
+    <p>
+      <a href="{{ site.parent_url }}" target="_blank" rel="noopener">→ {{ site.parent_name }} 홈페이지</a>
     </p>
   </div>
 
