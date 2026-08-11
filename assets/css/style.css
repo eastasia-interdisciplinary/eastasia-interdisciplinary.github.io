@@ -1,21 +1,26 @@
 /*
-  Palette sampled from 문우림 (文友林, Forest of Learning, KFAS) recruiting materials:
-  deep indigo-navy + forest green (林, "grove"), on a cream ground.
-  Bronze kept as a secondary accent from the site's own UI.
+  Editorial-journal direction, referencing Asymptote (asymptotejournal.com)
+  for structure: serif display type, hairline rules with small-caps/italic
+  labels instead of boxed cards, restrained color. Palette itself still
+  sampled from 문우림 (文友林, Forest of Learning, KFAS): indigo-navy +
+  forest green on a cream ground.
 */
 :root {
   --navy: #2f3179;
   --navy-dark: #21234f;
   --green: #88b067;
   --green-dark: #5f7a45;
-  --green-light: #a6b884;
-  --green-tint: #eef2e6;
-  --cream: #f8f2e6;
-  --bronze: #bf9266;
-  --text: #2c2c2c;
-  --text-muted: #666666;
-  --border: #e3ded0;
+  --bronze: #a97b4f;
+  --text: #262420;
+  --text-muted: #726f64;
+  --rule: #d9cfb8;
+  --rule-strong: #2f3179;
   --bg: #f8f2e6;
+  --paper: #fbf8f1;
+
+  --font-serif: "Noto Serif KR", "Source Serif 4", Georgia, serif;
+  --font-sans: "Noto Sans KR", Dotum, "Apple Gothic", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -25,23 +30,24 @@ html, body {
   padding: 0;
   background: var(--bg);
   color: var(--text);
-  /* Same primary as 문우림 (cvt.kfas.or.kr): Noto Sans KR, loaded via
-     Google Fonts here since their page relies on it being preinstalled. */
-  font-family: "Noto Sans KR", Dotum, "Apple Gothic", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  line-height: 1.7;
+  font-family: var(--font-sans);
+  line-height: 1.75;
 }
 
-a {
-  color: var(--green-dark);
-  text-decoration: none;
-}
-a:hover { text-decoration: underline; }
+a { color: var(--navy); text-decoration: none; }
+a:hover { text-decoration: underline; text-decoration-color: var(--green-dark); }
+
+/* language toggle: .i18n-en hidden by default (html starts data-lang="ko");
+   a blocking inline script in <head> sets the real value before paint */
+html[data-lang="ko"] .i18n-en { display: none; }
+html[data-lang="en"] .i18n-ko { display: none; }
+
+/* ---------- masthead ---------- */
 
 .site-header {
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
-  color: #fff;
-  padding: 2.5rem 1.5rem 0;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  padding: 2.75rem 1.5rem 0;
 }
 
 .site-header-inner {
@@ -49,46 +55,87 @@ a:hover { text-decoration: underline; }
   margin: 0 auto;
 }
 
+.masthead-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
 .site-title {
-  font-size: 1.9rem;
+  font-family: var(--font-serif);
+  font-size: 2.1rem;
   font-weight: 700;
   margin: 0;
-  color: #fff;
+  color: var(--navy);
   letter-spacing: -0.01em;
 }
 
 .site-tagline {
-  margin: 0.35rem 0 1.75rem;
-  color: var(--green);
-  font-size: 0.95rem;
+  margin: 0.4rem 0 1.85rem;
+  color: var(--green-dark);
+  font-family: var(--font-serif);
   font-style: italic;
+  font-size: 1rem;
 }
+
+.lang-toggle {
+  display: flex;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  padding-bottom: 0.3rem;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  padding: 0.1rem 0.2rem;
+  font: inherit;
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+}
+
+.lang-btn.active {
+  color: var(--navy);
+  border-bottom-color: var(--green);
+}
+
+.lang-sep { color: var(--rule); }
 
 .site-nav {
   display: flex;
-  gap: 0.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  gap: 1.75rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 3px double var(--rule-strong);
 }
 
 .site-nav a {
-  color: rgba(255, 255, 255, 0.85);
-  padding: 0.9rem 1rem;
-  font-size: 0.92rem;
-  font-weight: 500;
-  border-bottom: 3px solid transparent;
+  color: var(--text);
+  padding: 0.85rem 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -3px;
 }
 
 .site-nav a:hover,
 .site-nav a.active {
-  color: #fff;
+  color: var(--navy);
   text-decoration: none;
   border-bottom-color: var(--green);
 }
 
+/* ---------- layout ---------- */
+
 .page-wrap {
   max-width: 960px;
   margin: 0 auto;
-  padding: 2.5rem 1.5rem 4rem;
+  padding: 3rem 1.5rem 4rem;
   display: grid;
   grid-template-columns: 1fr 280px;
   gap: 3rem;
@@ -98,108 +145,118 @@ a:hover { text-decoration: underline; }
   .page-wrap { grid-template-columns: 1fr; }
 }
 
-.main-col h2.section-label {
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+/* section label: hairline rule + small-caps italic serif, à la
+   Asymptote's "Fiction ───" section dividers */
+.main-col h2.section-label,
+.sidebar-box h3 {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
   color: var(--bronze);
-  border-left: 4px solid var(--bronze);
-  padding-left: 0.6rem;
   margin: 0 0 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
 }
 
+.sidebar-box h3 { font-size: 0.95rem; margin-bottom: 0.7rem; }
+
 .post-preview {
-  padding-bottom: 1.75rem;
-  margin-bottom: 1.75rem;
-  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.85rem;
+  margin-bottom: 1.85rem;
+  border-bottom: 1px solid var(--rule);
 }
 .post-preview:last-child { border-bottom: none; }
 
 .post-preview h3 {
+  font-family: var(--font-serif);
   margin: 0 0 0.3rem;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 .post-preview h3 a { color: var(--navy); }
 
 .post-meta {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   margin-bottom: 0.6rem;
 }
 
+/* ---------- sidebar ---------- */
+
 .sidebar-box {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--green);
-  border-radius: 6px;
-  padding: 1.25rem 1.4rem;
-  margin-bottom: 1.5rem;
+  padding-top: 0;
+  margin-bottom: 2.25rem;
 }
 
-.sidebar-box h3 {
-  margin: 0 0 0.6rem;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--navy);
-}
-
-.sidebar-box p { margin: 0 0 0.6rem; font-size: 0.92rem; }
+.sidebar-box p { margin: 0 0 0.7rem; font-size: 0.93rem; }
 .sidebar-box p:last-child { margin-bottom: 0; }
 
-.lineage-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.82rem;
-  color: var(--navy);
-  background: #fff;
-  border: 1px solid var(--bronze);
-  border-radius: 999px;
-  padding: 0.3rem 0.75rem;
+.lineage-link {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.7rem;
 }
 
 .site-footer {
-  border-top: 1px solid var(--border);
+  border-top: 3px double var(--rule-strong);
   color: var(--text-muted);
-  font-size: 0.85rem;
-  padding: 2rem 1.5rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  padding: 1.75rem 1.5rem;
   text-align: center;
 }
 
+/* ---------- single entry (post / seminar) ---------- */
+
 article.post h1 {
+  font-family: var(--font-serif);
   color: var(--navy);
-  margin-bottom: 0.25rem;
+  font-size: 1.8rem;
+  margin-bottom: 0.3rem;
 }
+
+article.post .back-link {
+  display: inline-block;
+  margin-top: 2rem;
+  font-size: 0.88rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  width: 100%;
+}
+
+/* ---------- people ---------- */
 
 .people-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.25rem;
+  gap: 0.5rem 1.5rem;
 }
 
 .person-card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--green);
-  border-radius: 6px;
-  padding: 1.1rem 1.25rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
 }
 
 .person-card h3 {
-  margin: 0 0 0.2rem;
+  font-family: var(--font-serif);
+  margin: 0 0 0.15rem;
   color: var(--navy);
   font-size: 1.05rem;
+  font-weight: 600;
 }
 
-.person-card p { margin: 0.5rem 0 0; font-size: 0.9rem; }
+.person-card p { margin: 0.4rem 0 0; font-size: 0.9rem; }
 
-.btn {
-  display: inline-block;
-  background: var(--green-dark);
-  color: #fff;
-  padding: 0.55rem 1.1rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
+.hint {
+  margin-top: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
 }
-.btn:hover { background: var(--navy); color: #fff; text-decoration: none; }
+.hint code {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 0.05rem 0.35rem;
+  border-radius: 3px;
+}

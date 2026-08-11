@@ -4,11 +4,14 @@ title: 발제
 permalink: /seminar/
 ---
 <main class="main-col">
-  <h2 class="section-label">발제</h2>
+  <h2 class="section-label"><span class="i18n-ko">발제</span><span class="i18n-en">Seminar</span></h2>
 
   {% assign entries = site.seminar | sort: 'date' | reverse %}
   {% if entries.size == 0 %}
-    <p>아직 등록된 발제가 없습니다. <code>_seminar/</code>에 마크다운 파일을 추가해 주세요.</p>
+    <p>
+      <span class="i18n-ko">아직 등록된 발제가 없습니다. <code>_seminar/</code>에 마크다운 파일을 추가해 주세요.</span>
+      <span class="i18n-en">No seminar entries yet. Add a markdown file to <code>_seminar/</code>.</span>
+    </p>
   {% endif %}
 
   {% for entry in entries %}
@@ -16,7 +19,9 @@ permalink: /seminar/
       <h3><a href="{{ entry.url | relative_url }}">{{ entry.title }}</a></h3>
       <div class="post-meta">
         {{ entry.date | date: "%Y년 %-m월 %-d일" }}
-        {% if entry.presenter %} · 발제자: {{ entry.presenter }}{% endif %}
+        {% if entry.presenter %}
+          · <span class="i18n-ko">발제자: {{ entry.presenter }}</span><span class="i18n-en">Presenter: {{ entry.presenter }}</span>
+        {% endif %}
       </div>
       <p>{{ entry.excerpt | strip_html | truncatewords: 40 }}</p>
     </article>
@@ -25,10 +30,14 @@ permalink: /seminar/
 
 <aside class="sidebar">
   <div class="sidebar-box">
-    <h3>발제란</h3>
-    <p>
+    <h3><span class="i18n-ko">발제란</span><span class="i18n-en">About</span></h3>
+    <p class="i18n-ko">
       모임 세미나에서 다룬 문헌과 발표 주제를 이 곳에 기록합니다.
       각 발제 항목에는 발제자와 다룬 텍스트, 논의 내용을 정리합니다.
+    </p>
+    <p class="i18n-en">
+      A record of texts and topics covered in seminar. Each entry notes
+      the presenter, the text discussed, and the discussion itself.
     </p>
   </div>
 </aside>

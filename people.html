@@ -4,28 +4,30 @@ title: 사람들
 permalink: /people/
 ---
 <main class="main-col">
-  <h2 class="section-label">사람들</h2>
+  <h2 class="section-label"><span class="i18n-ko">사람들</span><span class="i18n-en">People</span></h2>
 
   <div class="people-grid">
     <div class="person-card">
       <h3>이름</h3>
-      <div class="post-meta">소속 · 관심 분야</div>
-      <p>한 줄 소개.</p>
+      <div class="post-meta">
+        <span class="i18n-ko">소속 · 관심 분야</span>
+        <span class="i18n-en">Affiliation · Interests</span>
+      </div>
+      <p class="i18n-ko">한 줄 소개.</p>
+      <p class="i18n-en">One-line bio.</p>
     </div>
   </div>
 
-  <p style="margin-top:2rem; color: var(--text-muted); font-size:0.9rem;">
-    <code>people.html</code>의 <code>.people-grid</code> 안에 구성원을
-    <code>.person-card</code>로 추가해 주세요.
+  <p class="hint">
+    <span class="i18n-ko"><code>people.html</code>의 <code>.people-grid</code> 안에 구성원을 <code>.person-card</code>로 추가해 주세요.</span>
+    <span class="i18n-en">Add members as <code>.person-card</code> blocks inside <code>.people-grid</code> in <code>people.html</code>.</span>
   </p>
 </main>
 
 <aside class="sidebar">
   <div class="sidebar-box">
-    <h3>구성원</h3>
-    <p>
-      {{ site.title }}은 문우림(文友林)을 통해 만난 학부생 및 대학원생들로
-      구성되어 있습니다.
-    </p>
+    <h3><span class="i18n-ko">구성원</span><span class="i18n-en">Members</span></h3>
+    <p class="i18n-ko">{{ site.title }}은 {{ site.parent_name }}(文友林)을 통해 만난 학부생 및 대학원생들로 구성되어 있습니다.</p>
+    <p class="i18n-en">{{ site.title }} is made up of undergraduate and graduate students who met through {{ site.parent_name }} ({{ site.parent_name_en }}).</p>
   </div>
 </aside>

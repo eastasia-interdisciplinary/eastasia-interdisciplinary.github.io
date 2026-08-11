@@ -2,10 +2,13 @@
 layout: default
 ---
 <main class="main-col">
-  <h2 class="section-label">News</h2>
+  <h2 class="section-label"><span class="i18n-ko">소식</span><span class="i18n-en">News</span></h2>
 
   {% if site.posts.size == 0 %}
-    <p>아직 게시된 소식이 없습니다. <code>_posts/</code>에 마크다운 파일을 추가해 주세요.</p>
+    <p>
+      <span class="i18n-ko">아직 게시된 소식이 없습니다. <code>_posts/</code>에 마크다운 파일을 추가해 주세요.</span>
+      <span class="i18n-en">No posts yet. Add a markdown file to <code>_posts/</code>.</span>
+    </p>
   {% endif %}
 
   {% for post in site.posts %}
@@ -19,28 +22,31 @@ layout: default
 
 <aside class="sidebar">
   <div class="sidebar-box">
-    <h3>Welcome</h3>
+    <h3><span class="i18n-ko">소개</span><span class="i18n-en">Welcome</span></h3>
+    <p class="i18n-ko"><strong>{{ site.title }}</strong>({{ site.tagline }})은 {{ site.description }}</p>
+    <p class="i18n-en"><strong>{{ site.title }}</strong> ({{ site.tagline }}). {{ site.description_en }}</p>
+  </div>
+
+  <div class="sidebar-box">
+    <h3>
+      <span class="i18n-ko">{{ site.parent_name }}과의 인연</span>
+      <span class="i18n-en">Connection to {{ site.parent_name_en }}</span>
+    </h3>
+    <a class="lineage-link" href="{{ site.parent_url }}" target="_blank" rel="noopener">
+      🌳 {{ site.parent_name }} ({{ site.parent_hanja }}, {{ site.parent_name_en }})
+    </a>
+    <p class="i18n-ko">{{ site.parent_blurb }}</p>
+    <p class="i18n-en">{{ site.parent_blurb_en }}</p>
     <p>
-      <strong>{{ site.title }}</strong>({{ site.tagline }})은
-      {{ site.description }}
+      <a href="{{ site.parent_url }}" target="_blank" rel="noopener">
+        <span class="i18n-ko">→ {{ site.parent_name }} 홈페이지</span>
+        <span class="i18n-en">→ {{ site.parent_name_en }} homepage</span>
+      </a>
     </p>
   </div>
 
   <div class="sidebar-box">
-    <h3>{{ site.parent_name }}과의 인연</h3>
-    <p>
-      <span class="lineage-badge">
-        🌳 <a href="{{ site.parent_url }}" target="_blank" rel="noopener">{{ site.parent_name }} ({{ site.parent_hanja }}, {{ site.parent_name_en }})</a>
-      </span>
-    </p>
-    <p>{{ site.parent_blurb }}</p>
-    <p>
-      <a href="{{ site.parent_url }}" target="_blank" rel="noopener">→ {{ site.parent_name }} 홈페이지</a>
-    </p>
-  </div>
-
-  <div class="sidebar-box">
-    <h3>Archives</h3>
+    <h3><span class="i18n-ko">보관함</span><span class="i18n-en">Archives</span></h3>
     <p>
       {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
       {% for year in posts_by_year %}
