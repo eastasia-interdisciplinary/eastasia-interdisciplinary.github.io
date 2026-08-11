@@ -1,0 +1,23 @@
+title: 동아시아학제연구모임
+tagline: East Asia Interdisciplinary Studies Group
+description: >-
+  동아시아의 역사, 문화, 사회를 학제적으로 연구하는 모임입니다.
+  한국고등교육재단 문우림(文友林)에서 출발하여 결성되었습니다.
+url: "" # e.g. "https://yourusername.github.io"
+baseurl: "" # e.g. "/eastasia-interdisciplinary" if not a user/org root site
+
+# Parent program, shown in the sidebar as a nod to lineage
+parent_name: 문우림 (Munwoorim)
+parent_url: "https://cvt.kfas.or.kr/intro/type1.php"
+
+markdown: kramdown
+permalink: /news/:year/:month/:day/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock

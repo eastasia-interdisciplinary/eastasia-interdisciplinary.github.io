@@ -1,0 +1,181 @@
+/*
+  Palette sampled from 문우림 (Munwoorim, KFAS) recruiting materials:
+  deep indigo-navy + forest green (林, "grove"), on a cream ground.
+  Bronze kept as a secondary accent from the site's own UI.
+*/
+:root {
+  --navy: #2f3179;
+  --navy-dark: #21234f;
+  --green: #88b067;
+  --green-dark: #5f7a45;
+  --green-light: #a6b884;
+  --green-tint: #eef2e6;
+  --cream: #f8f2e6;
+  --bronze: #bf9266;
+  --text: #2c2c2c;
+  --text-muted: #666666;
+  --border: #e3ded0;
+  --bg: #f8f2e6;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Noto Sans KR", "Pretendard", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+}
+
+a {
+  color: var(--green-dark);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+.site-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: #fff;
+  padding: 2.5rem 1.5rem 0;
+}
+
+.site-header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.site-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.site-tagline {
+  margin: 0.35rem 0 1.75rem;
+  color: var(--green);
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.site-nav {
+  display: flex;
+  gap: 0.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.site-nav a {
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0.9rem 1rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  color: #fff;
+  text-decoration: none;
+  border-bottom-color: var(--green);
+}
+
+.page-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 3rem;
+}
+
+@media (max-width: 720px) {
+  .page-wrap { grid-template-columns: 1fr; }
+}
+
+.main-col h2.section-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  border-left: 4px solid var(--bronze);
+  padding-left: 0.6rem;
+  margin: 0 0 1.5rem;
+}
+
+.post-preview {
+  padding-bottom: 1.75rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.post-preview:last-child { border-bottom: none; }
+
+.post-preview h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1.2rem;
+}
+.post-preview h3 a { color: var(--navy); }
+
+.post-meta {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.6rem;
+}
+
+.sidebar-box {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+  border-radius: 6px;
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-box h3 {
+  margin: 0 0 0.6rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--navy);
+}
+
+.sidebar-box p { margin: 0 0 0.6rem; font-size: 0.92rem; }
+.sidebar-box p:last-child { margin-bottom: 0; }
+
+.lineage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--navy);
+  background: #fff;
+  border: 1px solid var(--bronze);
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+article.post h1 {
+  color: var(--navy);
+  margin-bottom: 0.25rem;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--green-dark);
+  color: #fff;
+  padding: 0.55rem 1.1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.btn:hover { background: var(--navy); color: #fff; text-decoration: none; }

@@ -1,0 +1,9 @@
+<header class="site-header">
+  <div class="site-header-inner">
+    <h1 class="site-title">{{ site.title }}</h1>
+    <p class="site-tagline">{{ site.tagline }}</p>
+    <nav class="site-nav">
+      <a href="{{ '/' | relative_url }}" class="{% if page.url == '/' %}active{% endif %}">Home</a>
+    </nav>
+  </div>
+</header>
