@@ -4,6 +4,11 @@
   labels instead of boxed cards, restrained color. Palette itself still
   sampled from 문우림 (文友林, Forest of Learning, KFAS): indigo-navy +
   forest green on a cream ground.
+
+  Typefaces: Pretendard for body/UI text (the de facto standard in
+  contemporary Korean design work, versus the generic Noto Sans KR
+  default), Gowun Batang for headings (a warmer, more literary Korean
+  serif than Noto Serif KR, fitting for a classics reading group).
 */
 :root {
   --navy: #2f3179;
@@ -18,9 +23,9 @@
   --bg: #f8f2e6;
   --paper: #fbf8f1;
 
-  --font-serif: "Noto Serif KR", "Source Serif 4", Georgia, serif;
-  --font-sans: "Noto Sans KR", Dotum, "Apple Gothic", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-serif: "Gowun Batang", "Source Serif 4", Georgia, serif;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -226,28 +231,28 @@ article.post .back-link {
   width: 100%;
 }
 
-/* ---------- people ---------- */
+/* ---------- card grid: shared by People and Seminar ---------- */
 
-.people-grid {
+.card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.5rem 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.5rem 2rem;
 }
 
-.person-card {
-  padding: 1rem 0;
+.grid-card {
+  padding: 1.1rem 0;
   border-top: 1px solid var(--rule);
 }
 
-.person-card h3 {
+.grid-card h3 {
   font-family: var(--font-serif);
   margin: 0 0 0.15rem;
   color: var(--navy);
   font-size: 1.05rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.person-card p { margin: 0.4rem 0 0; font-size: 0.9rem; }
+.grid-card p { margin: 0.4rem 0 0; font-size: 0.9rem; }
 
 .hint {
   margin-top: 2rem;

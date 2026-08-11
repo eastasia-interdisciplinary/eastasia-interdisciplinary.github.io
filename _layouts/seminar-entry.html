@@ -6,11 +6,11 @@ layout: default
   <div class="post-meta">
     {{ page.date | date: "%Y년 %-m월 %-d일" }}
     {% if page.presenter %}
-      · <span class="i18n-ko">발제자: {{ page.presenter }}</span><span class="i18n-en">Presenter: {{ page.presenter }}</span>
+      · <span class="i18n-ko">발제자 {{ page.presenter }}</span><span class="i18n-en">Presenter {{ page.presenter }}</span>
     {% endif %}
   </div>
   {{ content }}
   <a class="back-link" href="{{ '/seminar/' | relative_url }}">
-    <span class="i18n-ko">&larr; 발제 목록으로</span><span class="i18n-en">&larr; Back to Seminar</span>
+    <span class="i18n-ko">&larr; 세미나 목록으로</span><span class="i18n-en">&larr; Back to Seminar</span>
   </a>
 </article>

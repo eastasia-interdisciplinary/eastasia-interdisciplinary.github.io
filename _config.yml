@@ -16,13 +16,13 @@ parent_name_en: Forest of Learning
 parent_hanja: 文友林
 parent_url: "https://cvt.kfas.or.kr/intro/type1.php"
 parent_blurb: >-
-  한국고등교육재단이 운영하는 학부생 인재성장 프로그램으로, 동아시아 고전을
-  함께 읽고 한·중·일 역사의 현장을 직접 답사하며 학문적 우정을 쌓는 2년
-  과정입니다.
+  한국고등교육재단(KFAS)이 운영하는 학부생 인재성장 프로그램으로, 동아시아
+  고전을 함께 읽고 한·중·일 역사의 현장을 직접 답사하며 학문적 우정을
+  쌓는 2년 과정입니다.
 parent_blurb_en: >-
   A two-year talent-development program run by the Korea Foundation for
-  Advanced Studies, in which members read East Asian classics together
-  and visit historical sites across Korea, China, and Japan.
+  Advanced Studies (KFAS), in which members read East Asian classics
+  together and visit historical sites across Korea, China, and Japan.
 
 markdown: kramdown
 permalink: /news/:year/:month/:day/:title/
