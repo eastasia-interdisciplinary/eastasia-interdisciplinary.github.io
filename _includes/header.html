@@ -4,6 +4,8 @@
     <p class="site-tagline">{{ site.tagline }}</p>
     <nav class="site-nav">
       <a href="{{ '/' | relative_url }}" class="{% if page.url == '/' %}active{% endif %}">Home</a>
+      <a href="{{ '/people/' | relative_url }}" class="{% if page.url == '/people/' %}active{% endif %}">사람들</a>
+      <a href="{{ '/balje/' | relative_url }}" class="{% if page.url == '/balje/' or page.collection == 'balje' %}active{% endif %}">발제</a>
     </nav>
   </div>
 </header>

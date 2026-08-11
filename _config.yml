@@ -13,6 +13,12 @@ parent_url: "https://cvt.kfas.or.kr/intro/type1.php"
 markdown: kramdown
 permalink: /news/:year/:month/:day/:title/
 
+collections:
+  balje:
+    output: true
+    permalink: /balje/:year-:month-:day-:title/
+    sort_by: date
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
