@@ -7,8 +7,10 @@
 
   Typefaces: Pretendard for body/UI text (the de facto standard in
   contemporary Korean design work, versus the generic Noto Sans KR
-  default), Gowun Batang for headings (a warmer, more literary Korean
-  serif than Noto Serif KR, fitting for a classics reading group).
+  default), Nanum Myeongjo for headings — a classic 명조(Myeongjo)
+  serif in the tradition of Korean newspaper/book typesetting,
+  swapped in for Gowun Batang, which reads soft/handwriting-inspired
+  rather than authoritative at display size.
 */
 :root {
   --navy: #2f3179;
@@ -23,7 +25,7 @@
   --bg: #f8f2e6;
   --paper: #fbf8f1;
 
-  --font-serif: "Gowun Batang", "Source Serif 4", Georgia, serif;
+  --font-serif: "Nanum Myeongjo", "Source Serif 4", Georgia, serif;
   --font-sans: "Pretendard Variable", Pretendard, -apple-system,
     BlinkMacSystemFont, system-ui, Roboto, "Malgun Gothic", sans-serif;
 }
@@ -101,7 +103,7 @@ html[data-lang="en"] .i18n-ko { display: none; }
 .site-title {
   font-family: var(--font-serif);
   font-size: 3.4rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
   color: var(--navy);
   letter-spacing: -0.01em;
