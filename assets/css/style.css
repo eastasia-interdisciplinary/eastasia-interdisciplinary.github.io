@@ -50,12 +50,29 @@ html[data-lang="en"] .i18n-ko { display: none; }
 /* ---------- masthead ---------- */
 
 .site-header {
+  position: relative;
+  overflow: hidden;
   background: var(--paper);
   border-bottom: 1px solid var(--rule);
   padding: 2.75rem 1.5rem 0;
 }
 
+/* watermark referencing 林 ("forest"), the last character of 문우림 (文友林) */
+.forest-mark {
+  position: absolute;
+  top: -2.2rem;
+  right: -0.5rem;
+  font-family: var(--font-serif);
+  font-size: 13rem;
+  line-height: 1;
+  color: var(--navy);
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+}
+
 .site-header-inner {
+  position: relative;
   max-width: 960px;
   margin: 0 auto;
 }
@@ -63,13 +80,21 @@ html[data-lang="en"] .i18n-ko { display: none; }
 .masthead-top {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: flex-end;
   gap: 1rem;
+}
+
+.kicker {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bronze);
 }
 
 .site-title {
   font-family: var(--font-serif);
-  font-size: 2.1rem;
+  font-size: 2.35rem;
   font-weight: 700;
   margin: 0;
   color: var(--navy);
@@ -202,6 +227,22 @@ html[data-lang="en"] .i18n-ko { display: none; }
   display: block;
   font-size: 0.95rem;
   margin-bottom: 0.7rem;
+}
+
+/* small chop/seal mark, echoing the seals stamped on classical texts */
+.seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3em;
+  height: 1.3em;
+  vertical-align: -0.28em;
+  border: 1.5px solid var(--bronze);
+  border-radius: 2px;
+  color: var(--bronze);
+  font-family: var(--font-serif);
+  font-size: 0.85em;
+  font-weight: 700;
 }
 
 .site-footer {
