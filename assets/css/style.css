@@ -353,14 +353,10 @@ article.post .back-link {
 
 .grid-card p { margin: 0.4rem 0 0; font-size: 0.9rem; }
 
-.hint {
-  margin-top: 2rem;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-}
-.hint code {
+code {
   background: var(--paper);
   border: 1px solid var(--rule);
   padding: 0.05rem 0.35rem;
   border-radius: 3px;
+  font-size: 0.9em;
 }
