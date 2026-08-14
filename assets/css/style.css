@@ -51,7 +51,25 @@ html[data-lang="en"] .i18n-ko { display: none; }
 /* ---------- masthead ---------- */
 
 .site-header {
+  position: relative;
+  overflow: hidden;
   background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* watermark referencing 林 ("forest"), the last character of 문우림
+   (文友林) — compact (non-hero) pages only */
+.forest-mark {
+  position: absolute;
+  top: -2.2rem;
+  right: -0.5rem;
+  font-family: var(--font-serif);
+  font-size: 13rem;
+  line-height: 1;
+  color: var(--navy);
+  opacity: 0.05;
+  pointer-events: none;
+  user-select: none;
 }
 
 .site-header-inner {
@@ -213,11 +231,18 @@ html[data-lang="en"] .i18n-ko { display: none; }
   padding: 3.5rem 1.5rem 4.5rem;
   display: grid;
   grid-template-columns: 1fr 340px;
-  gap: 4.5rem;
+  gap: 3rem;
+}
+
+/* one meaningful divider — between the two columns, not one per item */
+.sidebar {
+  border-left: 1px solid var(--rule);
+  padding-left: 1.75rem;
 }
 
 @media (max-width: 720px) {
   .page-wrap { grid-template-columns: 1fr; }
+  .sidebar { border-left: none; padding-left: 0; }
 }
 
 /* section label: type does the work — weight, tracking, color —
@@ -309,10 +334,11 @@ html[data-lang="en"] .i18n-ko { display: none; }
 }
 
 .site-footer {
+  border-top: 1px solid var(--rule);
   color: var(--text-muted);
   font-size: 0.82rem;
   letter-spacing: 0.02em;
-  padding: 3rem 1.5rem 2.5rem;
+  padding: 2rem 1.5rem 2.5rem;
   text-align: center;
 }
 
