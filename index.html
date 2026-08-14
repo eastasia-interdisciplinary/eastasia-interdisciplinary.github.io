@@ -2,6 +2,11 @@
 layout: default
 ---
 <main class="main-col">
+  <div class="lede">
+    <p class="i18n-ko"><strong>{{ site.title }}</strong>({{ site.tagline }})은 {{ site.description }}</p>
+    <p class="i18n-en"><strong>{{ site.title }}</strong> ({{ site.tagline }}). {{ site.description_en }}</p>
+  </div>
+
   <h2 class="section-label"><span class="i18n-ko">소식</span><span class="i18n-en">News</span></h2>
 
   {% if site.posts.size == 0 %}
@@ -21,14 +26,8 @@ layout: default
 </main>
 
 <aside class="sidebar">
-  <div class="sidebar-box">
-    <h3><span class="i18n-ko">소개</span><span class="i18n-en">Welcome</span></h3>
-    <p class="i18n-ko"><strong>{{ site.title }}</strong>({{ site.tagline }})은 {{ site.description }}</p>
-    <p class="i18n-en"><strong>{{ site.title }}</strong> ({{ site.tagline }}). {{ site.description_en }}</p>
-  </div>
-
-  <div class="sidebar-box">
-    <h3>
+  <div class="marginalia">
+    <h3 class="aside-label">
       <span class="i18n-ko">{{ site.parent_name }}과의 인연</span>
       <span class="i18n-en">Connection to {{ site.parent_name }}</span>
     </h3>
@@ -39,8 +38,8 @@ layout: default
     <p class="i18n-en">{{ site.parent_blurb_en }}</p>
   </div>
 
-  <div class="sidebar-box">
-    <h3><span class="i18n-ko">보관함</span><span class="i18n-en">Archives</span></h3>
+  <div class="archive-block">
+    <h3 class="aside-label"><span class="i18n-ko">보관함</span><span class="i18n-en">Archives</span></h3>
     <p>
       {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
       {% for year in posts_by_year %}

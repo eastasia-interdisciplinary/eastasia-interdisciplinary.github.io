@@ -52,45 +52,71 @@ html[data-lang="en"] .i18n-ko { display: none; }
 /* ---------- masthead ---------- */
 
 .site-header {
-  position: relative;
-  overflow: hidden;
   background: var(--paper);
   border-bottom: 1px solid var(--rule);
-  padding: 2.75rem 1.5rem 0;
-}
-
-/* watermark referencing 林 ("forest"), the last character of 문우림 (文友林) */
-.forest-mark {
-  position: absolute;
-  top: -2.2rem;
-  right: -0.5rem;
-  font-family: var(--font-serif);
-  font-size: 13rem;
-  line-height: 1;
-  color: var(--navy);
-  opacity: 0.06;
-  pointer-events: none;
-  user-select: none;
 }
 
 .site-header-inner {
   position: relative;
   max-width: 960px;
   margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
-.masthead-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 1rem;
+/* --- hero (homepage only): the painting, with the masthead overlaid --- */
+
+.hero {
+  position: relative;
 }
+
+.hero-img {
+  display: block;
+  width: 100%;
+  height: 52vh;
+  min-height: 340px;
+  max-height: 540px;
+  object-fit: cover;
+  object-position: center 32%;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(to top, rgba(33, 35, 79, 0.92) 0%, rgba(33, 35, 79, 0.55) 40%, rgba(33, 35, 79, 0) 78%);
+}
+
+.hero-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1.5rem 2.25rem;
+}
+
+.hero-inner .kicker { color: #e4dcc4; }
+.hero-inner .site-title { color: #fff; }
+.hero-inner .site-tagline { color: #cfe0bd; margin-bottom: 0; }
+.hero-inner .seal { border-color: #cfe0bd; color: #f3ead4; }
+
+.hero-credit {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0.55rem 1.5rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* --- compact masthead: every other page --- */
 
 .brand {
   display: flex;
   align-items: center;
   gap: 1.1rem;
 }
+
+.site-header-inner > .brand { padding-top: 2.5rem; }
 
 .kicker {
   margin: 0 0 0.4rem;
@@ -112,15 +138,28 @@ html[data-lang="en"] .i18n-ko { display: none; }
 
 @media (max-width: 640px) {
   .site-title { font-size: 2.1rem; }
+  .hero-img { height: 40vh; min-height: 260px; }
   .brand { gap: 0.75rem; }
 }
 
 .site-tagline {
-  margin: 0.4rem 0 1.85rem;
+  margin: 0.4rem 0 0;
   color: var(--green-dark);
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 1rem;
+}
+
+/* --- nav row: shared by hero and compact pages --- */
+
+.header-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 3px double var(--rule-strong);
+  margin-top: 1.85rem;
 }
 
 .lang-toggle {
@@ -129,7 +168,6 @@ html[data-lang="en"] .i18n-ko { display: none; }
   font-size: 0.78rem;
   letter-spacing: 0.06em;
   white-space: nowrap;
-  padding-bottom: 0.3rem;
 }
 
 .lang-btn {
@@ -153,8 +191,6 @@ html[data-lang="en"] .i18n-ko { display: none; }
 .site-nav {
   display: flex;
   gap: 1.75rem;
-  border-top: 1px solid var(--rule);
-  border-bottom: 3px double var(--rule-strong);
 }
 
 .site-nav a {
@@ -164,7 +200,6 @@ html[data-lang="en"] .i18n-ko { display: none; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border-bottom: 2px solid transparent;
-  margin-bottom: -3px;
 }
 
 .site-nav a:hover,
@@ -192,11 +227,10 @@ html[data-lang="en"] .i18n-ko { display: none; }
 /* section label: hairline rule + small-caps italic serif, à la
    Asymptote's "Fiction ───" section dividers */
 .main-col h2.section-label,
-.sidebar-box h3 {
+.aside-label {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 500;
-  font-size: 1.05rem;
   letter-spacing: 0.02em;
   color: var(--bronze);
   margin: 0 0 1.5rem;
@@ -204,7 +238,19 @@ html[data-lang="en"] .i18n-ko { display: none; }
   border-bottom: 1px solid var(--rule);
 }
 
-.sidebar-box h3 { font-size: 0.95rem; margin-bottom: 0.7rem; }
+.main-col h2.section-label { font-size: 1.05rem; }
+.aside-label { font-size: 0.95rem; margin-bottom: 0.7rem; }
+
+/* lede: the opening statement, set in the main column rather than
+   boxed off to the side like everything else */
+.lede {
+  font-size: 1.04rem;
+  margin: 0 0 2.75rem;
+  padding-bottom: 2.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+.lede p { margin: 0 0 1rem; }
+.lede p:last-child { margin-bottom: 0; }
 
 .post-preview {
   padding-bottom: 1.85rem;
@@ -227,20 +273,29 @@ html[data-lang="en"] .i18n-ko { display: none; }
   margin-bottom: 0.6rem;
 }
 
-/* ---------- sidebar ---------- */
+/* ---------- sidebar: deliberately NOT a repeated box per item ---------- */
 
-.sidebar-box {
-  padding-top: 0;
+/* marginalia: a note in the margin, not a card — left rule only */
+.marginalia {
+  border-left: 2px solid var(--green);
+  padding-left: 1.1rem;
   margin-bottom: 2.25rem;
 }
-
-.sidebar-box p { margin: 0 0 0.7rem; font-size: 0.93rem; }
-.sidebar-box p:last-child { margin-bottom: 0; }
+.marginalia .aside-label { border-bottom: none; padding-bottom: 0; }
+.marginalia p { margin: 0 0 0.7rem; font-size: 0.93rem; }
+.marginalia p:last-child { margin-bottom: 0; }
 
 .lineage-link {
   display: block;
   font-size: 0.95rem;
   margin-bottom: 0.7rem;
+}
+
+/* archive list: plain, no box at all */
+.archive-block p {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 2;
 }
 
 /* small chop/seal mark, echoing the seals stamped on classical texts */
