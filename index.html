@@ -45,7 +45,7 @@ layout: default
       <span class="i18n-en">Connection to {{ site.parent_name }}</span>
     </h3>
     <a class="lineage-link" href="{{ site.parent_url }}" target="_blank" rel="noopener">
-      <span class="seal">林</span> {{ site.parent_name }} ({{ site.parent_hanja }}<span class="i18n-en">, {{ site.parent_name_en }}</span>)
+      🌳 {{ site.parent_name }} ({{ site.parent_hanja }}<span class="i18n-en">, {{ site.parent_name_en }}</span>)
     </a>
     <p class="i18n-ko">{{ site.parent_blurb }}</p>
     <p class="i18n-en">{{ site.parent_blurb_en }}</p>
@@ -58,7 +58,7 @@ layout: default
       {% for year in posts_by_year %}
         {{ year.name }} ({{ year.items.size }})<br>
       {% endfor %}
-      {% if site.posts.size == 0 %}—{% endif %}
+      {% if site.posts.size == 0 %}<span class="i18n-ko">아직 없음</span><span class="i18n-en">None yet</span>{% endif %}
     </p>
   </div>
 </aside>
