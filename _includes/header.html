@@ -1,15 +1,24 @@
 <header class="site-header">
-  <span class="forest-mark" aria-hidden="true">林</span>
-  <div class="site-header-inner">
-    <div class="brand">
-      <span class="seal seal-lg" aria-hidden="true">林</span>
-      <div>
+  <div class="hero">
+    <img class="hero-img" src="{{ '/assets/images/inwang-jesaekdo.jpg' | relative_url }}"
+      alt="정선, «인왕제색도» (Jeong Seon, Inwang jesaekdo), 1751">
+    <div class="hero-overlay">
+      <div class="hero-inner">
         <p class="kicker"><span class="i18n-ko">{{ site.parent_name }}({{ site.parent_hanja }}) 동문 모임</span><span class="i18n-en">An alumni circle of {{ site.parent_name_en }} ({{ site.parent_name }})</span></p>
-        <h1 class="site-title">{{ site.title }}</h1>
+        <div class="brand">
+          <span class="seal seal-lg" aria-hidden="true">林</span>
+          <h1 class="site-title">{{ site.title }}</h1>
+        </div>
+        <p class="site-tagline">{{ site.tagline }}</p>
       </div>
     </div>
-    <p class="site-tagline">{{ site.tagline }}</p>
+  </div>
+  <p class="hero-credit">
+    <span class="i18n-ko">정선, «인왕제색도», 1751 · 국립중앙박물관 소장 · Public Domain (임시 이미지)</span>
+    <span class="i18n-en">Jeong Seon, Inwang jesaekdo, 1751 · National Museum of Korea · Public Domain (placeholder)</span>
+  </p>
 
+  <div class="site-header-inner">
     <div class="header-bottom">
       <nav class="site-nav">
         <a href="{{ '/' | relative_url }}" class="{% if page.url == '/' %}active{% endif %}">Home</a>

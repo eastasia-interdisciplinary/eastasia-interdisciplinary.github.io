@@ -48,27 +48,11 @@ a:hover { text-decoration: underline; text-decoration-color: var(--green-dark); 
 html[data-lang="ko"] .i18n-en { display: none; }
 html[data-lang="en"] .i18n-ko { display: none; }
 
-/* ---------- masthead ---------- */
+/* ---------- masthead: image banner on every page (placeholder image) ---------- */
 
 .site-header {
-  position: relative;
-  overflow: hidden;
   background: var(--paper);
   border-bottom: 1px solid var(--rule);
-}
-
-/* watermark referencing 林 ("forest"), the last character of 문우림 (文友林) */
-.forest-mark {
-  position: absolute;
-  top: -2.2rem;
-  right: -0.5rem;
-  font-family: var(--font-serif);
-  font-size: 13rem;
-  line-height: 1;
-  color: var(--navy);
-  opacity: 0.05;
-  pointer-events: none;
-  user-select: none;
 }
 
 .site-header-inner {
@@ -78,13 +62,54 @@ html[data-lang="en"] .i18n-ko { display: none; }
   padding: 0 1.5rem;
 }
 
+.hero {
+  position: relative;
+}
+
+.hero-img {
+  display: block;
+  width: 100%;
+  height: 40vh;
+  min-height: 280px;
+  max-height: 440px;
+  object-fit: cover;
+  object-position: center 32%;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(to top, rgba(33, 35, 79, 0.92) 0%, rgba(33, 35, 79, 0.55) 40%, rgba(33, 35, 79, 0) 78%);
+}
+
+.hero-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1.5rem 2rem;
+}
+
+.hero-inner .kicker { color: #e4dcc4; }
+.hero-inner .site-title { color: #fff; }
+.hero-inner .site-tagline { color: #cfe0bd; }
+.hero-inner .seal { border-color: #cfe0bd; color: #f3ead4; }
+
+.hero-credit {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem 0;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
 .brand {
   display: flex;
   align-items: center;
   gap: 1.1rem;
 }
-
-.site-header-inner > .brand { padding-top: 2.5rem; }
 
 .kicker {
   margin: 0 0 0.4rem;
@@ -106,6 +131,7 @@ html[data-lang="en"] .i18n-ko { display: none; }
 
 @media (max-width: 640px) {
   .site-title { font-size: 2.1rem; }
+  .hero-img { height: 32vh; min-height: 220px; }
   .brand { gap: 0.75rem; }
 }
 
@@ -115,8 +141,6 @@ html[data-lang="en"] .i18n-ko { display: none; }
   font-family: var(--font-serif);
   font-size: 1rem;
 }
-
-/* --- nav row: shared by hero and compact pages --- */
 
 .header-bottom {
   display: flex;
@@ -209,22 +233,6 @@ html[data-lang="en"] .i18n-ko { display: none; }
 
 .main-col h2.section-label { font-size: 1.1rem; }
 .aside-label { font-size: 1rem; margin-bottom: 1rem; }
-
-/* feature image: the painting, as an article figure rather than
-   a masthead treatment — homepage main column only */
-.feature-image {
-  margin: 0 0 2.5rem;
-}
-.feature-image img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.feature-image figcaption {
-  margin-top: 0.6rem;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-}
 
 /* lede: the opening statement, set in the main column rather than
    boxed off to the side like everything else */
