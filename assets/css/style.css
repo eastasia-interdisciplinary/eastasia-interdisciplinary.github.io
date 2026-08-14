@@ -1,6 +1,6 @@
 /*
   Editorial-journal direction, referencing Asymptote (asymptotejournal.com)
-  for structure: serif display type, hairline rules with small-caps/italic
+  for structure: serif display type, hairline rules with small-caps
   labels instead of boxed cards, restrained color. Palette itself still
   sampled from 문우림 (文友林, Forest of Learning, KFAS): indigo-navy +
   forest green on a cream ground.
@@ -146,7 +146,6 @@ html[data-lang="en"] .i18n-ko { display: none; }
   margin: 0.4rem 0 0;
   color: var(--green-dark);
   font-family: var(--font-serif);
-  font-style: italic;
   font-size: 1rem;
 }
 
@@ -224,12 +223,11 @@ html[data-lang="en"] .i18n-ko { display: none; }
   .page-wrap { grid-template-columns: 1fr; }
 }
 
-/* section label: hairline rule + small-caps italic serif, à la
+/* section label: hairline rule + serif, à la
    Asymptote's "Fiction ───" section dividers */
 .main-col h2.section-label,
 .aside-label {
   font-family: var(--font-serif);
-  font-style: italic;
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--bronze);
