@@ -394,22 +394,25 @@ article.post .back-link {
   .people-grid .grid-card { flex-direction: column; gap: 1rem; }
 }
 
-/* Fixed width, natural height: people submitted portrait, square and
-   landscape photos, and forcing them all into one frame meant cropping
-   away half of some of them. Ragged photo heights down the column are
-   the smaller price. */
-.person-photo { flex: 0 0 178px; width: 178px; }
+/* Square frame. Uploads range from 0.56 to 1.64 in aspect, so left at their
+   natural height they ran from 108px to 316px down the column and read as
+   a mess. A square crops a landscape photo far less than the 4:5 portrait
+   frame did, and the focal point sits above centre because that is where
+   faces are in a portrait. */
+.person-photo { flex: 0 0 200px; width: 200px; height: 200px; }
 .person-photo img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
   border-radius: 2px;
 }
 /* empty frame for anyone without a photo yet */
 .person-photo-empty {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  height: 100%;
   background: var(--paper);
   border: 1px solid var(--rule);
   border-radius: 2px;

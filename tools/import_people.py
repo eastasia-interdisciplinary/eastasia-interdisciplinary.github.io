@@ -119,6 +119,8 @@ OVERRIDES = {
     # where they render as "Seoul National University · Art History | Research
     # interests: ..." beside everyone else's plain department name.
     ("김지현", "field_en"): "Art History",
+    # typed without spaces around the ampersand, unlike every other answer
+    ("이나현", "field_en"): "Political Science & International Relations",
 }
 
 MINOR_WORDS = {"of", "and", "the", "for", "in", "on", "at", "to"}
