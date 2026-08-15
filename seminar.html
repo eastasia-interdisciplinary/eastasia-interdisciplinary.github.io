@@ -25,8 +25,8 @@ permalink: /seminar/
 
     <section class="cycle-section">
       <h3 class="cycle-heading">
-        <span class="i18n-ko">대주제 {{ cycle.name }} · {{ newest.cycle }}</span>
-        <span class="i18n-en">Cycle {{ cycle.name }} · {{ newest.cycle_en | default: newest.cycle }}</span>
+        <span class="i18n-ko">Cycle {{ cycle.name }}: {{ newest.cycle }}</span>
+        <span class="i18n-en">Cycle {{ cycle.name }}: {{ newest.cycle_en | default: newest.cycle }}</span>
       </h3>
       <div class="cycle-range">
         {{ oldest.date | date: "%Y.%m" }} – {{ newest.date | date: "%Y.%m" }}
@@ -69,19 +69,4 @@ permalink: /seminar/
       </div>
     </section>
   {% endfor %}
-  </div>
 </main>
-
-<aside class="sidebar">
-  <div class="marginalia">
-    <h3 class="aside-label"><span class="i18n-ko">세미나란</span><span class="i18n-en">About</span></h3>
-    <p class="i18n-ko">
-      모임 세미나에서 다룬 문헌과 발표 주제를 이 곳에 기록합니다.
-      각 항목에는 발제자와 다룬 텍스트, 논의 내용을 정리합니다.
-    </p>
-    <p class="i18n-en">
-      A record of texts and topics covered in seminar. Each entry notes
-      the presenter, the text discussed, and the discussion itself.
-    </p>
-  </div>
-</aside>

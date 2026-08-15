@@ -15,8 +15,8 @@ layout: default
   </div>
   {% if page.cycle %}
     <div class="cycle-tag">
-      <span class="i18n-ko">대주제 · {{ page.cycle }}</span>
-      <span class="i18n-en">Cycle · {{ page.cycle_en | default: page.cycle }}</span>
+      <span class="i18n-ko">Cycle {{ page.cycle_no }}: {{ page.cycle }}</span>
+      <span class="i18n-en">Cycle {{ page.cycle_no }}: {{ page.cycle_en | default: page.cycle }}</span>
     </div>
   {% endif %}
   {% assign body = content | strip_html | strip %}

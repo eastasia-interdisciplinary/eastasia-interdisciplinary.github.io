@@ -25,9 +25,17 @@ import urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from import_people import clean, read_rows  # noqa: E402
 
-MAX_EDGE = "480"  # displayed at 64px; leaves room for retina and future layouts
+MAX_EDGE = "480"  # displayed ~178px wide; leaves room for retina
 OUT_DIR = "assets/images/people"
 UA = {"User-Agent": "Mozilla/5.0"}
+
+# Cards show a portrait frame, so a landscape upload gets centre-cropped. That
+# is wrong when the person is not in the middle of their own photo -- crop such
+# uploads here instead, as (height, width, offsetY, offsetX) in the pixels of
+# the MAX_EDGE-resized image, so a re-run reproduces the same framing.
+CROPS = {
+    "이찬희": (292, 234, 0, 183),  # group shot in a park; he sits right of centre
+}
 
 
 def slugify(name_en, name_ko):
@@ -54,8 +62,8 @@ def folder_listing(folder_url):
     return {f[0]: f[3] for f in json.loads(raw)[0]}
 
 
-def download(file_id, dest):
-    """Fetch one photo, downscale it, and normalise it to JPEG."""
+def download(file_id, dest, crop=None):
+    """Fetch one photo, downscale it, normalise it to JPEG, and reframe it."""
     url = "https://drive.google.com/uc?export=download&id=" + file_id
     req = urllib.request.Request(url, headers=UA)
     data = urllib.request.urlopen(req).read()
@@ -71,6 +79,12 @@ def download(file_id, dest):
                     "-s", "formatOptions", "80", tmp, "--out", dest],
                    check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     os.remove(tmp)
+
+    if crop:
+        height, width, off_y, off_x = crop
+        subprocess.run(["sips", "-c", str(height), str(width),
+                        "--cropOffset", str(off_y), str(off_x), dest],
+                       check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return True
 
 
@@ -91,7 +105,7 @@ def main():
             continue
 
         filename = "%s.jpg" % slugify(clean(row.get("C")), name_ko)
-        if download(fid, os.path.join(OUT_DIR, filename)):
+        if download(fid, os.path.join(OUT_DIR, filename), CROPS.get(name_ko)):
             lines.append("%s: %s" % (name_ko, filename))
             print("  ok  %s -> %s" % (name_ko, filename))
         else:

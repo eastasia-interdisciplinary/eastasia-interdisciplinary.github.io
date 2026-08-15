@@ -10,45 +10,43 @@ permalink: /people/
     {% for person in site.data.people %}
       {% assign photo = site.data.people_photos[person.name] %}
       <div class="grid-card person">
-        <div class="person-head">
-          <div class="person-photo">
-            {% if photo %}
-              <img src="{{ '/assets/images/people/' | append: photo | relative_url }}" alt="{{ person.name }}">
-            {% else %}
-              <span class="person-photo-empty" aria-hidden="true"></span>
-            {% endif %}
-          </div>
-          <div class="person-id">
-            <h3>
-              <span class="person-name">
-                {%- if person.email -%}<a href="mailto:{{ person.email }}" title="{{ person.email }}">{%- endif -%}
-                <span class="i18n-ko">{{ person.name }}</span><span class="i18n-en">{{ person.name_en | default: person.name }}</span>
-                {%- if person.email -%}</a>{%- endif -%}
-              </span>
-              {% if person.link %}
-                <a class="person-link" href="{{ person.link }}">{{ person.link_label | default: person.link }}</a>
-              {% endif %}
-            </h3>
-            <div class="post-meta">
-              <span class="i18n-ko">{{ person.affiliation }}{% if person.field %} · {{ person.field }}{% endif %}</span>
-              <span class="i18n-en">{{ person.affiliation_en | default: person.affiliation }}{% if person.field_en or person.field %} · {{ person.field_en | default: person.field }}{% endif %}</span>
-            </div>
-          </div>
+        <div class="person-photo">
+          {% if photo %}
+            <img src="{{ '/assets/images/people/' | append: photo | relative_url }}" alt="{{ person.name }}">
+          {% else %}
+            <span class="person-photo-empty" aria-hidden="true"></span>
+          {% endif %}
         </div>
-        {%- comment -%}
-          Bios run long, so they are stored with blank lines between
-          paragraphs and split back out here rather than rendered as one wall
-          of text. Liquid string literals may contain real newlines, which is
-          how the blank line below is expressed.
-        {%- endcomment -%}
-        {% assign bio_ko = person.bio | strip | split: "
+        <div class="person-body">
+          <h3>
+            <span class="person-name">
+              {%- if person.email -%}<a href="mailto:{{ person.email }}" title="{{ person.email }}">{%- endif -%}
+              <span class="i18n-ko">{{ person.name }}</span><span class="i18n-en">{{ person.name_en | default: person.name }}</span>
+              {%- if person.email -%}</a>{%- endif -%}
+            </span>
+            {% if person.link %}
+              <a class="person-link" href="{{ person.link }}">{{ person.link_label | default: person.link }}</a>
+            {% endif %}
+          </h3>
+          <div class="post-meta">
+            <span class="i18n-ko">{{ person.affiliation }}{% if person.field %} · {{ person.field }}{% endif %}</span>
+            <span class="i18n-en">{{ person.affiliation_en | default: person.affiliation }}{% if person.field_en or person.field %} · {{ person.field_en | default: person.field }}{% endif %}</span>
+          </div>
+          {%- comment -%}
+            Bios run long, so they are stored with blank lines between
+            paragraphs and split back out here rather than rendered as one wall
+            of text. Liquid string literals may contain real newlines, which is
+            how the blank line below is expressed.
+          {%- endcomment -%}
+          {% assign bio_ko = person.bio | strip | split: "
 
 " %}
-        {% for para in bio_ko %}<p class="i18n-ko">{{ para | strip | newline_to_br }}</p>{% endfor %}
-        {% assign bio_en = person.bio_en | default: person.bio | strip | split: "
+          {% for para in bio_ko %}<p class="i18n-ko">{{ para | strip | newline_to_br }}</p>{% endfor %}
+          {% assign bio_en = person.bio_en | default: person.bio | strip | split: "
 
 " %}
-        {% for para in bio_en %}<p class="i18n-en">{{ para | strip | newline_to_br }}</p>{% endfor %}
+          {% for para in bio_en %}<p class="i18n-en">{{ para | strip | newline_to_br }}</p>{% endfor %}
+        </div>
       </div>
     {% endfor %}
   </div>
