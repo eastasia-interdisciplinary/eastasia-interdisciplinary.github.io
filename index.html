@@ -51,14 +51,9 @@ layout: default
     <p class="i18n-en">{{ site.parent_blurb_en }}</p>
   </div>
 
-  <div class="archive-block">
-    <h3 class="aside-label"><span class="i18n-ko">보관함</span><span class="i18n-en">Archives</span></h3>
-    <p>
-      {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
-      {% for year in posts_by_year %}
-        {{ year.name }} ({{ year.items.size }})<br>
-      {% endfor %}
-      {% if site.posts.size == 0 %}<span class="i18n-ko">아직 없음</span><span class="i18n-en">None yet</span>{% endif %}
-    </p>
-  </div>
+  {%- comment -%}
+    An archive-by-year block used to sit here. With a single post it read as
+    "보관함 / 2026 (1)" -- a count with nothing to count. Worth restoring once
+    there are enough posts for a year to be a useful way to find one.
+  {%- endcomment -%}
 </aside>
