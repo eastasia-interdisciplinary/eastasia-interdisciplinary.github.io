@@ -5,6 +5,7 @@ title_en: "What Kind of Women Did Modernity Require? A Comparison of Gajeong Jap
 date: 2026-02-15
 presenter: "이나현"
 presenter_en: "Nahyeon Lee"
+cycle_no: 1
 cycle: "동아시아와 타자"
 cycle_en: "East Asia and the Other"
 ---

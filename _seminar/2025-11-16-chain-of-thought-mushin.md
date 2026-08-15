@@ -5,6 +5,7 @@ title_en: "Does AI Think, or Only Look Like It? Deconstructing Chain-of-Thought 
 date: 2025-11-16
 presenter: "조민경"
 presenter_en: "Minkyung Cho"
+cycle_no: 1
 cycle: "동아시아와 타자"
 cycle_en: "East Asia and the Other"
 ---

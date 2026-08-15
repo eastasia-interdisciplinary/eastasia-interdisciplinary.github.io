@@ -5,6 +5,7 @@ title_en: "Trends in the Memory of Yao, Shun, and Yu during the Ming and Qing Pe
 date: 2026-06-28
 presenter: "안진호"
 presenter_en: "Jinho Ahn"
+cycle_no: 2
 cycle: "동아시아와 기억"
 cycle_en: "East Asia and Memory"
 ---

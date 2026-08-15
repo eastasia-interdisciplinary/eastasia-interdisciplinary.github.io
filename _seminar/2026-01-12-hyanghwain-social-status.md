@@ -5,6 +5,7 @@ title_en: "Changes in the Social Status of Hyanghwain (向化人) in the Early C
 date: 2026-01-12
 presenter: "안진호"
 presenter_en: "Jinho Ahn"
+cycle_no: 1
 cycle: "동아시아와 타자"
 cycle_en: "East Asia and the Other"
 ---

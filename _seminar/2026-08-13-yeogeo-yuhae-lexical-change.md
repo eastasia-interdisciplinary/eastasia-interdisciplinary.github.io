@@ -5,6 +5,7 @@ title_en: "Inferring Changes in Memory from Lexical Change: An Analysis of Moder
 date: 2026-08-13
 presenter: "정재우"
 presenter_en: "Jaewoo Jeong"
+cycle_no: 2
 cycle: "동아시아와 기억"
 cycle_en: "East Asia and Memory"
 ---

@@ -5,6 +5,7 @@ title_en: "Colonial Rule and the Politics of Music: Joseon Shrine Rituals and Jo
 date: 2026-02-15
 presenter: "이유경"
 presenter_en: "Yugyeong Lee"
+cycle_no: 1
 cycle: "동아시아와 타자"
 cycle_en: "East Asia and the Other"
 ---

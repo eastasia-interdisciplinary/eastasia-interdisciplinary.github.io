@@ -5,6 +5,7 @@ title_en: "Exploring \"Boundaries\" and \"Border Crossers\" through the Baekje D
 date: 2025-10-18
 presenter: "성민경"
 presenter_en: "Minkyoung Seong"
+cycle_no: 1
 cycle: "동아시아와 타자"
 cycle_en: "East Asia and the Other"
 ---

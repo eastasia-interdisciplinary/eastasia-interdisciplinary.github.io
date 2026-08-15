@@ -5,6 +5,7 @@ title_en: "How Are Wars Remembered and Taught? Narratives of War Museums in East
 date: 2026-05-25
 presenter: "이나현"
 presenter_en: "Nahyeon Lee"
+cycle_no: 2
 cycle: "동아시아와 기억"
 cycle_en: "East Asia and Memory"
 ---

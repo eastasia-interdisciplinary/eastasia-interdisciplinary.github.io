@@ -6,43 +6,58 @@ permalink: /seminar/
 <main class="main-col">
   <h2 class="section-label"><span class="i18n-ko">세미나</span><span class="i18n-en">Seminar</span></h2>
 
-  {% assign entries = site.seminar | sort: 'date' | reverse %}
-  {% if entries.size == 0 %}
+  {% if site.seminar.size == 0 %}
     <p>
       <span class="i18n-ko">아직 등록된 세미나가 없습니다. <code>_seminar/</code>에 마크다운 파일을 추가해 주세요.</span>
       <span class="i18n-en">No seminar entries yet. Add a markdown file to <code>_seminar/</code>.</span>
     </p>
   {% endif %}
 
-  <div class="card-grid">
-    {% for entry in entries %}
-      <article class="grid-card">
-        <h3>
-          <a href="{{ entry.url | relative_url }}">
-            <span class="i18n-ko">{{ entry.title }}</span>
-            <span class="i18n-en">{{ entry.title_en | default: entry.title }}</span>
-          </a>
-        </h3>
-        <div class="post-meta">
-          <span class="i18n-ko">{{ entry.date | date: "%Y년 %-m월 %-d일" }}</span>
-          <span class="i18n-en">{{ entry.date | date: "%B %-d, %Y" }}</span>
-          {% if entry.presenter %}
-            · <span class="i18n-ko">발제자 {{ entry.presenter }}</span><span class="i18n-en">Presenter {{ entry.presenter_en | default: entry.presenter }}</span>
-          {% endif %}
-        </div>
-        {% if entry.cycle %}
-          <div class="cycle-tag">
-            <span class="i18n-ko">{{ entry.cycle }}</span>
-            <span class="i18n-en">{{ entry.cycle_en | default: entry.cycle }}</span>
-          </div>
-        {% endif %}
-        {% assign summary = entry.excerpt | strip_html | strip %}
-        {% if summary != "" %}
-          <p class="i18n-ko">{{ summary | truncatewords: 20 }}</p>
-          <p class="i18n-en">{{ entry.excerpt_en | default: summary | truncatewords: 20 }}</p>
-        {% endif %}
-      </article>
-    {% endfor %}
+  {%- comment -%}
+    Cycles are distinct 대주제, so each gets its own section, newest cycle
+    first and newest session first within it.
+  {%- endcomment -%}
+  {% assign cycles = site.seminar | group_by: "cycle_no" | sort: "name" | reverse %}
+  {% for cycle in cycles %}
+    {% assign entries = cycle.items | sort: "date" | reverse %}
+    {% assign newest = entries | first %}
+    {% assign oldest = entries | last %}
+
+    <section class="cycle-section">
+      <h3 class="cycle-heading">
+        <span class="i18n-ko">대주제 {{ cycle.name }} · {{ newest.cycle }}</span>
+        <span class="i18n-en">Cycle {{ cycle.name }} · {{ newest.cycle_en | default: newest.cycle }}</span>
+      </h3>
+      <div class="cycle-range">
+        {{ oldest.date | date: "%Y.%m" }} – {{ newest.date | date: "%Y.%m" }}
+      </div>
+
+      <div class="card-grid">
+        {% for entry in entries %}
+          <article class="grid-card">
+            <h3>
+              <a href="{{ entry.url | relative_url }}">
+                <span class="i18n-ko">{{ entry.title }}</span>
+                <span class="i18n-en">{{ entry.title_en | default: entry.title }}</span>
+              </a>
+            </h3>
+            <div class="post-meta">
+              <span class="i18n-ko">{{ entry.date | date: "%Y년 %-m월 %-d일" }}</span>
+              <span class="i18n-en">{{ entry.date | date: "%B %-d, %Y" }}</span>
+              {% if entry.presenter %}
+                · <span class="i18n-ko">발제자 {{ entry.presenter }}</span><span class="i18n-en">Presenter {{ entry.presenter_en | default: entry.presenter }}</span>
+              {% endif %}
+            </div>
+            {% assign summary = entry.excerpt | strip_html | strip %}
+            {% if summary != "" %}
+              <p class="i18n-ko">{{ summary | truncatewords: 20 }}</p>
+              <p class="i18n-en">{{ entry.excerpt_en | default: summary | truncatewords: 20 }}</p>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  {% endfor %}
   </div>
 </main>
 

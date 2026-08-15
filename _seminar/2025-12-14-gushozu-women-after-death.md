@@ -5,6 +5,7 @@ title_en: "Women After Death in Japanese Buddhist Art: A Study of the Gushōzu (
 date: 2025-12-14
 presenter: "유미르"
 presenter_en: "Yu Mireu"
+cycle_no: 1
 cycle: "동아시아와 타자"
 cycle_en: "East Asia and the Other"
 ---

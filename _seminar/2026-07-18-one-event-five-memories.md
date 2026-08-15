@@ -5,6 +5,7 @@ title_en: "One Event, Five Memories: Mapping the Temperature Gap of Historical C
 date: 2026-07-18
 presenter: "조민경"
 presenter_en: "Minkyung Cho"
+cycle_no: 2
 cycle: "동아시아와 기억"
 cycle_en: "East Asia and Memory"
 ---

@@ -403,7 +403,27 @@ article.post .back-link {
   white-space: nowrap;
 }
 
-/* cycle (대주제) the session belonged to */
+/* each 대주제 is its own section on the seminar page */
+.cycle-section { margin-bottom: 3.4rem; }
+.cycle-section:last-child { margin-bottom: 0; }
+
+.cycle-heading {
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cycle-range {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0.4rem 0 1.5rem;
+}
+
+/* cycle (대주제) the session belonged to, on a single entry page */
 .cycle-tag {
   font-family: var(--font-serif);
   font-size: 0.78rem;
