@@ -100,6 +100,43 @@ def read_rows(path):
     return [rows[i] for i in sorted(rows) if i >= 2]
 
 
+# Romanisations actually used by this group, keyed by the Korean surname.
+# Used only to find which token of an English name is the surname -- never to
+# respell one, so 이용우 stays "Yi" while 이나현 stays "Lee".
+SURNAMES = {
+    "김": ["Kim"], "이": ["Lee", "Yi", "Rhee", "Ri"], "박": ["Park", "Pak"],
+    "서": ["Suh", "Seo"], "성": ["Seong", "Sung"], "안": ["Ahn", "An"],
+    "엄": ["Eom", "Um"], "유": ["Yu", "Yoo", "Ryu"], "윤": ["Yun", "Yoon"],
+    "전": ["Jeon", "Jun", "Chun"], "정": ["Jeong", "Jung", "Chung"],
+    "조": ["Cho", "Jo"], "진": ["Jin", "Chin"], "황": ["Hwang"],
+    "최": ["Choi", "Choe"], "강": ["Kang"], "장": ["Jang", "Chang"],
+    "한": ["Han"], "오": ["Oh", "O"], "신": ["Shin"], "권": ["Kwon"],
+    "송": ["Song"], "홍": ["Hong"], "문": ["Moon", "Mun"], "손": ["Son"],
+}
+
+
+def given_name_first(name_ko, name_en):
+    """Reorder an English name to 'Given Surname'.
+
+    Answers arrived both ways -- "Kim Nawon" beside "Jihyun Kim" -- and the
+    mix reads as an error. The surname is identified by matching a token
+    against the romanisations of the Korean surname, so nothing is respelled
+    and a name whose surname cannot be identified is left exactly as typed.
+    """
+    tokens = name_en.split()
+    if len(tokens) < 2 or not name_ko:
+        return name_en
+
+    options = [r.lower() for r in SURNAMES.get(name_ko[0], [])]
+    if not options:
+        return name_en
+
+    for i, token in enumerate(tokens):
+        if token.lower() in options:
+            return " ".join(tokens[:i] + tokens[i + 1:] + [tokens[i]])
+    return name_en
+
+
 def title_case(name):
     """Normalise a romanised name to Title Case.
 
@@ -239,7 +276,7 @@ def main():
             value = clean(person.get(column))
             value = OVERRIDES.get((clean(person.get("B")), key), value)
             if key == "name_en":
-                value = title_case(value)
+                value = given_name_first(clean(person.get("B")), title_case(value))
             elif key in ("affiliation_en", "field_en"):
                 value = sentence_case(value)
             # Long bios are broken into paragraphs by hand for readability.
@@ -251,6 +288,18 @@ def main():
                 value = prior[key]
             if value:
                 entry.append(emit(key, value))
+        # Sorting key for the English view. Names display given-name-first, but
+        # a list of people is conventionally alphabetised by surname, so this
+        # puts the surname in front purely for ordering. Falls back to the
+        # displayed name when the surname could not be identified.
+        name_en = title_case(clean(person.get("C")))
+        display = given_name_first(clean(person.get("B")), name_en)
+        parts = display.split()
+        if len(parts) > 1:
+            entry.append(emit("sort_en", " ".join([parts[-1]] + parts[:-1]).lower()))
+        elif display:
+            entry.append(emit("sort_en", display.lower()))
+
         link = clean(person.get("L"))
         if link:
             entry.append(emit("link_label", link_label(link)))

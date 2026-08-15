@@ -101,13 +101,20 @@ html[data-lang="en"] .i18n-ko { display: none; }
 .hero-inner .site-title { color: #fff; }
 .hero-inner .site-tagline { color: var(--green-pale); }
 
-.hero-credit {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0.5rem 1.5rem 0;
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  text-align: right;
+/* inner pages: a band rather than a full painting */
+.site-header--inner .hero-img {
+  height: 168px;
+  min-height: 0;
+  max-height: 168px;
+  object-position: center 38%;
+}
+.site-header--inner .hero-inner { padding-bottom: 1.1rem; }
+.site-header--inner .site-title { font-size: clamp(1.3rem, 3.4vw, 1.9rem); }
+.site-header--inner .brand-mark { font-size: clamp(1.2rem, 2.6vw, 1.6rem); }
+.site-header--inner .site-tagline { font-size: 0.8rem; margin-top: 0.2rem; }
+
+@media (max-width: 640px) {
+  .site-header--inner .hero-img { height: 116px; max-height: 116px; }
 }
 
 .brand {
@@ -271,6 +278,8 @@ html[data-lang="en"] .i18n-ko { display: none; }
   margin-bottom: 0.6rem;
 }
 
+.more-link { margin: 2.5rem 0 0; font-size: 0.9rem; }
+
 /* ---------- sidebar: deliberately NOT a repeated box per item ---------- */
 
 /* marginalia: a note in the margin, set apart by whitespace, not a rule */
@@ -309,11 +318,30 @@ html[data-lang="en"] .i18n-ko { display: none; }
   color: var(--on-navy);
   font-size: 0.82rem;
   letter-spacing: 0.02em;
-  padding: 2.2rem 1.5rem 2.4rem;
+  padding: 2.4rem 1.5rem 2.6rem;
   text-align: center;
 }
 
 .site-footer a { color: #fff; }
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.6rem;
+  margin-bottom: 1.2rem;
+}
+.footer-links a { border-bottom: 1px solid transparent; padding-bottom: 1px; }
+.footer-links a:hover { text-decoration: none; border-bottom-color: var(--green-pale); }
+
+.footer-credit,
+.footer-copy {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--on-navy);
+  opacity: 0.75;
+}
+.footer-copy { margin-top: 0.5rem; }
 
 /* ---------- single entry (post / seminar) ---------- */
 
@@ -376,10 +404,11 @@ article.post .back-link {
   padding-bottom: 2.6rem;
   border-bottom: 1px solid var(--rule);
 }
-.people-grid .grid-card:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
-}
+/* Korean view follows the file's 가나다 order, English view sorts by the
+   romanised name. Every card keeps its rule, since with `order` in play the
+   visually last card is not the last one in the DOM. */
+html[data-lang="ko"] .people-grid .grid-card { order: var(--ko-order); }
+html[data-lang="en"] .people-grid .grid-card { order: var(--en-order); }
 
 .people-grid .grid-card p { line-height: 1.62; }
 .person-body { flex: 1 1 auto; min-width: 0; }
@@ -430,6 +459,18 @@ article.post .back-link {
   color: var(--green-dark);
   white-space: nowrap;
 }
+
+/* Seminar entries are a record, not a set of cards: three columns made the
+   height of each cell depend on how long its title ran, which read as
+   ragged. One per line with a rule between, like the people page. */
+.seminar-list { display: block; }
+.seminar-list .grid-card {
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.seminar-list .grid-card:last-child { border-bottom: none; }
+.seminar-list .grid-card h3 { font-size: 1rem; font-weight: 700; }
+.seminar-list .post-meta { margin-bottom: 0; }
 
 /* each 대주제 is its own section on the seminar page */
 .cycle-section { margin-bottom: 3.4rem; }

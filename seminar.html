@@ -32,7 +32,7 @@ permalink: /seminar/
         {{ oldest.date | date: "%Y.%m" }} – {{ newest.date | date: "%Y.%m" }}
       </div>
 
-      <div class="card-grid">
+      <div class="card-grid seminar-list">
         {% for entry in entries %}
           <article class="grid-card">
             {%- comment -%}

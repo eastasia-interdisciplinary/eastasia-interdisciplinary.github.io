@@ -2,8 +2,8 @@
 """Render the favicon and the link-preview (og:image) card.
 
 Both are drawn as HTML and screenshotted with headless Chrome, so they use the
-same 林 seal, palette and typeface as the site itself rather than being traced
-by hand in an image editor. Re-run after changing the palette or the banner.
+same tree mark, palette and typeface as the banner rather than being traced by
+hand in an image editor. Re-run after changing the palette or the banner.
 
     python3 tools/make_images.py
 
@@ -23,23 +23,16 @@ NAVY_DARK = "#21234f"
 SEAL_CREAM = "#f3ead4"
 SEAL_GREEN = "#cfe0bd"
 
-SEAL_HTML = """<!doctype html><meta charset="utf-8">
+MARK_HTML = """<!doctype html><meta charset="utf-8">
 <style>
   html, body { margin: 0; width: %(size)spx; height: %(size)spx; }
   body {
     background: %(navy)s;
     display: flex; align-items: center; justify-content: center;
   }
-  .seal {
-    width: %(box)spx; height: %(box)spx;
-    border: %(bw)spx solid %(green)s;
-    color: %(cream)s;
-    font-family: "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
-    font-size: %(font)spx; line-height: 1;
-    display: flex; align-items: center; justify-content: center;
-  }
+  .mark { font-size: %(font)spx; line-height: 1; }
 </style>
-<div class="seal">林</div>
+<div class="mark">🌳</div>
 """
 
 OG_HTML = """<!doctype html><meta charset="utf-8">
@@ -57,12 +50,7 @@ OG_HTML = """<!doctype html><meta charset="utf-8">
     display: flex; align-items: flex-end;
   }
   .inner { padding: 0 72px 68px; display: flex; align-items: center; gap: 28px; }
-  .seal {
-    width: 92px; height: 92px; border: 3px solid %(green)s; color: %(cream)s;
-    font-family: "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
-    font-size: 50px; line-height: 1; flex: 0 0 auto;
-    display: flex; align-items: center; justify-content: center;
-  }
+  .mark { font-size: 76px; line-height: 1; flex: 0 0 auto; }
   h1 {
     font-family: "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
     font-size: 76px; font-weight: 800; color: #fff; margin: 0 0 6px;
@@ -76,7 +64,7 @@ OG_HTML = """<!doctype html><meta charset="utf-8">
 <div class="wrap">
   <img src="file://%(painting)s" alt="">
   <div class="veil"><div class="inner">
-    <div class="seal">林</div>
+    <div class="mark">🌳</div>
     <div>
       <h1>동아시아학제연구모임</h1>
       <p>East Asia Interdisciplinary Studies Group</p>
@@ -109,12 +97,11 @@ def main():
         sys.exit("headless Chrome not found at %s" % CHROME)
     os.chdir(ROOT)
 
-    for size, box, border, font, name in [
-        (180, 132, 5, 74, "assets/apple-touch-icon.png"),
-        (32, 24, 2, 15, "assets/favicon-32.png"),
+    for size, font, name in [
+        (180, 116, "assets/apple-touch-icon.png"),
+        (32, 21, "assets/favicon-32.png"),
     ]:
-        shoot(SEAL_HTML % {"size": size, "box": box, "bw": border, "font": font,
-                           "navy": NAVY_DARK, "green": SEAL_GREEN, "cream": SEAL_CREAM},
+        shoot(MARK_HTML % {"size": size, "font": font, "navy": NAVY_DARK},
               name, size, size)
         print("wrote", name)
 

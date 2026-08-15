@@ -1,3 +1,17 @@
 <footer class="site-footer">
-  &copy; {{ site.time | date: '%Y' }} {{ site.title }}
+  <nav class="footer-links">
+    <a href="{{ site.parent_url }}" target="_blank" rel="noopener">
+      <span class="i18n-ko">{{ site.parent_name }} ({{ site.parent_hanja }})</span>
+      <span class="i18n-en">{{ site.parent_name_en }}</span>
+    </a>
+    <a href="{{ site.repo_url }}" target="_blank" rel="noopener">GitHub</a>
+    <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+  </nav>
+
+  <p class="footer-credit">
+    <span class="i18n-ko">배너 그림: 정선, «인왕제색도», 1751 · 국립중앙박물관 소장</span>
+    <span class="i18n-en">Banner: Jeong Seon, Inwang jesaekdo, 1751 · National Museum of Korea</span>
+  </p>
+
+  <p class="footer-copy">&copy; {{ site.time | date: '%Y' }} {{ site.title }}</p>
 </footer>

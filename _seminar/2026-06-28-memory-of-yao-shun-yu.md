@@ -8,4 +8,5 @@ presenter_en: "Ahn Jinho"
 cycle_no: 2
 cycle: "동아시아와 기억"
 cycle_en: "East Asia and Memory"
+sitemap: false # no write-up yet; drop this line when one is added
 ---

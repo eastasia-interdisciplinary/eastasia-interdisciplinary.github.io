@@ -1,4 +1,9 @@
-<header class="site-header">
+{%- comment -%}
+  The full-depth banner is the front door; on every other page it is 440px of
+  painting between the reader and what they came for, so those get a shallow
+  band carrying the same name and mark.
+{%- endcomment -%}
+<header class="site-header{% unless page.url == '/' %} site-header--inner{% endunless %}">
   <div class="hero">
     <img class="hero-img" src="{{ '/assets/images/inwang-jesaekdo.jpg' | relative_url }}"
       alt="정선, «인왕제색도» (Jeong Seon, Inwang jesaekdo), 1751">
@@ -12,11 +17,6 @@
       </div>
     </div>
   </div>
-  <p class="hero-credit">
-    <span class="i18n-ko">정선, «인왕제색도», 1751 · 국립중앙박물관 소장</span>
-    <span class="i18n-en">Jeong Seon, Inwang jesaekdo, 1751 · National Museum of Korea</span>
-  </p>
-
   <div class="site-header-inner">
     <div class="header-bottom">
       <nav class="site-nav">

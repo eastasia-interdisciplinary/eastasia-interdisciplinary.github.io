@@ -6,10 +6,20 @@ permalink: /people/
 <main class="main-col">
   <h2 class="section-label"><span class="i18n-ko">사람들</span><span class="i18n-en">People</span></h2>
 
+  {%- comment -%}
+    The file is sorted 가나다순, which is meaningless to an English reader.
+    Rather than emitting the list twice, each card carries its rank in both
+    orderings and CSS `order` picks one, so the markup stays single-source.
+  {%- endcomment -%}
+  {% assign by_en = site.data.people | sort_natural: "sort_en" %}
   <div class="card-grid people-grid">
     {% for person in site.data.people %}
       {% assign photo = site.data.people_photos[person.name] %}
-      <div class="grid-card person">
+      {% assign en_rank = 0 %}
+      {% for p in by_en %}
+        {% if p.name == person.name %}{% assign en_rank = forloop.index %}{% break %}{% endif %}
+      {% endfor %}
+      <div class="grid-card person" style="--ko-order: {{ forloop.index }}; --en-order: {{ en_rank }}">
         <div class="person-photo">
           {% if photo %}
             <img src="{{ '/assets/images/people/' | append: photo | relative_url }}" alt="{{ person.name }}">

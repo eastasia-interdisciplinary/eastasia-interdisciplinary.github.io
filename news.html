@@ -1,0 +1,36 @@
+---
+layout: default
+title: 소식
+permalink: /news/
+---
+<main class="main-col">
+  <h2 class="section-label"><span class="i18n-ko">소식</span><span class="i18n-en">News</span></h2>
+
+  {% if site.posts.size == 0 %}
+    <p class="pending">
+      <span class="i18n-ko">아직 게시된 소식이 없습니다.</span>
+      <span class="i18n-en">No posts yet.</span>
+    </p>
+  {% endif %}
+
+  {% for post in site.posts %}
+    <article class="post-preview">
+      <h3>
+        <a href="{{ post.url | relative_url }}">
+          <span class="i18n-ko">{{ post.title }}</span>
+          <span class="i18n-en">{{ post.title_en | default: post.title }}</span>
+        </a>
+      </h3>
+      <div class="post-meta">
+        <span class="i18n-ko">{{ post.date | date: "%Y년 %-m월 %-d일" }}</span>
+        <span class="i18n-en">{{ post.date | date: "%B %-d, %Y" }}</span>
+      </div>
+      <p class="i18n-ko">{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
+      {% if post.excerpt_en %}
+        <p class="i18n-en">{{ post.excerpt_en | truncatewords: 40 }}</p>
+      {% else %}
+        <p class="i18n-en">{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
+      {% endif %}
+    </article>
+  {% endfor %}
+</main>

@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
   {% seo %}
+  {%- comment -%}
+    Pages kept out of the sitemap are also kept out of the index: a seminar
+    entry with no write-up is a title and a date, not a search result.
+  {%- endcomment -%}
+  {% if page.sitemap == false %}<meta name="robots" content="noindex, follow">{% endif %}
   <script>
     (function () {
       var l = localStorage.getItem("site-lang") || "ko";

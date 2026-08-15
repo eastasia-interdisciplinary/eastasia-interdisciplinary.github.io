@@ -8,4 +8,5 @@ presenter_en: "Yugyeong Lee"
 cycle_no: 1
 cycle: "동아시아와 타자"
 cycle_en: "East Asia and the Other"
+sitemap: false # no write-up yet; drop this line when one is added
 ---

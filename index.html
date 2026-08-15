@@ -16,7 +16,11 @@ layout: default
     </p>
   {% endif %}
 
-  {% for post in site.posts %}
+  {%- comment -%}
+    The home page shows the most recent few; /news/ holds the whole run, so
+    this list does not grow without bound as posts accumulate.
+  {%- endcomment -%}
+  {% for post in site.posts limit: 3 %}
     <article class="post-preview">
       <h3>
         <a href="{{ post.url | relative_url }}">
@@ -36,6 +40,15 @@ layout: default
       {% endif %}
     </article>
   {% endfor %}
+
+  {% if site.posts.size > 3 %}
+    <p class="more-link">
+      <a href="{{ '/news/' | relative_url }}">
+        <span class="i18n-ko">지난 소식 모두 보기 &rarr;</span>
+        <span class="i18n-en">All news &rarr;</span>
+      </a>
+    </p>
+  {% endif %}
 </main>
 
 <aside class="sidebar">

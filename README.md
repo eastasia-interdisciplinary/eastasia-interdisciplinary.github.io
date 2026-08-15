@@ -1,7 +1,7 @@
 # 동아시아학제연구모임 (East Asia Interdisciplinary Studies Group)
 
-Group site, built with Jekyll. Palette (indigo-navy, forest green,
-bronze) and the 林 seal mark nod to
+Group site, built with Jekyll. Palette (indigo-navy, forest green)
+and the tree mark nod to
 [문우림 (文友林, Forest of Learning)](https://cvt.kfas.or.kr/intro/type1.php),
 the KFAS program this group's members met through. Typefaces are
 Pretendard (body/UI) and Nanum Myeongjo (headings). The banner image
@@ -59,6 +59,10 @@ content_en: |
 한국어 본문...
 ```
 
+Entries with no write-up carry `sitemap: false`, which also emits
+`noindex` — a title and a date is not worth a search result. Delete that
+line when you add a summary.
+
 `cycle` is the 대주제 the session belonged to and `cycle_no` its number.
 The seminar page groups entries into one section per cycle, newest cycle
 first and newest session first within it, so `cycle_no` is what orders
@@ -82,7 +86,14 @@ git diff _data/people.yml   # read the diff before committing
 ```
 
 Members are sorted 가나다순 in the file itself, so the rendered order does
-not depend on who answered the form first.
+not depend on who answered the form first. The English view reorders them
+alphabetically by surname via CSS `order` and the generated `sort_en` key,
+so one set of markup serves both languages.
+
+Romanised names are normalised on import: Title Case, and reordered to
+given-name-first by matching a token against romanisations of the Korean
+surname. Nothing is respelled, so 이용우 stays "Yi" while 이나현 stays "Lee";
+a name whose surname cannot be matched is left exactly as typed.
 
 Per-member keys: `name`, `name_en`, `affiliation`, `affiliation_en`,
 `field`, `field_en`, `email`, `bio`, `bio_en`, `link`, `link_label`.
@@ -110,8 +121,9 @@ python3 tools/fetch_photos.py ~/Downloads/<survey export>.xlsx <drive folder url
 The photos are matched to members by Drive file ID rather than by
 filename, since uploads are named whatever the member's phone called
 them. Each is downscaled to 480px and converted to JPEG — they display
-at 64px, and the PNG originals cost several times the size for no
-visible gain.
+at 200px square, and the PNG originals cost several times the size for
+no visible gain. A landscape upload where the subject is off to one side
+can be reframed via the `CROPS` table in that script.
 
 Photos are kept in their own data file on purpose: `import_people.py`
 rewrites `_data/people.yml` wholesale, so anything hand-curated has to
@@ -130,7 +142,7 @@ photos, nobody submitted these of themselves.
 ## Favicon and link preview
 
 `tools/make_images.py` draws both as HTML and screenshots them with
-headless Chrome, so they use the site's own seal, palette and
+headless Chrome, so they use the site's own tree mark, palette and
 typeface:
 
 ```bash

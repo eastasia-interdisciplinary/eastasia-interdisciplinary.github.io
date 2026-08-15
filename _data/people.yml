@@ -3,7 +3,7 @@
 
 
 - name: "김나원"
-  name_en: "Kim Nawon"
+  name_en: "Nawon Kim"
   affiliation: "고려대학교"
   affiliation_en: "Korea University"
   field: "한문학과"
@@ -11,6 +11,7 @@
   email: "knawon08@korea.ac.kr"
   bio: "고려대학교 한문학과에 재학 중이며, AI/NLP 분야에도 관심을 가지고 공부하고 있습니다. 특히 전근대 언어를 대상으로 한 자연어처리 연구에 관심이 있습니다."
   bio_en: "My research interests are in NLP for premodern languages, with a focus on machine translation evaluation and guideline compliance."
+  sort_en: "kim nawon"
 
 - name: "김지현"
   name_en: "Jihyun Kim"
@@ -21,6 +22,7 @@
   email: "uckycctbo@snu.ac.kr"
   bio: "서울대학교 고고미술사학과에서 미술사를 공부하고 있다. 동아시아를 이동하며 변형된 종교적 상상과 믿음, 시각문화에 관심이 있다. 전근대 동아시아에서 천체와 땅, 산수와 주변 세계를 인식한 방식, 인간이 이 세계를 함께 살아가는 존재들과 맺은 관계, 그리고 가시적 세계 너머를 상상하고 형상화한 방식을 공부한다."
   bio_en: "I study the movement of religious ideas, art, and image cultures across East Asia. I am particularly interested in how people in premodern East Asia perceived the world around them—the heavens, the earth, and landscapes; how they understood the beings and environments with which they shared this world; and how they imagined worlds beyond it."
+  sort_en: "kim jihyun"
 
 - name: "서은교"
   name_en: "Eunkyo Suh"
@@ -37,6 +39,7 @@
     My research focuses on the social and economic history of late Joseon, particularly merchants and commercial activity. Currently, I am especially interested in the capital accumulation, itinerant trade routes, and personal and commercial networks of Gaeseong merchants (Songsang) and Dongnae merchants. By studying their mobility, transactions, and regional connections, I hope to examine the development of markets and patterns of regional exchange in late Joseon society.
 
     I major in History, specializing in Korean history, and am also pursuing a double major in Library and Information Science.
+  sort_en: "suh eunkyo"
 
 - name: "성민경"
   name_en: "Minkyoung Seong"
@@ -57,9 +60,10 @@
     From this perspective, in addition to research on Buddhist monks and thought, I am also interested in examining how Buddhism operated within people’s lives, social structures, and interregional relations through material sources such as Buddhist images, paintings, archaeological remains, and temple architecture.
 
     #BuddhistHistory #KoreanAncientAndMedievalHistory #EastAsianChanZenHistory
+  sort_en: "seong minkyoung"
 
 - name: "안진호"
-  name_en: "Ahn Jinho"
+  name_en: "Jinho Ahn"
   affiliation: "한양대학교"
   affiliation_en: "Hanyang University"
   field: "사학과"
@@ -67,9 +71,10 @@
   email: "ahnjinho@hanyang.ac.kr"
   bio: "조선 재정사, 제도사 및 의례사에 관심을 두고 있으며, 이와 병행하여 한문 경학 및 한국 한문학을 탐구하고 있습니다."
   bio_en: "My academic interests include the fiscal, institutional, and ritual history of Chosŏn Korea, as well as an engagement with Confucian classical studies and Sino-Korean literature."
+  sort_en: "ahn jinho"
 
 - name: "엄윤주"
-  name_en: "Eom Yoon Ju"
+  name_en: "Yoon Ju Eom"
   affiliation: "연세대학교, 대만사범대학교"
   affiliation_en: "Yonsei University, National Taiwan Normal University"
   field: "중어중문학"
@@ -89,9 +94,10 @@
     Her master's thesis traced how Middle Chinese entered Korea and settled into an independent system, sparking interest in how East Asian languages shaped one another through Sinitic readings.
 
     Doctoral research deepens this into diachronic sound change in Chinese, particularly the trajectory of zero-initialization—the loss of consonantal onsets—from Middle to Modern Chinese, alongside interests in language contact and phonological reconstruction via transcription evidence from East Asia.
+  sort_en: "eom yoon ju"
 
 - name: "유미르"
-  name_en: "Yu Mireu"
+  name_en: "Mireu Yu"
   affiliation: "연세대학교"
   affiliation_en: "Yonsei University"
   field: "국어국문학과"
@@ -99,9 +105,10 @@
   email: "mirsgr@naver.com"
   bio: "한중일을 중심으로 동양의 미술과 문화를 좋아하며, 특히 전통 미술과 종교, 역사적 맥락 속에서 이미지가 형성되고 변화하는 과정에 관심이 있습니다."
   bio_en: "I enjoy exploring the art and culture of Korea, China, and Japan, with a broad interest in East Asian art history. I am especially interested in traditional art, religion, and the ways images have been shaped and transformed within historical contexts."
+  sort_en: "yu mireu"
 
 - name: "유하린"
-  name_en: "Yu Harin"
+  name_en: "Harin Yu"
   affiliation: "이화여자대학교"
   affiliation_en: "Ewha Womans University"
   field: "국어교육과"
@@ -122,10 +129,11 @@
 
     I am also interested in the use of generative AI in Korean language education and linguistic research, integrating my background in software with approaches to language teaching and research.
   link: "https://h-h-y.notion.site/harin-helena-yu"
+  sort_en: "yu harin"
   link_label: "Notion"
 
 - name: "윤오산하"
-  name_en: "Yun Sanah"
+  name_en: "Sanah Yun"
   affiliation: "고려대학교"
   affiliation_en: "Korea University"
   field: "국어국문학과"
@@ -133,6 +141,7 @@
   email: "sanahyun@korea.ac.kr"
   bio: "현재 고려대학교 국어국문학과에 재학 중이고, 고전문학(구비문학) 전공으로 대학원 진학할 예정입니다. 설화와 비교신화학에 관심이 많습니다."
   bio_en: "I am currently enrolled in the bachelors of Korean Language and Literature at Korea University and planning on continuing my studies specializing in Classic Literature at my alma mater. As of today, I have interest in both Korean folk literature and comparative mythology."
+  sort_en: "yun sanah"
 
 - name: "이나현"
   name_en: "Nahyeon Lee"
@@ -150,6 +159,7 @@
 
     Focusing on East Asia, I examine how collective belonging and political identities are formed and transformed within historical and cultural contexts, drawing on comparative politics and political thought. I am also interested in how sociocultural factors, including religion and gender, shape these processes.
   link: "https://www.linkedin.com/in/nahyeonlee1004/"
+  sort_en: "lee nahyeon"
   link_label: "LinkedIn"
 
 - name: "이용우"
@@ -171,6 +181,7 @@
     I obtained a B.A. in Philosophy and a B.S. in Physics from Seoul National University and completed the Moonwoorim Program at the Korea Foundation for Advanced Studies.
 
     I am interested in developing contemporary understandings and applications of East Asian thought, and I believe that interdisciplinary research can play a significant role in advancing this goal.
+  sort_en: "yi yongwoo"
 
 - name: "이유경"
   name_en: "Yugyeong Lee"
@@ -191,6 +202,7 @@
     My research focuses on the socio-political contexts of Joseon court music and modern Korean music. I examine how musical cultures circulated and were transformed within East Asian political hierarchies.
 
     My major publication is "A study on the court banquets of Giroso in the Joseon Dynasty - Based on the celebration of King Sukjong and King Yeongjo's entrance into the Giroso -"
+  sort_en: "lee yugyeong"
 
 - name: "이찬희"
   name_en: "Chanhee Lee"
@@ -214,6 +226,7 @@
     [Paper]
 
     A Mathematical Explanation of Ranuki-Kotoba: A Bayesian Statistical Approach (2026) — Kyoto University Nikkensei
+  sort_en: "lee chanhee"
 
 - name: "이한석"
   name_en: "Han Seok Lee"
@@ -234,6 +247,7 @@
     I am preparing my doctoral dissertation on their new theory centered on the concept of jigak (zhijue 知覺).
 
     Furthermore, I explore how the Kim brothers transformed 18th-century literature and art, extending my research into literary and artistic thought.
+  sort_en: "lee han seok"
 
 - name: "전세은"
   name_en: "Seeun Jeon"
@@ -244,6 +258,7 @@
   email: "wjstpdms5611@gmail.com"
   bio: "조선 후기 한국사를 공부합니다. 정치사와 사회사를 중심으로, 가계와 정치 및 역사 인식에 관심을 가지고 있습니다. 최근에는 19세기 세도정치와 해당 시기 붕당 인식에 관심을 두고 있습니다."
   bio_en: "I study the history of the late Joseon period. With a primary focus on political and social history, my research interests lie in family lineages, politics, and historical perception. Recently, I have been particularly interested in 19th-century Sedo politics and the perception of Bungdang during that era."
+  sort_en: "jeon seeun"
 
 - name: "정우형"
   name_en: "Woohyung Jung"
@@ -254,9 +269,10 @@
   email: "dngud0927@gmail.com"
   bio: "근세 동아시아사 국제관계, 북방사, 전쟁사"
   bio_en: "Early Modern East Asia, Northern Asian History, Military History"
+  sort_en: "jung woohyung"
 
 - name: "정재우"
-  name_en: "Jeong Jaewoo"
+  name_en: "Jaewoo Jeong"
   affiliation: "서울대학교"
   affiliation_en: "Seoul National University"
   field: "중어중문학과"
@@ -264,6 +280,7 @@
   email: "jjw9286@snu.ac.kr"
   bio: "중국어 음성학, 음운론을 전공하고 있습니다. 분절음과 초분절음의 조음, 음향, 청취를 연구합니다. 음성 인식, 음성 합성, 언어 습득, 언어 교육, 중국어 방언 등의 분야에도 관심이 있습니다. 중국어 역사 음운론과 한국 한자음도 흥미롭게 공부하고 있습니다."
   bio_en: "I specialized in Chinese phonetics and phonology, with a focus on the articulatory, acoustic, and perceptual aspects of segmental and suprasegmental features. I am also interested in speech recognition and synthesis (STT, TTS), language acquisition and education, and Chinese dialectology. Furthermore, I have a strong interest in the historical phonology of Chinese and Korean Sino-Korean readings."
+  sort_en: "jeong jaewoo"
 
 - name: "정채연"
   name_en: "Chaeyeon Jeong"
@@ -278,6 +295,7 @@
     최근에는 조선 후기 야담집의 시맨틱 데이터베이스 구축 연구를 진행 중이다.
   bio_en: "Chaeyeon Jeong studied Korean Language and Literature, Media Studies, Education, and Digital Humanities as an undergraduate and is currently studying Korean classical narratives at Korea University. Her recent research focuses on building a semantic database of yadam."
   link: "https://chaeyeonjeong.com/"
+  sort_en: "jeong chaeyeon"
   link_label: "chaeyeonjeong.com"
 
 - name: "조민경"
@@ -290,10 +308,11 @@
   bio: "저는 자연어처리(NLP)를 연구하며, 특히 언어 및 멀티모달 AI 모델의 정렬(alignment)과 해석가능성에 관심이 있습니다. 모델이 내놓은 답만 봐서는 그 답이 어떻게 나왔는지 알기 어렵습니다. 이 간극을 줄이기 위해 모델의 학습 방식과 평가 방법을 함께 연구하고 있습니다."
   bio_en: "I work on natural language processing, with a focus on the alignment and interpretability of language and multimodal models. My research concerns the relationship between what a model outputs and the computation that produced it, spanning how models are trained, how they are evaluated, and what their behaviour reveals about what they have actually learned."
   link: "https://www.linkedin.com/in/minkyung-cho/"
+  sort_en: "cho minkyung"
   link_label: "LinkedIn"
 
 - name: "진준표"
-  name_en: "Jin Jun Pyo"
+  name_en: "Jun Pyo Jin"
   affiliation: "경희대학교"
   affiliation_en: "Kyung Hee University"
   field: "사학과"
@@ -301,6 +320,7 @@
   email: "wnsvy1115@daum.net"
   bio: "선사고고학을 전공하고자 하며, 석기기술. 수렵채집민. 후기구석기시대에 관심이 많습니다."
   bio_en: "I would like to major in prehistoric archaeology. I am also very interested in stone tool technology, Lithic analysis, hunter-gatherers, and the Late Paleolithic period."
+  sort_en: "jin jun pyo"
 
 - name: "황승혁"
   name_en: "Seunghyeok Hwang"
@@ -317,3 +337,4 @@
     I am interested in mythology, legends and folk beliefs and currently studying the history of medieval China. I am particularly interested in examining how certain narratives are selectively transmitted and transformed over time, as well as the factors that shape such processes of selection and change.
 
     Although I have not yet decided on a specific area of research, I am tentatively considering research on folk beliefs or Taoism in order to continue pursuing these interests.
+  sort_en: "hwang seunghyeok"
