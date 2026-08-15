@@ -389,7 +389,9 @@ article.post .back-link {
    turns that variation into visible structure. */
 .people-grid .grid-card {
   display: flex;
-  align-items: flex-start;
+  /* centred rather than top-aligned: a four-paragraph bio is twice the height
+     of the portrait, and top-aligning left a long empty column beneath it */
+  align-items: center;
   gap: 1.7rem;
   padding-bottom: 2.6rem;
   border-bottom: 1px solid var(--rule);
