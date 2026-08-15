@@ -6,43 +6,25 @@ permalink: /people/
 <main class="main-col">
   <h2 class="section-label"><span class="i18n-ko">사람들</span><span class="i18n-en">People</span></h2>
 
-  <div class="card-grid">
-    <div class="grid-card">
-      <h3>이름 1</h3>
-      <div class="post-meta">
-        <span class="i18n-ko">소속 · 관심 분야</span>
-        <span class="i18n-en">Affiliation · Interests</span>
+  <div class="card-grid people-grid">
+    {% for person in site.data.people %}
+      <div class="grid-card person">
+        <h3>
+          {%- if person.email -%}<a href="mailto:{{ person.email }}" title="{{ person.email }}">{%- endif -%}
+          <span class="i18n-ko">{{ person.name }}</span><span class="i18n-en">{{ person.name_en | default: person.name }}</span>
+          {%- if person.email -%}</a>{%- endif -%}
+        </h3>
+        <div class="post-meta">
+          <span class="i18n-ko">{{ person.affiliation }}{% if person.field %} · {{ person.field }}{% endif %}</span>
+          <span class="i18n-en">{{ person.affiliation_en | default: person.affiliation }}{% if person.field_en or person.field %} · {{ person.field_en | default: person.field }}{% endif %}</span>
+        </div>
+        <p class="i18n-ko">{{ person.bio | newline_to_br }}</p>
+        <p class="i18n-en">{{ person.bio_en | default: person.bio | newline_to_br }}</p>
+        {% if person.link %}
+          <p class="person-contact"><a href="{{ person.link }}">{{ person.link_label | default: person.link }}</a></p>
+        {% endif %}
       </div>
-      <p class="i18n-ko">한 줄 소개.</p>
-      <p class="i18n-en">One-line bio.</p>
-    </div>
-    <div class="grid-card">
-      <h3>이름 2</h3>
-      <div class="post-meta">
-        <span class="i18n-ko">소속 · 관심 분야</span>
-        <span class="i18n-en">Affiliation · Interests</span>
-      </div>
-      <p class="i18n-ko">한 줄 소개.</p>
-      <p class="i18n-en">One-line bio.</p>
-    </div>
-    <div class="grid-card">
-      <h3>이름 3</h3>
-      <div class="post-meta">
-        <span class="i18n-ko">소속 · 관심 분야</span>
-        <span class="i18n-en">Affiliation · Interests</span>
-      </div>
-      <p class="i18n-ko">한 줄 소개.</p>
-      <p class="i18n-en">One-line bio.</p>
-    </div>
-    <div class="grid-card">
-      <h3>이름 4</h3>
-      <div class="post-meta">
-        <span class="i18n-ko">소속 · 관심 분야</span>
-        <span class="i18n-en">Affiliation · Interests</span>
-      </div>
-      <p class="i18n-ko">한 줄 소개.</p>
-      <p class="i18n-en">One-line bio.</p>
-    </div>
+    {% endfor %}
   </div>
 </main>
 

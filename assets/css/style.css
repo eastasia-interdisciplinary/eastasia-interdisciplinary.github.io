@@ -350,6 +350,23 @@ article.post .back-link {
 
 .grid-card p { margin: 0.4rem 0 0; font-size: 0.9rem; }
 
+/* people run long-form, so they get wider columns than seminar cards */
+.people-grid {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2.8rem 2.5rem;
+}
+
+.people-grid .grid-card p { line-height: 1.62; }
+
+/* the name itself is the mailto link, so keep it looking like a heading */
+.people-grid h3 a { color: inherit; }
+
+.person-contact {
+  font-size: 0.82rem !important;
+  margin-top: 0.7rem !important;
+}
+.person-contact a { color: var(--green-dark); }
+
 code {
   background: var(--paper);
   border: 1px solid var(--rule);
