@@ -35,8 +35,20 @@ permalink: /people/
             </div>
           </div>
         </div>
-        <p class="i18n-ko">{{ person.bio | newline_to_br }}</p>
-        <p class="i18n-en">{{ person.bio_en | default: person.bio | newline_to_br }}</p>
+        {%- comment -%}
+          Bios run long, so they are stored with blank lines between
+          paragraphs and split back out here rather than rendered as one wall
+          of text. Liquid string literals may contain real newlines, which is
+          how the blank line below is expressed.
+        {%- endcomment -%}
+        {% assign bio_ko = person.bio | strip | split: "
+
+" %}
+        {% for para in bio_ko %}<p class="i18n-ko">{{ para | strip | newline_to_br }}</p>{% endfor %}
+        {% assign bio_en = person.bio_en | default: person.bio | strip | split: "
+
+" %}
+        {% for para in bio_en %}<p class="i18n-en">{{ para | strip | newline_to_br }}</p>{% endfor %}
       </div>
     {% endfor %}
   </div>

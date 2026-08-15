@@ -81,9 +81,15 @@ python3 tools/import_people.py ~/Downloads/<survey export>.xlsx
 git diff _data/people.yml   # read the diff before committing
 ```
 
+Members are sorted 가나다순 in the file itself, so the rendered order does
+not depend on who answered the form first.
+
 Per-member keys: `name`, `name_en`, `affiliation`, `affiliation_en`,
 `field`, `field_en`, `email`, `bio`, `bio_en`, `link`, `link_label`.
 Only `name` is required; the `_en` fields fall back to the Korean ones.
+A blank line inside `bio` renders as a paragraph break —
+`tools/paragraph_bios.py` adds those to the longer bios, and the importer
+keeps them across re-imports as long as the wording itself is unchanged.
 The name doubles as the `mailto:` link rather than printing the address,
 and `link_label` is a platform name (LinkedIn, Notion, …) that the
 importer derives from the URL's host, falling back to the bare domain.

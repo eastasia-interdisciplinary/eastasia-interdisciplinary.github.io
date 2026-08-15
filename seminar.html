@@ -35,11 +35,22 @@ permalink: /seminar/
       <div class="card-grid">
         {% for entry in entries %}
           <article class="grid-card">
+            {%- comment -%}
+              Only link through to entries that have something to read; a
+              session with no write-up yet is a plain title, so no one clicks
+              into an empty page. Writing the summary makes the link appear.
+            {%- endcomment -%}
+            {% assign body = entry.content | strip_html | strip %}
             <h3>
-              <a href="{{ entry.url | relative_url }}">
+              {% if body != "" %}
+                <a href="{{ entry.url | relative_url }}">
+                  <span class="i18n-ko">{{ entry.title }}</span>
+                  <span class="i18n-en">{{ entry.title_en | default: entry.title }}</span>
+                </a>
+              {% else %}
                 <span class="i18n-ko">{{ entry.title }}</span>
                 <span class="i18n-en">{{ entry.title_en | default: entry.title }}</span>
-              </a>
+              {% endif %}
             </h3>
             <div class="post-meta">
               <span class="i18n-ko">{{ entry.date | date: "%Y년 %-m월 %-d일" }}</span>
