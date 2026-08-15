@@ -8,9 +8,14 @@
   <script>
     (function () {
       var l = localStorage.getItem("site-lang") || "ko";
-      document.documentElement.setAttribute("data-lang", l);
+      var r = document.documentElement;
+      r.setAttribute("data-lang", l);
+      // keep lang in step so screen readers do not read English in Korean
+      r.setAttribute("lang", l === "en" ? "en" : "ko");
     })();
   </script>
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/favicon-32.png' | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ '/assets/apple-touch-icon.png' | relative_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">

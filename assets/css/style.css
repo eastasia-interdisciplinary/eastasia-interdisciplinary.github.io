@@ -42,6 +42,7 @@ html, body {
   color: var(--text);
   font-family: var(--font-sans);
   line-height: 1.75;
+  overflow-wrap: break-word; /* long URLs and English terms, not the layout */
 }
 
 a { color: var(--navy); text-decoration: none; }
@@ -112,22 +113,30 @@ html[data-lang="en"] .i18n-ko { display: none; }
   display: flex;
   align-items: center;
   gap: 1.1rem;
+  min-width: 0;
 }
 
+/* The title is ten Korean characters with no spaces to wrap at, so a fixed
+   size overflowed the viewport on a phone and pushed the whole document
+   wider than the screen. Scale it with the viewport instead. */
 .site-title {
   font-family: var(--font-serif);
-  font-size: 3.4rem;
+  font-size: clamp(1.45rem, 6.2vw, 3.4rem);
   font-weight: 800;
   margin: 0;
   color: var(--navy);
   letter-spacing: -0.01em;
   line-height: 1.1;
+  min-width: 0;
 }
 
 @media (max-width: 640px) {
-  .site-title { font-size: 2.1rem; }
   .hero-img { height: 32vh; min-height: 220px; }
-  .brand { gap: 0.75rem; }
+  .brand { gap: 0.6rem; }
+  /* .brand qualifier needed: the base .seal-lg rule is defined later in the
+     file and would otherwise win on source order at equal specificity */
+  .brand .seal-lg { width: 2.5rem; height: 2.5rem; font-size: 1.25rem; }
+  .site-tagline { font-size: 0.85rem; }
 }
 
 .site-tagline {
@@ -141,7 +150,8 @@ html[data-lang="en"] .i18n-ko { display: none; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
   margin-top: 2.25rem;
   padding-bottom: 1.25rem;
 }
@@ -456,6 +466,34 @@ article.post .back-link {
 .pending {
   color: var(--text-muted);
   font-style: italic;
+}
+
+/* ---------- gallery ---------- */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2rem 1.5rem;
+}
+
+.gallery-item { margin: 0; }
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+
+.gallery-item figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+.gallery-date {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--green-dark);
 }
 
 code {

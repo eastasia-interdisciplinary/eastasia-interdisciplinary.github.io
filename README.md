@@ -119,6 +119,28 @@ live where the importer can't reach it. Filenames must not start with
 an underscore — Jekyll skips those, so the card would point at a file
 that never gets published.
 
+## Adding gallery photos
+
+Put the image in `assets/images/gallery/` and add an entry to
+`_data/gallery.yml`; the page lists them newest first and shows a
+"모으는 중" note while the file is empty. Photos of people other than
+whoever is posting need their consent first — unlike the profile
+photos, nobody submitted these of themselves.
+
+## Favicon and link preview
+
+`tools/make_images.py` draws both as HTML and screenshots them with
+headless Chrome, so they use the site's own seal, palette and
+typeface:
+
+```bash
+python3 tools/make_images.py   # favicon-32, apple-touch-icon, og-cover.jpg
+```
+
+The preview card is wired up through `defaults` in `_config.yml` rather
+than a top-level `image:` key, because jekyll-seo-tag only reads
+`page.image` and ignores `site.image`.
+
 ## Local development
 
 ```bash

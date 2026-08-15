@@ -1,0 +1,34 @@
+---
+layout: default
+title: 갤러리
+permalink: /gallery/
+---
+<main class="main-col">
+  <h2 class="section-label"><span class="i18n-ko">갤러리</span><span class="i18n-en">Gallery</span></h2>
+
+  {% assign shots = site.data.gallery | default: empty %}
+  {% if shots == empty or shots.size == 0 %}
+    <p class="pending">
+      <span class="i18n-ko">세미나와 답사 사진을 모으고 있습니다. 곧 이 곳에 올라갑니다.</span>
+      <span class="i18n-en">Photographs from seminars and field trips are being gathered, and will appear here.</span>
+    </p>
+  {% else %}
+    <div class="gallery-grid">
+      {% for shot in shots %}
+        <figure class="gallery-item">
+          <img src="{{ '/assets/images/gallery/' | append: shot.image | relative_url }}"
+               alt="{{ shot.caption | default: site.title }}" loading="lazy">
+          {% if shot.caption %}
+            <figcaption>
+              <span class="i18n-ko">{{ shot.caption }}</span>
+              <span class="i18n-en">{{ shot.caption_en | default: shot.caption }}</span>
+              {% if shot.date %}
+                <span class="gallery-date">{{ shot.date | date: "%Y.%m" }}</span>
+              {% endif %}
+            </figcaption>
+          {% endif %}
+        </figure>
+      {% endfor %}
+    </div>
+  {% endif %}
+</main>
