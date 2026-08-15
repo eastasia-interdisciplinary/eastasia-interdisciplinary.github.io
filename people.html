@@ -8,21 +8,35 @@ permalink: /people/
 
   <div class="card-grid people-grid">
     {% for person in site.data.people %}
+      {% assign photo = site.data.people_photos[person.name] %}
       <div class="grid-card person">
-        <h3>
-          {%- if person.email -%}<a href="mailto:{{ person.email }}" title="{{ person.email }}">{%- endif -%}
-          <span class="i18n-ko">{{ person.name }}</span><span class="i18n-en">{{ person.name_en | default: person.name }}</span>
-          {%- if person.email -%}</a>{%- endif -%}
-        </h3>
-        <div class="post-meta">
-          <span class="i18n-ko">{{ person.affiliation }}{% if person.field %} · {{ person.field }}{% endif %}</span>
-          <span class="i18n-en">{{ person.affiliation_en | default: person.affiliation }}{% if person.field_en or person.field %} · {{ person.field_en | default: person.field }}{% endif %}</span>
+        <div class="person-head">
+          <div class="person-photo">
+            {% if photo %}
+              <img src="{{ '/assets/images/people/' | append: photo | relative_url }}" alt="{{ person.name }}">
+            {% else %}
+              <span class="person-photo-empty" aria-hidden="true"></span>
+            {% endif %}
+          </div>
+          <div class="person-id">
+            <h3>
+              <span class="person-name">
+                {%- if person.email -%}<a href="mailto:{{ person.email }}" title="{{ person.email }}">{%- endif -%}
+                <span class="i18n-ko">{{ person.name }}</span><span class="i18n-en">{{ person.name_en | default: person.name }}</span>
+                {%- if person.email -%}</a>{%- endif -%}
+              </span>
+              {% if person.link %}
+                <a class="person-link" href="{{ person.link }}">{{ person.link_label | default: person.link }}</a>
+              {% endif %}
+            </h3>
+            <div class="post-meta">
+              <span class="i18n-ko">{{ person.affiliation }}{% if person.field %} · {{ person.field }}{% endif %}</span>
+              <span class="i18n-en">{{ person.affiliation_en | default: person.affiliation }}{% if person.field_en or person.field %} · {{ person.field_en | default: person.field }}{% endif %}</span>
+            </div>
+          </div>
         </div>
         <p class="i18n-ko">{{ person.bio | newline_to_br }}</p>
         <p class="i18n-en">{{ person.bio_en | default: person.bio | newline_to_br }}</p>
-        {% if person.link %}
-          <p class="person-contact"><a href="{{ person.link }}">{{ person.link_label | default: person.link }}</a></p>
-        {% endif %}
       </div>
     {% endfor %}
   </div>

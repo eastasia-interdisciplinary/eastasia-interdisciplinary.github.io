@@ -83,10 +83,21 @@ The name doubles as the `mailto:` link rather than printing the address,
 and `link_label` is a platform name (LinkedIn, Notion, …) that the
 importer derives from the URL's host, falling back to the bare domain.
 
-The survey also collects a photo, but as a Google Drive link that
-requires sign-in, so photos are not imported and the cards are
-text-only. To add photos, put the image files in `assets/images/people/`,
-add a `photo:` key per member, and render it in `people.html`.
+### Member photos
+
+Cards have a photo slot that currently renders an empty frame, because
+the survey collected photos as Google Drive links that require sign-in
+and so can't be fetched automatically. To fill it in:
+
+1. Download the photos from the survey's Drive links while signed in.
+2. Commit them to `assets/images/people/`. Filenames must not start
+   with an underscore — Jekyll skips those.
+3. Uncomment the matching line in `_data/people_photos.yml`, which maps
+   a member's Korean name to their filename.
+
+Photos are kept in their own data file on purpose: `import_people.py`
+rewrites `_data/people.yml` wholesale, so anything hand-curated has to
+live where the importer can't reach it.
 
 ## Local development
 

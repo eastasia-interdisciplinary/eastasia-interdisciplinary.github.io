@@ -358,14 +358,50 @@ article.post .back-link {
 
 .people-grid .grid-card p { line-height: 1.62; }
 
-/* the name itself is the mailto link, so keep it looking like a heading */
-.people-grid h3 a { color: inherit; }
-
-.person-contact {
-  font-size: 0.82rem !important;
-  margin-top: 0.7rem !important;
+/* photo, then name + affiliation beside it */
+.person-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
 }
-.person-contact a { color: var(--green-dark); }
+
+.person-photo { flex: 0 0 64px; width: 64px; height: 64px; }
+.person-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+/* empty frame until real photos are collected and committed */
+.person-photo-empty {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.person-id { flex: 1 1 auto; min-width: 0; }
+
+/* name on the left, personal link flush right on the same line */
+.people-grid h3 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+/* the name itself is the mailto link, so keep it looking like a heading */
+.person-name a { color: inherit; }
+
+.person-link {
+  flex: 0 0 auto;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 400;
+  color: var(--green-dark);
+  white-space: nowrap;
+}
 
 /* cycle (대주제) the session belonged to */
 .cycle-tag {
