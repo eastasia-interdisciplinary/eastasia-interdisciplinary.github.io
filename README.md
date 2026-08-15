@@ -59,10 +59,15 @@ content_en: |
 한국어 본문...
 ```
 
-`cycle` is the 대주제 the session belonged to, shown as a tag on the
-seminar list and entry pages. The body may be left empty — entries with
-no write-up yet render a "요약 준비 중" note instead of a blank page, so
-sessions can be recorded before anyone has written them up.
+`cycle` is the 대주제 the session belonged to and `cycle_no` its number.
+The seminar page groups entries into one section per cycle, newest cycle
+first and newest session first within it, so `cycle_no` is what orders
+those sections — set it on every entry or the cycle lands in its own
+stray group.
+
+The body may be left empty — entries with no write-up yet render a
+"요약 준비 중" note instead of a blank page, so sessions can be recorded
+before anyone has written them up.
 
 ## Adding people
 
@@ -85,19 +90,28 @@ importer derives from the URL's host, falling back to the bare domain.
 
 ### Member photos
 
-Cards have a photo slot that currently renders an empty frame, because
-the survey collected photos as Google Drive links that require sign-in
-and so can't be fetched automatically. To fill it in:
+Photos live in `assets/images/people/`, mapped to members by
+`_data/people_photos.yml`. A member with no entry there gets an empty
+frame, so the page never breaks on a missing photo.
 
-1. Download the photos from the survey's Drive links while signed in.
-2. Commit them to `assets/images/people/`. Filenames must not start
-   with an underscore — Jekyll skips those.
-3. Uncomment the matching line in `_data/people_photos.yml`, which maps
-   a member's Korean name to their filename.
+They are fetched from the survey's Drive folder, which has to be shared
+as "anyone with the link":
+
+```bash
+python3 tools/fetch_photos.py ~/Downloads/<survey export>.xlsx <drive folder url>
+```
+
+The photos are matched to members by Drive file ID rather than by
+filename, since uploads are named whatever the member's phone called
+them. Each is downscaled to 480px and converted to JPEG — they display
+at 64px, and the PNG originals cost several times the size for no
+visible gain.
 
 Photos are kept in their own data file on purpose: `import_people.py`
 rewrites `_data/people.yml` wholesale, so anything hand-curated has to
-live where the importer can't reach it.
+live where the importer can't reach it. Filenames must not start with
+an underscore — Jekyll skips those, so the card would point at a file
+that never gets published.
 
 ## Local development
 
