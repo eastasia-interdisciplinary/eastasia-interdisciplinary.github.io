@@ -16,7 +16,7 @@
   --navy: #2f3179;
   --navy-dark: #21234f;
   /* one forest green for every rule on the page; the pale tint is only for
-     type and the seal sitting on the navy banner */
+     type sitting on the navy banner */
   --green-dark: #55703c;
   --green-pale: #cfe0bd;
   --bronze: #a97b4f;
@@ -100,7 +100,6 @@ html[data-lang="en"] .i18n-ko { display: none; }
 
 .hero-inner .site-title { color: #fff; }
 .hero-inner .site-tagline { color: var(--green-pale); }
-.hero-inner .seal { border-color: var(--green-pale); color: #f3ead4; }
 
 .hero-credit {
   max-width: 1180px;
@@ -135,9 +134,6 @@ html[data-lang="en"] .i18n-ko { display: none; }
 @media (max-width: 640px) {
   .hero-img { height: 32vh; min-height: 220px; }
   .brand { gap: 0.6rem; }
-  /* .brand qualifier needed: the base .seal-lg rule is defined later in the
-     file and would otherwise win on source order at equal specificity */
-  .brand .seal-lg { width: 2.5rem; height: 2.5rem; font-size: 1.25rem; }
   .site-tagline { font-size: 0.85rem; }
 }
 
@@ -297,27 +293,11 @@ html[data-lang="en"] .i18n-ko { display: none; }
   line-height: 2;
 }
 
-/* small chop/seal mark, echoing the seals stamped on classical texts */
-.seal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.3em;
-  height: 1.3em;
-  vertical-align: -0.28em;
-  border: 1.5px solid var(--bronze);
-  border-radius: 2px;
-  color: var(--bronze);
-  font-family: var(--font-serif);
-  font-size: 0.85em;
-  font-weight: 700;
-}
-
-.seal-lg {
-  width: 3.6rem;
-  height: 3.6rem;
-  font-size: 1.8rem;
-  border-width: 2px;
+/* banner mark: a tree, set without the seal's ruled box -- a colour emoji
+   inside a bronze frame read as two marks fighting each other */
+.brand-mark {
+  font-size: clamp(1.6rem, 4.4vw, 2.9rem);
+  line-height: 1;
   flex-shrink: 0;
 }
 
