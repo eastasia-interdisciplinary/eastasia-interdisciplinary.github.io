@@ -15,8 +15,10 @@
 :root {
   --navy: #2f3179;
   --navy-dark: #21234f;
-  --green: #88b067;
+  /* one forest green for every rule on the page; the pale tint is only for
+     type and the seal sitting on the navy banner */
   --green-dark: #55703c;
+  --green-pale: #cfe0bd;
   --bronze: #a97b4f;
   --text: #262420;
   --text-muted: #6e6c62;
@@ -97,8 +99,8 @@ html[data-lang="en"] .i18n-ko { display: none; }
 }
 
 .hero-inner .site-title { color: #fff; }
-.hero-inner .site-tagline { color: #cfe0bd; }
-.hero-inner .seal { border-color: #cfe0bd; color: #f3ead4; }
+.hero-inner .site-tagline { color: var(--green-pale); }
+.hero-inner .seal { border-color: var(--green-pale); color: #f3ead4; }
 
 .hero-credit {
   max-width: 1180px;
@@ -177,7 +179,7 @@ html[data-lang="en"] .i18n-ko { display: none; }
 
 .lang-btn.active {
   color: var(--navy);
-  border-bottom-color: var(--green);
+  border-bottom-color: var(--green-dark);
 }
 
 .lang-sep { color: var(--rule); }
@@ -200,7 +202,7 @@ html[data-lang="en"] .i18n-ko { display: none; }
 .site-nav a.active {
   color: var(--navy);
   text-decoration: none;
-  border-bottom-color: var(--green);
+  border-bottom-color: var(--green-dark);
 }
 
 /* ---------- layout ---------- */
@@ -216,7 +218,7 @@ html[data-lang="en"] .i18n-ko { display: none; }
 
 /* one meaningful divider — between the two columns, not one per item */
 .sidebar {
-  border-left: 2px solid var(--green);
+  border-left: 2px solid var(--green-dark);
   padding-left: 1.75rem;
 }
 
@@ -381,10 +383,20 @@ article.post .back-link {
   gap: 2.6rem;
 }
 
+/* Card heights follow the bio, which runs from two lines to four
+   paragraphs, so the space between one portrait and the next is never the
+   same twice and the column reads as unevenly spaced. A hairline per person
+   turns that variation into visible structure. */
 .people-grid .grid-card {
   display: flex;
   align-items: flex-start;
   gap: 1.7rem;
+  padding-bottom: 2.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+.people-grid .grid-card:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .people-grid .grid-card p { line-height: 1.62; }
@@ -448,7 +460,7 @@ article.post .back-link {
   color: var(--navy);
   margin: 0;
   padding-bottom: 0.35rem;
-  border-bottom: 2px solid var(--green);
+  border-bottom: 2px solid var(--green-dark);
 }
 
 .cycle-range {

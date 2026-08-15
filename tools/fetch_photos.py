@@ -33,7 +33,14 @@ UA = {"User-Agent": "Mozilla/5.0"}
 # cropped and no framing decisions live here. Add an entry only if a specific
 # upload genuinely needs reframing: (height, width, offsetY, offsetX) in the
 # pixels of the MAX_EDGE-resized image, so a re-run reproduces it.
-CROPS = {}
+CROPS = {
+    # shot from across a lobby, so in a square frame he ended up a small figure
+    # off to one side; this pulls in to the seated figure. Note the numbers are
+    # in stored pixels, and this file carries EXIF orientation 6, so its stored
+    # 480x270 displays as 270x480 -- the x offset here moves the crop
+    # vertically on screen.
+    "이한석": (270, 270, 0, 150),
+}
 
 
 def slugify(name_en, name_ko):
