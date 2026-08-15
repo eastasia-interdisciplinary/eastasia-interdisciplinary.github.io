@@ -39,7 +39,7 @@ content_en: |
 ## Adding a seminar (발제) entry
 
 Add a markdown file to `_seminar/` named `YYYY-MM-DD-title.md`. Same
-front matter pattern as posts, plus an optional `presenter` field:
+front matter pattern as posts, plus presenter and cycle fields:
 
 ```markdown
 ---
@@ -48,6 +48,9 @@ title: "제목"
 title_en: "Optional English title"
 date: 2026-08-11
 presenter: "이름"
+presenter_en: "Optional romanised name"
+cycle: "동아시아와 기억"
+cycle_en: "East Asia and Memory"
 excerpt_en: "Optional English excerpt."
 content_en: |
   Optional English body.
@@ -56,11 +59,34 @@ content_en: |
 한국어 본문...
 ```
 
+`cycle` is the 대주제 the session belonged to, shown as a tag on the
+seminar list and entry pages. The body may be left empty — entries with
+no write-up yet render a "요약 준비 중" note instead of a blank page, so
+sessions can be recorded before anyone has written them up.
+
 ## Adding people
 
-`people.html` is a plain grid, not a collection — edit it directly.
-Copy an existing `.grid-card` block inside `.card-grid` for each new
-member.
+Members live in `_data/people.yml`; `people.html` just loops over it.
+That file is generated from the Google Form survey export, so the
+reproducible path is to re-run the importer against a fresh export
+rather than hand-editing the YAML:
+
+```bash
+python3 tools/import_people.py ~/Downloads/<survey export>.xlsx
+git diff _data/people.yml   # read the diff before committing
+```
+
+Per-member keys: `name`, `name_en`, `affiliation`, `affiliation_en`,
+`field`, `field_en`, `email`, `bio`, `bio_en`, `link`, `link_label`.
+Only `name` is required; the `_en` fields fall back to the Korean ones.
+The name doubles as the `mailto:` link rather than printing the address,
+and `link_label` is a platform name (LinkedIn, Notion, …) that the
+importer derives from the URL's host, falling back to the bare domain.
+
+The survey also collects a photo, but as a Google Drive link that
+requires sign-in, so photos are not imported and the cards are
+text-only. To add photos, put the image files in `assets/images/people/`,
+add a `photo:` key per member, and render it in `people.html`.
 
 ## Local development
 
