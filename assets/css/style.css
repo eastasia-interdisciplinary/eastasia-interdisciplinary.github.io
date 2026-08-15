@@ -367,6 +367,20 @@ article.post .back-link {
 }
 .person-contact a { color: var(--green-dark); }
 
+/* cycle (대주제) the session belonged to */
+.cycle-tag {
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--green-dark);
+  margin-bottom: 0.6rem;
+}
+
+.pending {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 code {
   background: var(--paper);
   border: 1px solid var(--rule);
