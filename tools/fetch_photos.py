@@ -29,13 +29,11 @@ MAX_EDGE = "480"  # displayed ~178px wide; leaves room for retina
 OUT_DIR = "assets/images/people"
 UA = {"User-Agent": "Mozilla/5.0"}
 
-# Cards show a portrait frame, so a landscape upload gets centre-cropped. That
-# is wrong when the person is not in the middle of their own photo -- crop such
-# uploads here instead, as (height, width, offsetY, offsetX) in the pixels of
-# the MAX_EDGE-resized image, so a re-run reproduces the same framing.
-CROPS = {
-    "이찬희": (292, 234, 0, 183),  # group shot in a park; he sits right of centre
-}
+# Photos are shown at a fixed width with their own aspect ratio, so nothing is
+# cropped and no framing decisions live here. Add an entry only if a specific
+# upload genuinely needs reframing: (height, width, offsetY, offsetX) in the
+# pixels of the MAX_EDGE-resized image, so a re-run reproduces it.
+CROPS = {}
 
 
 def slugify(name_en, name_ko):

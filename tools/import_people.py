@@ -112,6 +112,15 @@ def title_case(name):
     return " ".join(w[:1].upper() + w[1:].lower() for w in words)
 
 
+# Answers that need a correction the form cannot make on its own. Kept here,
+# and applied on every run, so a re-import does not quietly undo them.
+OVERRIDES = {
+    # Put the research interests in the bio field, not the one-line 전공 slot,
+    # where they render as "Seoul National University · Art History | Research
+    # interests: ..." beside everyone else's plain department name.
+    ("김지현", "field_en"): "Art History",
+}
+
 MINOR_WORDS = {"of", "and", "the", "for", "in", "on", "at", "to"}
 
 
@@ -226,6 +235,7 @@ def main():
         prior = existing.get(clean(person.get("B")), {})
         for key, column in FIELDS:
             value = clean(person.get(column))
+            value = OVERRIDES.get((clean(person.get("B")), key), value)
             if key == "name_en":
                 value = title_case(value)
             elif key in ("affiliation_en", "field_en"):
