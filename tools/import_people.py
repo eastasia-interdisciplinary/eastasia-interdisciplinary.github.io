@@ -112,6 +112,32 @@ def title_case(name):
     return " ".join(w[:1].upper() + w[1:].lower() for w in words)
 
 
+MINOR_WORDS = {"of", "and", "the", "for", "in", "on", "at", "to"}
+
+
+def sentence_case(text):
+    """Fix answers typed in all caps, leaving acronyms alone.
+
+    "SEOUL NATIONAL UNIVERSITY" is shouting; "KAIST CT" and "LMU Munich" are
+    how those names are actually written. The test is whether the string has
+    any lowercase at all and whether it contains a word too long to be an
+    acronym -- five letters or fewer stays untouched.
+    """
+    if any(c.islower() for c in text):
+        return text
+    if not any(len(w.strip(",.&")) >= 6 for w in text.split()):
+        return text
+
+    words = []
+    for i, word in enumerate(text.split()):
+        lowered = word.lower()
+        if i and lowered.strip(",") in MINOR_WORDS:
+            words.append(lowered)
+        else:
+            words.append(lowered[:1].upper() + lowered[1:])
+    return " ".join(words)
+
+
 def clean(value):
     """Normalise a cell: strip stray whitespace, drop zero-width junk from pasted text."""
     if not value:
@@ -202,6 +228,8 @@ def main():
             value = clean(person.get(column))
             if key == "name_en":
                 value = title_case(value)
+            elif key in ("affiliation_en", "field_en"):
+                value = sentence_case(value)
             # Long bios are broken into paragraphs by hand for readability.
             # That editing is invisible to the form, so a re-import would undo
             # it; keep the edited text whenever the wording itself is unchanged.
