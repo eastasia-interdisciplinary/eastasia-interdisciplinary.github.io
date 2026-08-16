@@ -1,9 +1,10 @@
-# 동아시아학제연구모임 (East Asia Interdisciplinary Studies Group)
+# 동아시아학제연구회 (East Asian Interdisciplinary Studies Group)
 
-Group site, built with Jekyll. Palette (indigo-navy, forest green)
-and the tree mark nod to
-[문우림 (文友林, Forest of Learning)](https://cvt.kfas.or.kr/intro/type1.php),
-the KFAS program this group's members met through. Typefaces are
+Group site, built with Jekyll. The group is made up of scholarship
+recipients of the
+[Korea Foundation for Advanced Studies](https://www.kfas.or.kr) across a
+range of disciplines; the palette (indigo-navy, forest green) and the
+tree mark follow from that. Typefaces are
 Pretendard (body/UI) and Nanum Myeongjo (headings). The banner image
 is a placeholder (Jeong Seon's public-domain 인왕제색도) — swap it for
 a real photo whenever there is one, via `assets/images/inwang-jesaekdo.jpg`

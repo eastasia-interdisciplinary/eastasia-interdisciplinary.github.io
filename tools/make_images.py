@@ -66,8 +66,8 @@ OG_HTML = """<!doctype html><meta charset="utf-8">
   <div class="veil"><div class="inner">
     <div class="mark">🌳</div>
     <div>
-      <h1>동아시아학제연구모임</h1>
-      <p>East Asia Interdisciplinary Studies Group</p>
+      <h1>동아시아학제연구회</h1>
+      <p>East Asian Interdisciplinary Studies Group</p>
     </div>
   </div></div>
 </div>

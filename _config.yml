@@ -1,5 +1,5 @@
-title: 동아시아학제연구모임
-tagline: East Asia Interdisciplinary Studies Group
+title: 동아시아학제연구회
+tagline: East Asian Interdisciplinary Studies Group
 # Used for the meta description and link-preview text. Kept in step with the
 # group's own introduction on the home page.
 description: >-
@@ -26,20 +26,14 @@ defaults:
     values:
       image: /assets/images/og-cover.jpg
 
-# Parent program, shown in the sidebar as a nod to lineage
-parent_name: 문우림
-parent_name_en: Forest of Learning
-parent_hanja: 文友林
-parent_url: "https://cvt.kfas.or.kr/intro/type1.php"
+# The foundation whose scholarship recipients make up the group, per its own
+# introduction. Replaced a 문우림-specific set of fields, which described one
+# programme rather than the membership as the group states it.
+foundation_name: 한국고등교육재단
+foundation_name_en: Korea Foundation for Advanced Studies
+foundation_url: "https://www.kfas.or.kr"
+
 repo_url: "https://github.com/eastasia-interdisciplinary/eastasia-interdisciplinary.github.io"
-parent_blurb: >-
-  한국고등교육재단(KFAS)이 운영하는 학부생 인재성장 프로그램으로, 동아시아
-  고전을 함께 읽고 한·중·일 역사의 현장을 직접 답사하며 학문적 우정을
-  쌓는 2년 과정입니다.
-parent_blurb_en: >-
-  A two-year talent-development program run by the Korea Foundation for
-  Advanced Studies (KFAS), in which members read East Asian classics
-  together and visit historical sites across Korea, China, and Japan.
 
 markdown: kramdown
 permalink: /news/:year/:month/:day/:title/

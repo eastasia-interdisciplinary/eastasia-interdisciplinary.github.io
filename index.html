@@ -64,22 +64,3 @@ layout: default
   {% endif %}
 </main>
 
-<aside class="sidebar">
-  <div class="marginalia">
-    <h3 class="aside-label">
-      <span class="i18n-ko">{{ site.parent_name }}과의 인연</span>
-      <span class="i18n-en">Connection to {{ site.parent_name_en }}</span>
-    </h3>
-    <a class="lineage-link" href="{{ site.parent_url }}" target="_blank" rel="noopener">
-      🌳 {{ site.parent_name }} ({{ site.parent_hanja }}<span class="i18n-en">, {{ site.parent_name_en }}</span>)
-    </a>
-    <p class="i18n-ko">{{ site.parent_blurb }}</p>
-    <p class="i18n-en">{{ site.parent_blurb_en }}</p>
-  </div>
-
-  {%- comment -%}
-    An archive-by-year block used to sit here. With a single post it read as
-    "보관함 / 2026 (1)" -- a count with nothing to count. Worth restoring once
-    there are enough posts for a year to be a useful way to find one.
-  {%- endcomment -%}
-</aside>
