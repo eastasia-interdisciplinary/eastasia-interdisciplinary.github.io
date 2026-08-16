@@ -304,6 +304,21 @@ html[data-lang="en"] .i18n-ko { display: none; }
   color: var(--text-muted);
 }
 
+/* contact: the one thing a visitor may need to act on, so it sits at the top
+   of the margin with the address spelled out rather than hidden behind a word */
+.contact-block { margin-bottom: 2.4rem; }
+.contact-block p { margin: 0 0 0.45rem; font-size: 0.9rem; }
+
+.contact-email {
+  display: inline-block;
+  font-size: 0.95rem;
+  color: var(--navy);
+  border-bottom: 2px solid var(--green-dark);
+  padding-bottom: 1px;
+  word-break: break-all;
+}
+.contact-email:hover { text-decoration: none; }
+
 /* margin links: programmes and the foundation, one short note each */
 .lineage-item { margin-bottom: 1.5rem; }
 .lineage-item:last-child { margin-bottom: 0; }
@@ -571,25 +586,47 @@ article.post .back-link {
   gap: 1.6rem 1.4rem;
 }
 
-.gallery-item { margin: 0; }
+.gallery-item {
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
 .gallery-item img {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 2px;
 }
 
 .gallery-item figcaption {
-  margin-top: 0.5rem;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
   color: var(--text-muted);
+  padding: 0.5rem 0.1rem 0;
 }
-
-.gallery-date {
-  display: block;
-  font-size: 0.78rem;
-  color: var(--green-dark);
+/* Where the pointer can hover, the caption sits over the foot of the photo
+   and appears on hover or keyboard focus; elsewhere it stays printed below,
+   since a touch screen has no hover to reveal it with. */
+@media (hover: hover) {
+  .gallery-item figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 2.2rem 0.9rem 0.8rem;
+    color: #fff;
+    background: linear-gradient(to top, rgba(33, 35, 79, 0.92), rgba(33, 35, 79, 0));
+    opacity: 0;
+    transform: translateY(0.4rem);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+  .gallery-item:hover figcaption,
+  .gallery-item:focus-within figcaption {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 code {

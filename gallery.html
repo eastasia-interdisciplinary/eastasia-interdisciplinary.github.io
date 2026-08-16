@@ -13,22 +13,41 @@ permalink: /gallery/
       <span class="i18n-en">Photographs from seminars and gatherings are being collected.</span>
     </p>
   {% else %}
-    <div class="gallery-grid">
-      {% for shot in shots %}
-        <figure class="gallery-item">
-          <img src="{{ '/assets/images/gallery/' | append: shot.image | relative_url }}"
-               alt="{{ shot.caption | default: site.title }}" loading="lazy">
-          {% if shot.caption %}
-            <figcaption>
-              <span class="i18n-ko">{{ shot.caption }}</span>
-              <span class="i18n-en">{{ shot.caption_en | default: shot.caption }}</span>
-              {% if shot.date %}
-                <span class="gallery-date">{{ shot.date | date: "%Y.%m" }}</span>
+    {%- comment -%}
+      Grouped by the date the phone recorded, newest first. When and where
+      belongs to the occasion, not to each frame of it, so it is said once
+      per group rather than repeated on every photo.
+    {%- endcomment -%}
+    {% assign days = shots | group_by: "date" | sort: "name" | reverse %}
+    {% for day in days %}
+      {% assign first = day.items | first %}
+      <section class="gallery-day">
+        <h3 class="cycle-heading">
+          <span class="i18n-ko">{{ day.name | date: "%Y년 %-m월 %-d일" }}</span>
+          <span class="i18n-en">{{ day.name | date: "%-d %B %Y" }}</span>
+        </h3>
+        {% if first.place %}
+          <div class="cycle-range">
+            <span class="i18n-ko">{{ first.place }}</span>
+            <span class="i18n-en">{{ first.place_en | default: first.place }}</span>
+          </div>
+        {% endif %}
+
+        <div class="gallery-grid">
+          {% for shot in day.items %}
+            <figure class="gallery-item">
+              <img src="{{ '/assets/images/gallery/' | append: shot.image | relative_url }}"
+                   alt="{{ shot.caption | default: site.title }}" loading="lazy">
+              {% if shot.caption %}
+                <figcaption>
+                  <span class="i18n-ko">{{ shot.caption }}</span>
+                  <span class="i18n-en">{{ shot.caption_en | default: shot.caption }}</span>
+                </figcaption>
               {% endif %}
-            </figcaption>
-          {% endif %}
-        </figure>
-      {% endfor %}
-    </div>
+            </figure>
+          {% endfor %}
+        </div>
+      </section>
+    {% endfor %}
   {% endif %}
 </main>

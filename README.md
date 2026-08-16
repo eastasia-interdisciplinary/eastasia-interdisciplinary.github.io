@@ -161,8 +161,13 @@ leaves the tag in place and produces a doubly-rotated file:
 python3 tools/prepare_photo.py <source> assets/images/gallery/<name>.jpg 1400
 ```
 
-Then add an entry to `_data/gallery.yml`; the page lists them newest first and shows a
-"모으는 중" note while the file is empty. Photos of people other than
+`tools/photo_meta.py` reads the date and coordinates the phone recorded —
+run it on the ORIGINAL, since the prepared copy no longer carries them.
+Then add an entry to `_data/gallery.yml`; the page groups them by date,
+newest first, and shows a "모으는 중" note while the file is empty. Place is
+kept to the district: the coordinates pin a private gathering to the
+building, and a geocoder's nearest point of interest is often the wrong
+one — on these photos it named a taco bar across the street. Photos of people other than
 whoever is posting need their consent first — unlike the profile
 photos, nobody submitted these of themselves.
 
