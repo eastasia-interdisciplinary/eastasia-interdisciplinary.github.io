@@ -258,6 +258,16 @@ html[data-lang="en"] .i18n-ko { display: none; }
 }
 .lede p { margin: 0 0 1rem; }
 .lede p:last-child { margin-bottom: 0; }
+.lede { margin-bottom: 1.6rem; }
+
+.intro { margin: 0 0 3.5rem; }
+.intro p { margin: 0 0 1.15rem; }
+
+.signature {
+  font-family: var(--font-serif);
+  color: var(--navy);
+  margin-top: 1.8rem !important;
+}
 
 .post-preview {
   margin-bottom: 3rem;

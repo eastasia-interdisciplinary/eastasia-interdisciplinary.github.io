@@ -1,12 +1,15 @@
 title: 동아시아학제연구모임
 tagline: East Asia Interdisciplinary Studies Group
+# Used for the meta description and link-preview text. Kept in step with the
+# group's own introduction on the home page.
 description: >-
-  동아시아의 역사, 문화, 사회를 학제적으로 연구하는 모임입니다.
-  한국고등교육재단 문우림(文友林)에서 출발하여 결성되었습니다.
+  한국고등교육재단 장학생들을 중심으로 2025년 8월에 시작된 학술 연구모임입니다.
+  다양한 분야를 전공하는 구성원들이 동아시아를 공통의 관심사로 삼아 함께
+  공부합니다.
 description_en: >-
-  A group researching East Asian history, culture, and society across
-  disciplines. Formed by members who met through 문우림 (文友林), a
-  program run by the Korea Foundation for Advanced Studies.
+  An academic group founded in August 2025 by scholars and students
+  supported by the Korea Foundation for Advanced Studies, studying East
+  Asia across a wide range of disciplines.
 url: "https://eastasia-interdisciplinary.github.io"
 baseurl: "" # root org page site, no path prefix
 lang: ko-KR # drives og:locale; jekyll-seo-tag defaulted it to en_US
