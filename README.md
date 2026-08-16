@@ -1,4 +1,4 @@
-# 동아시아학제연구회 (East Asian Interdisciplinary Studies Group)
+# 동아시아학제연구회 (East Asian Interdisciplinary Research Group)
 
 Group site, built with Jekyll. The group is made up of scholarship
 recipients of the
