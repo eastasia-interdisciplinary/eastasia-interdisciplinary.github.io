@@ -1,29 +1,23 @@
-# Gallery entries, newest first. Rendered by gallery.html.
+# Gallery entries. The page groups them by date, newest first.
 #
 # Each entry needs an image in assets/images/gallery/ (filenames must not start
-# with an underscore -- Jekyll skips those). `date` and `place` show on hover;
-# `caption` is optional and shows alongside them.
+# with an underscore -- Jekyll skips those). `date` is what the grouping keys
+# off; `caption` is optional and shows on hover.
 #
 # Run photos through tools/prepare_photo.py first: it bakes the phone's
 # rotation into the pixels and downscales, so nothing depends on a viewer
-# honouring the EXIF tag. tools/photo_meta.py reads the date and coordinates
-# the phone recorded, from the ORIGINAL file -- the prepared copy no longer
-# carries them.
+# honouring the EXIF tag. tools/photo_meta.py reads the date the phone
+# recorded, from the ORIGINAL file -- the prepared copy no longer carries it.
 #
-# Place is kept to the district. The coordinates pin a private gathering to
-# the building, which is more than a public page needs, and the nearest point
-# of interest a geocoder returns is often the wrong one anyway.
+# `place` and `place_en` are supported and show under the date heading, but
+# are left empty: the photos are of a private gathering and where it happened
+# is not something the page needs to publish.
 #
 # Photos of people other than the poster need their consent before going up:
 # unlike the profile photos, nobody submitted these of themselves.
 
 - image: gathering-long-table.jpg
   date: 2026-03-08
-  place: 서울 서초구
-  place_en: Seocho-gu, Seoul
 
 - image: gathering-table.jpg
   date: 2026-03-08
-  # no coordinates on this one; same evening and same room as the photo above
-  place: 서울 서초구
-  place_en: Seocho-gu, Seoul
