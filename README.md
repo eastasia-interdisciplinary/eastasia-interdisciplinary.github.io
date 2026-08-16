@@ -1,4 +1,6 @@
-# 동아시아학제연구회 (East Asian Interdisciplinary Research Group)
+# 동아시아학제연구회 (EAST Research Group)
+
+East Asian Studies & Transdisciplinary Research Group.
 
 Group site, built with Jekyll. The group is made up of scholarship
 recipients of the

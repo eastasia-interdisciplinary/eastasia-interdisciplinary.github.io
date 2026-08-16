@@ -1,5 +1,6 @@
 title: 동아시아학제연구회
-tagline: East Asian Interdisciplinary Research Group
+tagline: East Asian Studies & Transdisciplinary Research Group
+short_name_en: EAST Research Group # used where the full name would crowd a sentence
 # Used for the meta description and link-preview text. Kept in step with the
 # group's own introduction on the home page.
 description: >-
@@ -10,7 +11,7 @@ description_en: >-
   An academic group founded in August 2025 by scholars and students
   supported by the Korea Foundation for Advanced Studies, studying East
   Asia across a wide range of disciplines.
-url: "https://eastasia-interdisciplinary.github.io"
+url: "https://eastresearch.github.io"
 baseurl: "" # root org page site, no path prefix
 lang: ko-KR # drives og:locale; jekyll-seo-tag defaulted it to en_US
 
@@ -33,7 +34,7 @@ foundation_name: 한국고등교육재단
 foundation_name_en: Korea Foundation for Advanced Studies
 foundation_url: "https://www.kfas.or.kr"
 
-repo_url: "https://github.com/eastasia-interdisciplinary/eastasia-interdisciplinary.github.io"
+repo_url: "https://github.com/eastresearch/eastresearch.github.io"
 
 markdown: kramdown
 permalink: /news/:year/:month/:day/:title/
