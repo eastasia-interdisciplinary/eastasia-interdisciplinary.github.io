@@ -39,7 +39,7 @@ MEMBER_RING = 96            # smallest orbit for a field's members
 # number of members to keep that much room between them whichever language
 # the reader has chosen.
 SPACING_PER_MEMBER = 22
-LABEL_OFFSET = 118          # where a field name starts before being pushed clear
+LABEL_OFFSET = 40           # field name, kept close to its hub
 # Not 0.5. Sitting exactly between two fields says both are equally theirs,
 # which is wrong for someone like 이유경, whose 한국음악 is art first and history
 # second. The first field listed for a member is read as the primary one and
@@ -58,7 +58,8 @@ def read_clusters(path):
     """Minimal reader for the clusters file: a field list and a name -> fields map."""
     fields, members, section = [], {}, None
     for line in open(path, encoding="utf-8"):
-        line = line.split("#")[0].rstrip()
+        # a comment needs whitespace before it, so a colour like "#55703c" survives
+        line = re.sub(r"\s+#.*$", "", line).rstrip()
         if not line.strip():
             continue
         if line in ("fields:", "members:"):
@@ -69,7 +70,7 @@ def read_clusters(path):
             if m:
                 fields.append({"key": m.group(1)})
                 continue
-            m = re.match(r"\s*(name|name_en):\s*(.+)", line)
+            m = re.match(r"\s*(name|name_en|color):\s*(.+)", line)
             if m and fields:
                 fields[-1][m.group(1)] = m.group(2).strip().strip('"')
         elif section == "members":
@@ -134,7 +135,6 @@ def place(fields, members):
             offset = BRIDGE_SPACING * i - span / 2
             positions[name] = (x - dy / length * offset, y + dx / length * offset)
 
-    relax(positions)
     return centres, positions
 
 
@@ -151,6 +151,8 @@ def relax(positions):
     names = sorted(positions)
     for _ in range(RELAX_STEPS):
         moved = False
+
+        # members spread out from each other
         for i, a in enumerate(names):
             for b in names[i + 1:]:
                 ax, ay = positions[a]
@@ -166,16 +168,21 @@ def relax(positions):
                 positions[a] = (ax - ux * push, ay - uy * push)
                 positions[b] = (bx + ux * push, by + uy * push)
                 moved = True
+
         # a gentle pull home, so nodes do not drift away from their field
         for name in names:
             x, y = positions[name]
             ix, iy = ideal[name]
             positions[name] = (x + (ix - x) * 0.06, y + (iy - y) * 0.06)
+
+
         if not moved:
             break
 
 
-LABEL_HALF_H = 15
+
+LABEL_HALF_H = 20
+LABEL_FONT = 26          # keep in step with .map-fields text in the CSS
 
 
 def label_clear(x, y, half_w, positions):
@@ -195,32 +202,70 @@ def label_clear(x, y, half_w, positions):
     return True
 
 
-def place_labels(fields, centres, positions):
-    """Slide each field name outward until it clears the nodes.
+def label_half_width(field):
+    """Widest the name gets in either language, measured against the rendered
+    serif: Korean glyphs run about the full size, Latin about half."""
+    return max(len(field.get("name", "")) * LABEL_FONT,
+               len(field.get("name_en", "")) * LABEL_FONT * 0.47) / 2 + 14
 
-    Fixing the distance does not work: how far out a name has to sit depends
-    on how many members that field ended up with and where relaxation pushed
-    them, so it is found rather than assumed.
+
+def box_free(x, y, half_w, positions, taken):
+    """Is a label box at (x, y) clear of every node, its name, and every label
+    already placed?"""
+    for nx, ny in positions.values():
+        if (abs(nx - x) < half_w + NODE_RADIUS + 10
+                and y + LABEL_HALF_H > ny - NODE_RADIUS - 10
+                and y - LABEL_HALF_H < ny + NAME_DROP + 10):
+            return False
+    for tx, ty, t_half in taken:
+        if abs(tx - x) < half_w + t_half + 14 and abs(ty - y) < LABEL_HALF_H * 2 + 10:
+            return False
+    return True
+
+
+def place_labels(fields, centres, positions):
+    """Put each field name in the nearest free spot around its own hub.
+
+    Nodes were pushed away from the names first, but a node shoved out of one
+    name landed in another and back again, and a handful of overlaps survived
+    hundreds of rounds. Moving the names instead is the tractable version of
+    the problem: there are six of them, they may sit anywhere near their hub,
+    and searching outward from the hub finds a free spot or there is none.
+    Distance from the hub is what is minimised, so a name stays with the dot
+    it belongs to.
     """
-    out = {}
+    out, taken = {}, []
     for field in fields:
         cx, cy = centres[field["key"]]
-        angle = math.atan2(cy - CENTRE[1], cx - CENTRE[0])
-        # widest the name gets in either language; Korean glyphs are ~2x latin
-        # measured against the rendered 19px serif: Korean glyphs run about
-        # the full size, Latin about half. Underestimating this is what let
-        # "Language & Literature" sit on top of a node.
-        half_w = max(len(field.get("name", "")) * 19.0,
-                     len(field.get("name_en", "")) * 9.0) / 2 + 14
-        distance = MEMBER_RING + LABEL_OFFSET
-        for _ in range(60):
-            x = cx + distance * math.cos(angle)
-            y = cy + distance * math.sin(angle)
-            if label_clear(x, y, half_w, positions):
+        half_w = label_half_width(field)
+        outward = math.atan2(cy - CENTRE[1], cx - CENTRE[0])
+
+        best = None
+        for radius in range(LABEL_OFFSET, 340, 10):
+            # the outward side first, then further round, so the name stays on
+            # the side of the hub the reader expects it
+            for turn in [0] + [s * d for d in range(1, 19) for s in (1, -1)]:
+                angle = outward + math.radians(turn * 10)
+                x = cx + radius * math.cos(angle)
+                y = cy + radius * math.sin(angle)
+                if box_free(x, y, half_w, positions, taken):
+                    best = (x, y)
+                    break
+            if best:
                 break
-            distance += 12
-        out[field["key"]] = (x, y)
+        if not best:
+            best = (cx + LABEL_OFFSET * math.cos(outward),
+                    cy + LABEL_OFFSET * math.sin(outward))
+        out[field["key"]] = best
+        taken.append((best[0], best[1], half_w))
     return out
+
+
+def colour_of(fields, key):
+    for field in fields:
+        if field["key"] == key:
+            return field.get("color", "#55703c")
+    return "#55703c"
 
 
 def territory(points, padding=52, rays=64):
@@ -260,12 +305,12 @@ def territory(points, padding=52, rays=64):
 
 
 def spokes(members, positions, centres):
-    """One line from each person to each field they work in."""
+    """One line from each person to each field they work in, in its colour."""
     out = []
     for name in sorted(positions):
         for key in members.get(name, []):
             if key in centres:
-                out.append((positions[name], centres[key]))
+                out.append((positions[name], centres[key], key))
     return out
 
 
@@ -284,11 +329,13 @@ def main():
 
     members = {k: v for k, v in members.items() if k in people}
     centres, positions = place(fields, members)
+    relax(positions)
 
     # The viewBox is fitted to what was actually drawn rather than assumed:
     # a field sitting at the top of the ellipse puts its name above y=0, and a
     # fixed box would clip it.
     labels = place_labels(fields, centres, positions)
+
 
     xs = [p[0] for p in positions.values()] + [p[0] for p in labels.values()]
     ys = [p[1] for p in positions.values()] + [p[1] for p in labels.values()]
@@ -306,6 +353,7 @@ def main():
         x, y = centres[field["key"]]
         lx, ly = labels[field["key"]]
         lines += ['  - key: "%s"' % field["key"],
+                  '    color: "%s"' % field.get("color", "#55703c"),
                   "    label_x: %.1f" % lx, "    label_y: %.1f" % ly,
                   '    name: "%s"' % field.get("name", field["key"]),
                   '    name_en: "%s"' % field.get("name_en", field.get("name", field["key"])),
@@ -331,12 +379,16 @@ def main():
                   '    slug: "%s"' % re.sub(r"[^a-z0-9]+", "-",
                                             person.get("name_en", name).lower()).strip("-"),
                   '    fields: "%s"' % " ".join(members.get(name, [])),
+                  '    color: "%s"' % colour_of(fields, members.get(name, [None])[0]),
+                  '    color2: "%s"' % (colour_of(fields, members[name][1])
+                                        if len(members.get(name, [])) > 1 else ""),
                   "    x: %.1f" % x, "    y: %.1f" % y]
 
     lines += ["", "edges:"]
-    for (ax, ay), (bx, by) in spokes(members, positions, centres):
+    for (ax, ay), (bx, by), key in spokes(members, positions, centres):
         lines += ["  - x1: %.1f" % ax, "    y1: %.1f" % ay,
-                  "    x2: %.1f" % bx, "    y2: %.1f" % by]
+                  "    x2: %.1f" % bx, "    y2: %.1f" % by,
+                  '    color: "%s"' % colour_of(fields, key)]
 
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")

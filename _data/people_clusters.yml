@@ -8,26 +8,37 @@
 # Order of `fields` sets where they sit around the map, so fields that share
 # members are kept next to each other -- otherwise those members are drawn
 # stretching across the middle. Run tools/build_graph.py after editing.
+#
+# Each field carries a colour, used for its name, its hub, the spokes running
+# to it, and the ring around its members. All six are desaturated and of
+# similar weight so none of them takes over the page, and so they sit with the
+# navy and forest green the rest of the site is built from.
 
 fields:
   - key: science
     name: 자연과학·공학
     name_en: Natural Sciences & Engineering
+    color: "#55703c"
   - key: language
     name: 어문
     name_en: Language & Literature
+    color: "#3f4a8c"
   - key: arts
     name: 예술
     name_en: Arts
+    color: "#2f7a75"
   - key: history
     name: 역사
     name_en: History
+    color: "#a1734a"
   - key: politics
     name: 정치·사회
     name_en: Politics & Society
+    color: "#a05340"
   - key: philosophy
     name: 철학·사상
     name_en: Philosophy & Thought
+    color: "#6b4a73"
 
 members:
   김나원: [language]

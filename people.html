@@ -29,13 +29,15 @@ permalink: /people/
       <svg viewBox="{{ g.view_x }} {{ g.view_y }} {{ g.view_w }} {{ g.view_h }}" role="img">
         <g class="map-edges">
           {% for e in g.edges %}
-            <line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}"/>
+            <line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}" stroke="{{ e.color }}"/>
           {% endfor %}
         </g>
         <g class="map-fields">
           {% for f in g.fields %}
-            <circle class="map-hub" cx="{{ f.x }}" cy="{{ f.y }}" r="4"/>
-            <text x="{{ f.label_x }}" y="{{ f.label_y }}">
+            <line class="map-leader" x1="{{ f.x }}" y1="{{ f.y }}"
+                  x2="{{ f.label_x }}" y2="{{ f.label_y }}" stroke="{{ f.color }}"/>
+            <circle class="map-hub" cx="{{ f.x }}" cy="{{ f.y }}" r="6" fill="{{ f.color }}"/>
+            <text x="{{ f.label_x }}" y="{{ f.label_y }}" fill="{{ f.color }}">
               <tspan class="i18n-ko">{{ f.name }}</tspan><tspan class="i18n-en">{{ f.name_en }}</tspan>
             </text>
           {% endfor %}
@@ -56,7 +58,8 @@ permalink: /people/
           <a class="map-node" href="#{{ n.slug }}">
             <circle cx="{{ n.x }}" cy="{{ n.y }}" r="34"
                     fill="{% if photo %}url(#p-{{ n.slug }}){% else %}var(--paper){% endif %}"/>
-            <circle class="map-halo" cx="{{ n.x }}" cy="{{ n.y }}" r="34"/>
+            <circle class="map-halo" cx="{{ n.x }}" cy="{{ n.y }}" r="34" stroke="{{ n.color }}"/>
+            {% if n.color2 != "" %}<circle class="map-halo map-halo-2" cx="{{ n.x }}" cy="{{ n.y }}" r="39" stroke="{{ n.color2 }}"/>{% endif %}
             <text class="map-name" x="{{ n.x }}" y="{{ n.y | plus: 52 }}">
               <tspan class="i18n-ko">{{ n.name }}</tspan><tspan class="i18n-en">{{ n.name_en }}</tspan>
             </text>
@@ -100,6 +103,9 @@ permalink: /people/
 
 " %}
           <p class="i18n-en">{{ para_en[0] | strip | newline_to_br }}</p>
+          {% if person.link %}
+            <p class="person-contact"><a href="{{ person.link }}">{{ person.link_label | default: person.link }}</a></p>
+          {% endif %}
         </div>
       {% endfor %}
     </div>
