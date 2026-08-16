@@ -304,20 +304,15 @@ html[data-lang="en"] .i18n-ko { display: none; }
   color: var(--text-muted);
 }
 
-/* contact: first in the margin so it is easy to find, but stated rather than
-   explained -- a label and the address, no instruction to the reader */
-.contact-block { margin-bottom: 2.4rem; }
-.contact-block .aside-label { margin-bottom: 0.5rem; }
-
-.contact-email {
-  display: inline-block;
-  font-size: 0.95rem;
-  color: var(--navy);
-  border-bottom: 2px solid var(--green-dark);
-  padding-bottom: 1px;
+/* the address sits with the signature, since it reaches that person */
+.byline-contact {
+  margin: 0.35rem 0 0;
+  font-size: 0.86rem;
+}
+.byline-contact a {
+  color: var(--green-dark);
   word-break: break-all;
 }
-.contact-email:hover { text-decoration: none; }
 
 /* margin links: programmes and the foundation, one short note each */
 .lineage-item { margin-bottom: 1.5rem; }
