@@ -21,6 +21,7 @@
     <div class="header-bottom">
       <nav class="site-nav">
         <a href="{{ '/' | relative_url }}" class="{% if page.url == '/' %}active{% endif %}">Home</a>
+        <a href="{{ '/about/' | relative_url }}" class="{% if page.url == '/about/' %}active{% endif %}"><span class="i18n-ko">소개</span><span class="i18n-en">About</span></a>
         <a href="{{ '/people/' | relative_url }}" class="{% if page.url == '/people/' %}active{% endif %}"><span class="i18n-ko">사람들</span><span class="i18n-en">People</span></a>
         <a href="{{ '/seminar/' | relative_url }}" class="{% if page.url == '/seminar/' or page.collection == 'seminar' %}active{% endif %}"><span class="i18n-ko">세미나</span><span class="i18n-en">Seminar</span></a>
         <a href="{{ '/gallery/' | relative_url }}" class="{% if page.url == '/gallery/' %}active{% endif %}"><span class="i18n-ko">갤러리</span><span class="i18n-en">Gallery</span></a>

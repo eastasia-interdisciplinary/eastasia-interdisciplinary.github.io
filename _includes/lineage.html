@@ -1,0 +1,22 @@
+{%- comment -%}
+  The programmes and the foundation members come through. Shared by the home
+  and about pages so the two cannot drift apart. Content lives in
+  _data/home_links.yml.
+{%- endcomment -%}
+<div class="marginalia">
+  <h3 class="aside-label">
+    <span class="i18n-ko">함께하는 곳</span>
+    <span class="i18n-en">Affiliations</span>
+  </h3>
+
+  {% for link in site.data.home_links %}
+    <div class="lineage-item">
+      <a class="lineage-link" href="{{ link.url }}" target="_blank" rel="noopener">
+        <span class="i18n-ko">{{ link.name }}</span>
+        <span class="i18n-en">{{ link.name_en | default: link.name }}</span>
+      </a>
+      <p class="i18n-ko">{{ link.note }}</p>
+      <p class="i18n-en">{{ link.note_en | default: link.note }}</p>
+    </div>
+  {% endfor %}
+</div>

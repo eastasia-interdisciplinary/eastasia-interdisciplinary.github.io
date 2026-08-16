@@ -24,12 +24,22 @@
   bio_en: "I study the movement of religious ideas, art, and image cultures across East Asia. I am particularly interested in how people in premodern East Asia perceived the world around them—the heavens, the earth, and landscapes; how they understood the beings and environments with which they shared this world; and how they imagined worlds beyond it."
   sort_en: "kim jihyun"
 
+- name: "김채영"
+  name_en: "Chaeyoung Kim"
+  affiliation: "서울대학교"
+  affiliation_en: "Seoul National University"
+  field: "정치사상사"
+  field_en: "History of Political Thought"
+  email: "reddos23@snu.ac.kr"
+  bio: "서울대학교 정치외교학부에서 동아시아 정치사상사, 비교정치사상사를 공부합니다. 문학과 이미지를 함께 연구합니다."
+  bio_en: "I study the history of East Asian political thought and comparative histories of political thought in the Department of Political Science and International Relations at Seoul National University. My research also engages with literature and images."
+
 - name: "서은교"
   name_en: "Eunkyo Suh"
   affiliation: "연세대학교"
   affiliation_en: "Yonsei University"
   field: "사학과"
-  field_en: "Department of History"
+  field_en: "History"
   email: "suheunkyo@gmail.com"
   bio: |-
     조선 후기 사회경제사, 특히 상인과 상업 활동에 관심이 있습니다. 현재는 개성상인(송상)과 동래상인을 중심으로 이들의 자본 축적 방식과 행상 경로, 여러 지역에서 형성한 인적·상업적 관계망을 살펴보고자 합니다. 상인들의 이동과 거래, 지역적 연계를 통해 조선 후기 시장의 발달과 지역 간 교류의 양상을 탐구하는 데 관심이 있습니다.
@@ -46,7 +56,7 @@
   affiliation: "서울대학교"
   affiliation_en: "Seoul National University"
   field: "국사학과"
-  field_en: "Department of Korean History"
+  field_en: "Korean History"
   email: "diplomat2001@naver.com"
   bio: |-
     한국불교사를 전공하며 전근대 동아시아 불교사에 관심을 두고 있습니다. 불교는 단순한 신앙이나 사상에 그치지 않고 전근대 사람들의 일상과 사회를 구성하며 여러 지역과 국가를 연결한 중요한 기반이었다고 생각합니다.
@@ -67,7 +77,7 @@
   affiliation: "한양대학교"
   affiliation_en: "Hanyang University"
   field: "사학과"
-  field_en: "Department of History"
+  field_en: "History"
   email: "ahnjinho@hanyang.ac.kr"
   bio: "조선 재정사, 제도사 및 의례사에 관심을 두고 있으며, 이와 병행하여 한문 경학 및 한국 한문학을 탐구하고 있습니다."
   bio_en: "My academic interests include the fiscal, institutional, and ritual history of Chosŏn Korea, as well as an engagement with Confucian classical studies and Sino-Korean literature."
@@ -209,7 +219,7 @@
   affiliation: "고려대학교"
   affiliation_en: "Korea University"
   field: "일어일문학"
-  field_en: "Department of Japanese Language and Literature"
+  field_en: "Japanese Language and Literature"
   email: "chleego1004@gmail.com"
   bio: |-
     일본어학, 코퍼스 언어학, 통계 언어학 등의 분야에 관심을 가지고 있습니다. 일상적인 언어현상을 통계적 수법을 활용하여 분석하고 이를 통해 새로운 사실을 발견하는데 학문적 관심이 많습니다.
@@ -254,7 +264,7 @@
   affiliation: "고려대학교"
   affiliation_en: "Korea University"
   field: "역사학과"
-  field_en: "Historical studies"
+  field_en: "Historical Studies"
   email: "wjstpdms5611@gmail.com"
   bio: "조선 후기 한국사를 공부합니다. 정치사와 사회사를 중심으로, 가계와 정치 및 역사 인식에 관심을 가지고 있습니다. 최근에는 19세기 세도정치와 해당 시기 붕당 인식에 관심을 두고 있습니다."
   bio_en: "I study the history of the late Joseon period. With a primary focus on political and social history, my research interests lie in family lineages, politics, and historical perception. Recently, I have been particularly interested in 19th-century Sedo politics and the perception of Bungdang during that era."
@@ -276,7 +286,7 @@
   affiliation: "서울대학교"
   affiliation_en: "Seoul National University"
   field: "중어중문학과"
-  field_en: "Department of Chinese Language and Literature"
+  field_en: "Chinese Language and Literature"
   email: "jjw9286@snu.ac.kr"
   bio: "중국어 음성학, 음운론을 전공하고 있습니다. 분절음과 초분절음의 조음, 음향, 청취를 연구합니다. 음성 인식, 음성 합성, 언어 습득, 언어 교육, 중국어 방언 등의 분야에도 관심이 있습니다. 중국어 역사 음운론과 한국 한자음도 흥미롭게 공부하고 있습니다."
   bio_en: "I specialized in Chinese phonetics and phonology, with a focus on the articulatory, acoustic, and perceptual aspects of segmental and suprasegmental features. I am also interested in speech recognition and synthesis (STT, TTS), language acquisition and education, and Chinese dialectology. Furthermore, I have a strong interest in the historical phonology of Chinese and Korean Sino-Korean readings."
@@ -287,7 +297,7 @@
   affiliation: "고려대학교"
   affiliation_en: "Korea University"
   field: "국어국문학과 고전문학전공"
-  field_en: "Korean classical literature"
+  field_en: "Korean Classical Literature"
   email: "sally413@korea.ac.kr"
   bio: |-
     학부에서 국어국문학, 미디어학, 교육학, 디지털인문학을 공부하고 현재 고려대학교에서 한국고전서사를 공부하고 있다.
@@ -316,7 +326,7 @@
   affiliation: "경희대학교"
   affiliation_en: "Kyung Hee University"
   field: "사학과"
-  field_en: "Department of History"
+  field_en: "History"
   email: "wnsvy1115@daum.net"
   bio: "선사고고학을 전공하고자 하며, 석기기술. 수렵채집민. 후기구석기시대에 관심이 많습니다."
   bio_en: "I would like to major in prehistoric archaeology. I am also very interested in stone tool technology, Lithic analysis, hunter-gatherers, and the Late Paleolithic period."
@@ -327,7 +337,7 @@
   affiliation: "서울대학교"
   affiliation_en: "Seoul National University"
   field: "동양사학"
-  field_en: "Asian history"
+  field_en: "Asian History"
   email: "whyness@snu.ac.kr"
   bio: |-
     저는 주로 신화나 전설, 민간신앙 등에 관심이 있습니다. 현재는 중국 중세 사상사를 공부하고 있습니다. 어떤 이야기가 선택적으로 전해지면서 변형되는 현상과 그러한 선택 및 변화의 원인이 되는 원인을 연구하고자 합니다.

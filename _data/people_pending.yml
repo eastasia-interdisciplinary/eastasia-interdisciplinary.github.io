@@ -1,0 +1,20 @@
+# Members who are not in the latest survey export yet.
+#
+# tools/import_people.py merges these into _data/people.yml and sorts the whole
+# list 가나다순, so a late reply can go up without waiting for a fresh export.
+# When the person does appear in an export, that version wins and the entry
+# here can be deleted.
+#
+# Same keys as people.yml, plus `photo_drive_id` for tools/fetch_photos.py.
+# Keep values on one quoted line, or use a |- block for multiple paragraphs.
+
+- name: "김채영"
+  name_en: "Chaeyoung Kim"
+  affiliation: "서울대학교"
+  affiliation_en: "Seoul National University"
+  field: "정치사상사"
+  field_en: "History of Political Thought"
+  email: "reddos23@snu.ac.kr"
+  photo_drive_id: "1Di-qQDEQfDQXEVXYmLvQGq7a-lw7lgyt"
+  bio: "서울대학교 정치외교학부에서 동아시아 정치사상사, 비교정치사상사를 공부합니다. 문학과 이미지를 함께 연구합니다."
+  bio_en: "I study the history of East Asian political thought and comparative histories of political thought in the Department of Political Science and International Relations at Seoul National University. My research also engages with literature and images."

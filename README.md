@@ -76,6 +76,13 @@ The body may be left empty — entries with no write-up yet render a
 "요약 준비 중" note instead of a blank page, so sessions can be recorded
 before anyone has written them up.
 
+## Pages
+
+`/about/` carries the group's introduction, signed by the leader
+(`leader_name` / `leader_photo` in `_config.yml`). The home page keeps a
+short version and links through. The margin links on both pages come from
+`_data/home_links.yml`.
+
 ## Adding people
 
 Members live in `_data/people.yml`; `people.html` just loops over it.
@@ -88,10 +95,19 @@ python3 tools/import_people.py ~/Downloads/<survey export>.xlsx
 git diff _data/people.yml   # read the diff before committing
 ```
 
+Someone who replied after the export goes in `_data/people_pending.yml`
+using the same keys; the importer merges them in and sorts everything
+가나다순. Delete the entry once they appear in an export — the export wins
+on a name collision either way. Pending entries carry `photo_drive_id`,
+which `fetch_photos.py` uses in place of the export's photo column.
+
 Members are sorted 가나다순 in the file itself, so the rendered order does
-not depend on who answered the form first. The English view reorders them
-alphabetically by surname via CSS `order` and the generated `sort_en` key,
-so one set of markup serves both languages.
+not depend on who answered the form first, and both languages show the
+same order.
+
+Fields of study are normalised too: a leading "Department of" is dropped
+and the rest Title Cased, so "Department of History" and "Historical
+studies" end up in the same shape.
 
 Romanised names are normalised on import: Title Case, and reordered to
 given-name-first by matching a token against romanisations of the Korean
@@ -167,8 +183,7 @@ Then open http://127.0.0.1:4000/.
 
 ## Deployment
 
-Lives at [eastasia-interdisciplinary.github.io](https://eastasia-interdisciplinary.github.io/)
-via the `eastasia-interdisciplinary` GitHub org's special `<org>.github.io`
-repo. Pushing to `main` triggers `.github/workflows/pages.yml`, which
+Lives at [eastresearch.github.io](https://eastresearch.github.io/)
+via the `eastresearch` GitHub org's special `<org>.github.io` repo. Pushing to `main` triggers `.github/workflows/pages.yml`, which
 builds the site and deploys it via GitHub Actions. In the repo's
 **Settings → Pages**, the source is set to **GitHub Actions**.

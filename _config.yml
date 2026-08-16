@@ -1,6 +1,10 @@
 title: 동아시아학제연구회
 tagline: East Asian Studies & Transdisciplinary Research Group
 short_name_en: EAST Research Group # used where the full name would crowd a sentence
+leader_name: 이용우 # signs the introduction on /about/
+# Tighter crop of the same photo: his people-page portrait is a wide café
+# scene, which at byline size left him a small figure in it.
+leader_photo: yongwoo-yi-byline.jpg
 # Used for the meta description and link-preview text. Kept in step with the
 # group's own introduction on the home page.
 description: >-

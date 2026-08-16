@@ -100,16 +100,24 @@ def main():
     listing = folder_listing(sys.argv[2])
     os.makedirs(OUT_DIR, exist_ok=True)
 
+    # Late replies live in the pending file rather than the export; they carry
+    # their Drive id directly, so they are handled on the same footing here.
+    from import_people import PENDING_PATH, read_existing  # noqa: E402
+    rows = [(clean(r.get("B")), clean(r.get("C")), drive_id(clean(r.get("I"))))
+            for r in read_rows(sys.argv[1])]
+    exported = {n for n, _, _ in rows}
+    for name, entry in read_existing(PENDING_PATH).items():
+        if name not in exported and entry.get("photo_drive_id"):
+            rows.append((name, entry.get("name_en", ""), entry["photo_drive_id"]))
+
     lines, missing = [], []
-    for row in read_rows(sys.argv[1]):
-        name_ko = clean(row.get("B"))
-        fid = drive_id(clean(row.get("I")))
+    for name_ko, name_en_raw, fid in rows:
         mime = listing.get(fid, "")
         if not fid or not mime.startswith("image/"):
             missing.append(name_ko)
             continue
 
-        filename = "%s.jpg" % slugify(clean(row.get("C")), name_ko)
+        filename = "%s.jpg" % slugify(name_en_raw, name_ko)
         if download(fid, os.path.join(OUT_DIR, filename), CROPS.get(name_ko)):
             lines.append("%s: %s" % (name_ko, filename))
             print("  ok  %s -> %s" % (name_ko, filename))

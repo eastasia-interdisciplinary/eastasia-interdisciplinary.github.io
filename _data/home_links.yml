@@ -1,0 +1,26 @@
+# Links shown in the home page margin: the programmes and the foundation the
+# group's members come through. Order here is the order on the page.
+#
+# Keep `note` to one line — the margin is a pointer, not a description.
+
+- name: 한국고등교육재단
+  name_en: Korea Foundation for Advanced Studies
+  url: "https://www.kfas.or.kr"
+  note: 구성원들이 장학생으로 참여하고 있는 재단입니다.
+  note_en: The foundation whose scholarship recipients make up the group.
+
+- name: 문우림 (文友林)
+  name_en: Munwoorim (文友林)
+  url: "https://cvt.kfas.or.kr/intro/type1.php"
+  note: 동아시아 고전을 함께 읽고 한·중·일의 현장을 답사하는 재단의 학부생 프로그램입니다.
+  note_en: >-
+    The foundation's undergraduate programme, reading East Asian classics
+    together and visiting historical sites across Korea, China and Japan.
+
+- name: 동아시아연구 장학생
+  name_en: East Asia Research Scholarship
+  url: "https://cba.snu.ac.kr/newsroom/notice?md=v&bbsidx=24713"
+  note: 재단의 동아시아 연구 장학 과정입니다. 링크는 제4기 선발 안내입니다.
+  note_en: >-
+    The foundation's East Asia research scholarship. The link is the
+    announcement for its fourth cohort.

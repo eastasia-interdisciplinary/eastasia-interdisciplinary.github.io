@@ -263,10 +263,45 @@ html[data-lang="en"] .i18n-ko { display: none; }
 .intro { margin: 0 0 3.5rem; }
 .intro p { margin: 0 0 1.15rem; }
 
-.signature {
+/* signed introduction: the leader's photo beside the name, set apart from the
+   body text by a rule rather than by another heading */
+.byline {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--rule);
+}
+
+.byline-photo {
+  width: 76px;
+  height: 76px;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+
+.byline-name {
   font-family: var(--font-serif);
   color: var(--navy);
-  margin-top: 1.8rem !important;
+  font-size: 1.02rem;
+  margin: 0;
+}
+.byline-role {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+/* margin links: programmes and the foundation, one short note each */
+.lineage-item { margin-bottom: 1.5rem; }
+.lineage-item:last-child { margin-bottom: 0; }
+.lineage-item p {
+  margin: 0.2rem 0 0;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
 .post-preview {
@@ -414,11 +449,7 @@ article.post .back-link {
   padding-bottom: 2.6rem;
   border-bottom: 1px solid var(--rule);
 }
-/* Korean view follows the file's 가나다 order, English view sorts by the
-   romanised name. Every card keeps its rule, since with `order` in play the
-   visually last card is not the last one in the DOM. */
-html[data-lang="ko"] .people-grid .grid-card { order: var(--ko-order); }
-html[data-lang="en"] .people-grid .grid-card { order: var(--en-order); }
+.people-grid .grid-card:last-child { border-bottom: none; }
 
 .people-grid .grid-card p { line-height: 1.62; }
 .person-body { flex: 1 1 auto; min-width: 0; }
