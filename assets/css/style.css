@@ -287,16 +287,14 @@ html[data-lang="en"] .i18n-ko { display: none; }
 /* Text first, photo beside it: the sentence says what the group is, the
    photo shows it, and that is the order they should be read in. At full
    column width the faces dominated a page that is mostly text. */
-/* Text first, at the full width of the column: side by side, the name and
-   its English expansion could not fit on one line without shrinking the
-   photo further, and the name reading as one unbroken phrase matters more
-   than the two sitting shoulder to shoulder. */
+/* The introduction keeps the full column width, so the name and its English
+   expansion sit on one line. */
 .home-intro { margin-bottom: 3.2rem; }
-.home-intro .lede { margin: 0 0 1.8rem; }
+.home-intro .lede { margin: 0; }
 
+/* the photo is marginalia: supporting the page, not part of its argument */
 .home-photo {
-  margin: 0;
-  max-width: 520px;
+  margin: 0 0 2.4rem;
 }
 .home-photo img {
   display: block;

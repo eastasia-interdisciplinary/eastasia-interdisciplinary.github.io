@@ -12,10 +12,7 @@ layout: default
     <p class="i18n-en">{{ site.title }}, the <b class="acronym">E</b>ast <b class="acronym">A</b>sian <b class="acronym">S</b>tudies &amp; <b class="acronym">T</b>ransdisciplinary Research Group, began in August 2025 among scholarship recipients of the Korea Foundation for Advanced Studies. Members work in the humanities, social sciences, arts, natural sciences and engineering, and meet each month to present and discuss.</p>
     </div>
 
-    <figure class="home-photo">
-    <img src="{{ '/assets/images/home-gathering.jpg' | relative_url }}" alt="" loading="lazy">
-    </figure>
-  </div>
+    </div>
 
   <h2 class="section-label"><span class="i18n-ko">소식</span><span class="i18n-en">News</span></h2>
 
@@ -60,5 +57,14 @@ layout: default
 </main>
 
 <aside class="sidebar">
+  {%- comment -%}
+    The photo is supplementary, so it sits in the margin where this site puts
+    supplementary things, rather than interrupting the column that is being
+    read.
+  {%- endcomment -%}
+  <figure class="home-photo">
+    <img src="{{ '/assets/images/home-gathering.jpg' | relative_url }}" alt="" loading="lazy">
+    </figure>
+
   {% include lineage.html %}
 </aside>
