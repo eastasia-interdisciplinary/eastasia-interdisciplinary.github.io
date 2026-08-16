@@ -29,7 +29,8 @@ permalink: /people/
       <svg viewBox="{{ g.view_x }} {{ g.view_y }} {{ g.view_w }} {{ g.view_h }}" role="img">
         <g class="map-edges">
           {% for e in g.edges %}
-            <line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}" stroke="{{ e.color }}"/>
+            <line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}"
+                  stroke="{{ e.color }}" data-person="{{ e.person }}"/>
           {% endfor %}
         </g>
         <defs>
@@ -60,11 +61,11 @@ permalink: /people/
               running into the letters. One per language, since the two are
               different widths and only one shows at a time.
             {%- endcomment -%}
-            <rect class="map-chip i18n-ko" style="color: {{ f.color }}"
+            <rect class="map-chip i18n-ko" fill="{{ f.chip }}"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_ko }}" height="{{ f.chip_h }}"
                   transform="translate({{ f.w_ko | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="14"/>
-            <rect class="map-chip i18n-en" style="color: {{ f.color }}"
+            <rect class="map-chip i18n-en" fill="{{ f.chip }}"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_en }}" height="{{ f.chip_h }}"
                   transform="translate({{ f.w_en | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="14"/>
@@ -120,8 +121,8 @@ permalink: /people/
   </div>
 
   {%- comment -%}
-    Hover previews, click pins. Hover is CSS -- :has() on the node, one rule
-    per person. Pinning cannot be, because :target makes the browser scroll
+    Hover previews, click pins, and lights that person's own spokes while the
+    rest fall back. All CSS -- :has() on the node, two rules per person. Pinning cannot be, because :target makes the browser scroll
     the panel into view: measured at 452px of jump per click, which is the
     interruption this panel exists to avoid. So a click is intercepted and
     sets a class instead. Without JavaScript the href still works, with the
@@ -129,7 +130,8 @@ permalink: /people/
   {%- endcomment -%}
   <style>
     {% for person in site.data.people %}{% assign s = person.name_en | default: person.name | slugify %}
-    .people-explorer:has(.map-node[href="#{{ s }}"]:hover) #{{ s }} { display: block; }{% endfor %}
+    .people-explorer:has(.map-node[href="#{{ s }}"]:hover) #{{ s }} { display: block; }
+    .people-map svg:has(.map-node[href="#{{ s }}"]:hover) line[data-person="{{ s }}"] { stroke-opacity: 1; stroke-width: 3.5; }{% endfor %}
   </style>
 
   <script>

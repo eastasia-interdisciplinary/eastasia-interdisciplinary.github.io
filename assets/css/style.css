@@ -748,12 +748,7 @@ code {
 /* The name's own ground rather than a drawn border: a soft wash of the
    field's colour, no outline. The spokes still stop at an edge, but the edge
    is a change of tone instead of a ruled line. */
-.map-chip {
-  fill: currentColor;
-  stroke: none;
-  opacity: 0.1;
-}
-.map-fields g { color: inherit; }
+.map-chip { stroke: none; }
 
 .map-fields text {
   font-family: var(--font-serif);

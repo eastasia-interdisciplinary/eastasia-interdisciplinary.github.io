@@ -48,7 +48,14 @@ BRIDGE_SPACING = 92         # gap between members bridging the same two fields
 # under them. That is what pays for the larger nodes and the tighter map.
 NODE_RADIUS = 30            # keep in step with the r= in people.html
 MIN_SEPARATION = NODE_RADIUS * 2 + 44
-RELAX_STEPS = 400
+# Two spokes leaving the same field at nearly the same bearing are hard to
+# tell apart, however far apart their nodes are, so members are also kept
+# apart by angle as seen from their field.
+MIN_SPOKE_ANGLE = math.radians(19)
+# A spoke passing across someone else's portrait reads as a connection they
+# do not have, so unrelated nodes are pushed off the line.
+EDGE_CLEARANCE = NODE_RADIUS + 14
+RELAX_STEPS = 700
 NAME_DROP = 0
 
 
@@ -148,7 +155,7 @@ def place(fields, members):
 
 
 
-def relax(positions, labels=None, half_widths=None):
+def relax(positions, labels=None, half_widths=None, fields_of=None, centres=None):
     """Push overlapping nodes apart, pulling each back toward where it belongs.
 
     Placing by field and by bridge gets the structure right but says nothing
@@ -184,6 +191,60 @@ def relax(positions, labels=None, half_widths=None):
             x, y = positions[name]
             ix, iy = ideal[name]
             positions[name] = (x + (ix - x) * 0.06, y + (iy - y) * 0.06)
+
+        # spread the spokes leaving each field, so no two run along the same
+        # bearing; rotating around the hub keeps each spoke its own length
+        if fields_of and centres:
+            for key, (hx, hy) in centres.items():
+                mine = [n for n in names if key in fields_of.get(n, [])]
+                for i, a in enumerate(mine):
+                    for b in mine[i + 1:]:
+                        ax, ay = positions[a]
+                        bx, by = positions[b]
+                        angle_a = math.atan2(ay - hy, ax - hx)
+                        angle_b = math.atan2(by - hy, bx - hx)
+                        gap = (angle_b - angle_a + math.pi) % (2 * math.pi) - math.pi
+                        if abs(gap) >= MIN_SPOKE_ANGLE:
+                            continue
+                        turn = (MIN_SPOKE_ANGLE - abs(gap)) / 2
+                        turn = turn if gap >= 0 else -turn
+                        for name, sign in ((a, -1), (b, 1)):
+                            x, y = positions[name]
+                            dx, dy = x - hx, y - hy
+                            t = sign * turn
+                            positions[name] = (hx + dx * math.cos(t) - dy * math.sin(t),
+                                               hy + dx * math.sin(t) + dy * math.cos(t))
+                        moved = True
+
+        # keep spokes off portraits they have nothing to do with
+        if fields_of and centres:
+            for name in names:
+                px, py = positions[name]
+                for other in names:
+                    if other == name:
+                        continue
+                    for key in fields_of.get(other, []):
+                        if key in fields_of.get(name, []) and other == name:
+                            continue
+                        hx, hy = centres[key]
+                        ox, oy = positions[other]
+                        vx, vy = hx - ox, hy - oy
+                        length_sq = vx * vx + vy * vy
+                        if length_sq < 1:
+                            continue
+                        t = max(0.0, min(1.0, ((px - ox) * vx + (py - oy) * vy) / length_sq))
+                        cx, cy = ox + t * vx, oy + t * vy
+                        dx, dy = px - cx, py - cy
+                        distance = math.hypot(dx, dy)
+                        if distance >= EDGE_CLEARANCE or 0.02 > t or t > 0.98:
+                            continue
+                        if distance < 1e-6:
+                            dx, dy, distance = -vy, vx, math.hypot(vx, vy)
+                        push = EDGE_CLEARANCE - distance
+                        px += dx / distance * push
+                        py += dy / distance * push
+                        positions[name] = (px, py)
+                        moved = True
 
         # and last, out of the field names. Radially, away from the centre the
         # ring already runs around, so it cannot bounce a node into the next
@@ -286,6 +347,25 @@ def place_labels(fields, centres, positions):
     return {f["key"]: centres[f["key"]] for f in fields}
 
 
+PAGE_BG = (0xf6, 0xf4, 0xec)   # --bg; keep in step with the stylesheet
+CHIP_TINT = 0.13               # how much of the field's colour the chip carries
+
+
+def chip_colour(hex_colour):
+    """The field's colour mixed into the page colour, as a solid.
+
+    A translucent chip let the spokes show straight through it, which read as
+    lines running over the name. Blending here instead means the chip is
+    opaque -- it hides what passes behind it -- while still looking like a
+    wash rather than a filled box.
+    """
+    value = hex_colour.lstrip("#")
+    rgb = tuple(int(value[i:i + 2], 16) for i in (0, 2, 4))
+    mixed = tuple(round(bg * (1 - CHIP_TINT) + fg * CHIP_TINT)
+                  for bg, fg in zip(PAGE_BG, rgb))
+    return "#%02x%02x%02x" % mixed
+
+
 def colour_of(fields, key):
     for field in fields:
         if field["key"] == key:
@@ -335,7 +415,7 @@ def spokes(members, positions, centres):
     for name in sorted(positions):
         for key in members.get(name, []):
             if key in centres:
-                out.append((positions[name], centres[key], key))
+                out.append((positions[name], centres[key], key, name))
     return out
 
 
@@ -360,7 +440,7 @@ def main():
     # fixed box would clip it.
     half_widths = {f["key"]: label_half_width(f) for f in fields}
     labels = place_labels(fields, centres, positions)
-    relax(positions, labels, half_widths)
+    relax(positions, labels, half_widths, members, centres)
     nudge_labels(labels, centres, positions, half_widths)
 
 
@@ -385,6 +465,7 @@ def main():
         w_en = len(field.get("name_en", "")) * LABEL_FONT * 0.47 + 26
         lines += ['  - key: "%s"' % field["key"],
                   '    color: "%s"' % field.get("color", "#55703c"),
+                  '    chip: "%s"' % chip_colour(field.get("color", "#55703c")),
                   "    w_ko: %.1f" % w_ko, "    w_en: %.1f" % w_en,
                   "    chip_h: %d" % (LABEL_HALF_H * 2 + 12),
                   "    label_x: %.1f" % lx, "    label_y: %.1f" % ly,
@@ -417,11 +498,13 @@ def main():
                                         if len(members.get(name, [])) > 1 else ""),
                   "    x: %.1f" % x, "    y: %.1f" % y]
 
-    lines += ["", "edges:"]
-    for (ax, ay), (bx, by), key in spokes(members, positions, centres):
+    lines += ["", "edges:"]  # each carries who it belongs to, for hover
+    for (ax, ay), (bx, by), key, who in spokes(members, positions, centres):
         lines += ["  - x1: %.1f" % ax, "    y1: %.1f" % ay,
                   "    x2: %.1f" % bx, "    y2: %.1f" % by,
-                  '    color: "%s"' % colour_of(fields, key)]
+                  '    color: "%s"' % colour_of(fields, key),
+                  '    person: "%s"' % re.sub(r"[^a-z0-9]+", "-",
+                                              people[who].get("name_en", who).lower()).strip("-")]
 
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
