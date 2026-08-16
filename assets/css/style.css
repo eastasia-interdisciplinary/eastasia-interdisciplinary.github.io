@@ -76,9 +76,9 @@ html[data-lang="en"] .i18n-ko { display: none; }
 .hero-img {
   display: block;
   width: 100%;
-  height: 40vh;
-  min-height: 280px;
-  max-height: 440px;
+  height: 34vh;
+  min-height: 240px;
+  max-height: 360px;
   object-fit: cover;
   /* The band of misty ridges rather than the summit: anchored high the peak
      sat flush against the top edge, and lower down the crop cut through the
@@ -105,20 +105,18 @@ html[data-lang="en"] .i18n-ko { display: none; }
 .hero-inner .site-title { color: #fff; }
 .hero-inner .site-tagline { color: var(--green-pale); }
 
-/* inner pages: a band rather than a full painting */
+/* Inner pages get a shallower band, but the name, mark and tagline stay the
+   size they are on the home page. Resizing those too made the whole masthead
+   appear to zoom on every navigation, which is what read as jarring; only the
+   depth of the painting changes now. */
 .site-header--inner .hero-img {
-  height: 168px;
+  height: 220px;
   min-height: 0;
-  max-height: 168px;
-  object-position: center 62%; /* same band as the home banner */
+  max-height: 220px;
 }
-.site-header--inner .hero-inner { padding-bottom: 1.1rem; }
-.site-header--inner .site-title { font-size: clamp(1.3rem, 3.4vw, 1.9rem); }
-.site-header--inner .brand-mark { font-size: clamp(1.2rem, 2.6vw, 1.6rem); }
-.site-header--inner .site-tagline { font-size: 0.8rem; margin-top: 0.2rem; }
 
 @media (max-width: 640px) {
-  .site-header--inner .hero-img { height: 116px; max-height: 116px; }
+  .site-header--inner .hero-img { height: 150px; max-height: 150px; }
 }
 
 .brand {
