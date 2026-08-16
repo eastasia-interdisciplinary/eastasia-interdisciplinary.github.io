@@ -769,13 +769,20 @@ code {
 }
 .map-halo-2 { stroke-width: 2.5; }
 
-/* Hovering one person sets the others back. By desaturating them, not by
-   making them transparent: at reduced opacity the spokes showed straight
-   through the portraits, which looked like a rendering fault. */
-.people-map svg:hover .map-node circle { filter: grayscale(0.92); }
-.people-map svg:hover .map-node:hover circle { filter: none; }
-.people-map svg:hover .map-edges line { stroke-opacity: 0.18; }
-.people-map svg:hover .map-node:hover .map-halo { stroke-width: 4.5; }
+/* Attending to one person sets everything else back: their portrait, their
+   spokes and the fields they work in stay, so what is left standing is
+   exactly their place in the group. Desaturating rather than fading, because
+   at reduced opacity the spokes showed straight through the portraits. */
+.map-fields g,
+.map-edges line { transition: opacity 0.15s ease, stroke-opacity 0.15s ease; }
+
+.map-node.is-lit .map-halo { stroke-width: 4.5; }
+.people-map svg.is-dimmed .map-node circle { filter: grayscale(0.92); }
+.people-map svg.is-dimmed .map-node.is-lit circle { filter: none; }
+.people-map svg.is-dimmed .map-edges line { stroke-opacity: 0.16; }
+.people-map svg.is-dimmed .map-edges line.is-lit { stroke-opacity: 1; stroke-width: 3.5; }
+.people-map svg.is-dimmed .map-fields g { opacity: 0.28; }
+.people-map svg.is-dimmed .map-fields g.is-lit { opacity: 1; }
 
 /* map and panel side by side; the page gives up its margin column for this */
 .people-explorer {
@@ -808,7 +815,6 @@ code {
 /* When a person is showing, the note about the group steps back rather than
    being fenced off by a rule -- the panel is about one thing at a time. */
 .panel-note { transition: opacity 0.18s ease; }
-.people-explorer:has(.map-node:hover) .panel-note,
 .people-explorer:has(.person-detail:target) .panel-note,
 .people-explorer.has-selection .panel-note { opacity: 0.35; }
 
@@ -816,9 +822,7 @@ code {
 /* hidden until hovered or chosen; :has() lets a hover override the pinned one */
 .person-detail { display: none; }
 .person-detail:target,
-.person-detail.is-selected { display: block; }
-.people-explorer:has(.map-node:hover) .person-detail:target,
-.people-explorer:has(.map-node:hover) .person-detail.is-selected { display: none; }
+.person-detail.showing { display: block; }
 .panel-more { display: none; }
 
 .person-detail img {

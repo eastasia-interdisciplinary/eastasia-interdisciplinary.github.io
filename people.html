@@ -46,7 +46,7 @@ permalink: /people/
         </defs>
         {% for n in g.nodes %}
           {% assign photo = site.data.people_photos[n.name] %}
-          <a class="map-node" href="#{{ n.slug }}">
+          <a class="map-node" href="#{{ n.slug }}" data-fields="{{ n.fields }}">
             <circle cx="{{ n.x }}" cy="{{ n.y }}" r="30"
                     fill="{% if photo %}url(#p-{{ n.slug }}){% else %}var(--paper){% endif %}"/>
             <circle class="map-halo" cx="{{ n.x }}" cy="{{ n.y }}" r="30" stroke="{{ n.color }}"/>
@@ -61,6 +61,7 @@ permalink: /people/
               running into the letters. One per language, since the two are
               different widths and only one shows at a time.
             {%- endcomment -%}
+            <g data-field="{{ f.key }}">
             <rect class="map-chip i18n-ko" fill="{{ f.chip }}"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_ko }}" height="{{ f.chip_h }}"
@@ -72,6 +73,7 @@ permalink: /people/
             <text x="{{ f.label_x }}" y="{{ f.label_y }}" fill="{{ f.color }}">
               <tspan class="i18n-ko">{{ f.name }}</tspan><tspan class="i18n-en">{{ f.name_en }}</tspan>
             </text>
+            </g>
           {% endfor %}
         </g>
       </svg>
@@ -121,36 +123,61 @@ permalink: /people/
   </div>
 
   {%- comment -%}
-    Hover previews, click pins, and lights that person's own spokes while the
-    rest fall back. All CSS -- :has() on the node, two rules per person. Pinning cannot be, because :target makes the browser scroll
-    the panel into view: measured at 452px of jump per click, which is the
-    interruption this panel exists to avoid. So a click is intercepted and
-    sets a class instead. Without JavaScript the href still works, with the
-    scroll; the map is decorative either way.
-  {%- endcomment -%}
-  <style>
-    {% for person in site.data.people %}{% assign s = person.name_en | default: person.name | slugify %}
-    .people-explorer:has(.map-node[href="#{{ s }}"]:hover) #{{ s }} { display: block; }
-    .people-map svg:has(.map-node[href="#{{ s }}"]:hover) line[data-person="{{ s }}"] { stroke-opacity: 1; stroke-width: 3.5; }{% endfor %}
-  </style>
+    Hover previews and lights that person's own spokes and fields; click pins
+    them, and clicking again lets go. Done in script rather than :hover and
+    :has(), which needed two generated rules per person and could not be
+    verified -- this can, by dispatching events at it.
 
+    Without JavaScript the anchor still works and the list below is unaffected;
+    the map is decorative either way.
+  {%- endcomment -%}
   <script>
     (function () {
       var explorer = document.querySelector(".people-explorer");
       if (!explorer) return;
-      explorer.addEventListener("click", function (event) {
-        var node = event.target.closest(".map-node");
-        if (!node) return;
-        var id = (node.getAttribute("href") || "").slice(1);
-        var card = document.getElementById(id);
-        if (!card) return;
-        event.preventDefault();   // the jump is the whole problem
-        var wasPinned = card.classList.contains("is-selected");
-        explorer.querySelectorAll(".person-detail.is-selected")
-          .forEach(function (el) { el.classList.remove("is-selected"); });
-        // clicking whoever is already pinned lets go of them
-        explorer.classList.toggle("has-selection", !wasPinned);
-        if (!wasPinned) card.classList.add("is-selected");
+      var svg = explorer.querySelector("svg");
+      var pinned = null;
+
+      function light(slug, fields) {
+        explorer.querySelectorAll(".is-lit").forEach(function (el) {
+          el.classList.remove("is-lit");
+        });
+        if (!slug) { svg.classList.remove("is-dimmed"); return; }
+        svg.classList.add("is-dimmed");
+        var node = svg.querySelector('.map-node[href="#' + slug + '"]');
+        if (node) node.classList.add("is-lit");
+        svg.querySelectorAll('line[data-person="' + slug + '"]').forEach(function (line) {
+          line.classList.add("is-lit");
+        });
+        (fields || "").split(" ").forEach(function (key) {
+          var group = key && svg.querySelector('g[data-field="' + key + '"]');
+          if (group) group.classList.add("is-lit");
+        });
+      }
+
+      function show(slug) {
+        explorer.querySelectorAll(".person-detail.showing").forEach(function (el) {
+          el.classList.remove("showing");
+        });
+        var card = slug && document.getElementById(slug);
+        if (card) card.classList.add("showing");
+        explorer.classList.toggle("has-selection", !!slug);
+      }
+
+      svg.querySelectorAll(".map-node").forEach(function (node) {
+        var slug = (node.getAttribute("href") || "").slice(1);
+        var fields = node.getAttribute("data-fields") || "";
+        node.addEventListener("mouseenter", function () { light(slug, fields); show(slug); });
+        node.addEventListener("mouseleave", function () {
+          light(pinned && pinned.slug, pinned && pinned.fields);
+          show(pinned && pinned.slug);
+        });
+        node.addEventListener("click", function (event) {
+          event.preventDefault();   // the jump this panel exists to avoid
+          pinned = (pinned && pinned.slug === slug) ? null : { slug: slug, fields: fields };
+          light(pinned && pinned.slug, pinned && pinned.fields);
+          show(pinned && pinned.slug);
+        });
       });
     })();
   </script>
