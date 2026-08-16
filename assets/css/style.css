@@ -725,7 +725,16 @@ code {
   padding-bottom: 2.6rem;
   border-bottom: 1px solid var(--rule);
 }
-.people-map svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* The map is a diagram, not a picture to fill the screen with: past a point
+   the portraits just get bigger without saying more, and on a wide display it
+   ran off the bottom of the window. */
+.people-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  overflow: visible;
+}
 
 /* Each spoke takes its field's colour, set per line in the markup. No stroke
    colour here on purpose: a CSS declaration overrides an SVG presentation
@@ -736,18 +745,21 @@ code {
   stroke-width: 2;
 }
 
+/* the name's own boundary: spokes meet this edge rather than the letters */
+.map-chip {
+  fill: var(--bg);
+  stroke-width: 1.5;
+  stroke-opacity: 0.55;
+}
+
 .map-fields text {
   font-family: var(--font-serif);
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 700;
   text-anchor: middle;
   dominant-baseline: middle;
   /* a halo in the page colour, so a name stays legible where it crosses the
      spokes running into its own hub */
-  paint-order: stroke;
-  stroke: var(--bg);
-  stroke-width: 6px;
-  stroke-linejoin: round;
 }
 
 

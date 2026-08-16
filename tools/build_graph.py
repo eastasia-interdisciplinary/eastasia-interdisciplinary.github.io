@@ -33,7 +33,7 @@ OUT_PATH = "_data/people_graph.yml"
 WIDTH, HEIGHT = 1020, 720
 CENTRE = (WIDTH / 2, HEIGHT / 2)
 FIELD_RADIUS = (330, 235)   # ellipse the field centres sit on
-MEMBER_RING = 118           # smallest orbit for a field's members
+MEMBER_RING = 104           # smallest orbit for a field's members
 SPACING_PER_MEMBER = 24     # orbit grows with the size of the field
 LABEL_OFFSET = 46           # field name, kept against its hub
 LABEL_ARC = math.radians(96)  # slice of each ring kept clear for that name
@@ -46,7 +46,7 @@ BRIDGE_SPACING = 74         # gap between members bridging the same two fields
 # Nodes carry no name -- hovering one puts the person in the panel -- so the
 # spacing only has to keep the portraits apart, not the words that used to sit
 # under them. That is what pays for the larger nodes and the tighter map.
-NODE_RADIUS = 44            # keep in step with the r= in people.html
+NODE_RADIUS = 30            # keep in step with the r= in people.html
 MIN_SEPARATION = NODE_RADIUS * 2 + 20
 RELAX_STEPS = 400
 NAME_DROP = 0
@@ -212,7 +212,7 @@ def relax(positions, labels=None, half_widths=None):
 
 
 LABEL_HALF_H = 20
-LABEL_FONT = 26          # keep in step with .map-fields text in the CSS
+LABEL_FONT = 32          # keep in step with .map-fields text in the CSS
 
 
 def label_clear(x, y, half_w, positions):
@@ -379,8 +379,14 @@ def main():
     for field in fields:
         x, y = centres[field["key"]]
         lx, ly = labels[field["key"]]
+        # widths for the chip drawn behind the name, one per language since
+        # only one is ever showing
+        w_ko = len(field.get("name", "")) * LABEL_FONT + 26
+        w_en = len(field.get("name_en", "")) * LABEL_FONT * 0.47 + 26
         lines += ['  - key: "%s"' % field["key"],
                   '    color: "%s"' % field.get("color", "#55703c"),
+                  "    w_ko: %.1f" % w_ko, "    w_en: %.1f" % w_en,
+                  "    chip_h: %d" % (LABEL_HALF_H * 2 + 12),
                   "    label_x: %.1f" % lx, "    label_y: %.1f" % ly,
                   '    name: "%s"' % field.get("name", field["key"]),
                   '    name_en: "%s"' % field.get("name_en", field.get("name", field["key"])),

@@ -46,15 +46,28 @@ permalink: /people/
         {% for n in g.nodes %}
           {% assign photo = site.data.people_photos[n.name] %}
           <a class="map-node" href="#{{ n.slug }}">
-            <circle cx="{{ n.x }}" cy="{{ n.y }}" r="44"
+            <circle cx="{{ n.x }}" cy="{{ n.y }}" r="30"
                     fill="{% if photo %}url(#p-{{ n.slug }}){% else %}var(--paper){% endif %}"/>
-            <circle class="map-halo" cx="{{ n.x }}" cy="{{ n.y }}" r="44" stroke="{{ n.color }}"/>
-            {% if n.color2 != "" %}<circle class="map-halo map-halo-2" cx="{{ n.x }}" cy="{{ n.y }}" r="50" stroke="{{ n.color2 }}"/>{% endif %}
+            <circle class="map-halo" cx="{{ n.x }}" cy="{{ n.y }}" r="30" stroke="{{ n.color }}"/>
+            {% if n.color2 != "" %}<circle class="map-halo map-halo-2" cx="{{ n.x }}" cy="{{ n.y }}" r="35" stroke="{{ n.color2 }}"/>{% endif %}
           </a>
         {% endfor %}
         {%- comment -%} drawn last so a name is never buried under a portrait {%- endcomment -%}
         <g class="map-fields">
           {% for f in g.fields %}
+            {%- comment -%}
+              A chip behind the name, so the spokes stop at an edge instead of
+              running into the letters. One per language, since the two are
+              different widths and only one shows at a time.
+            {%- endcomment -%}
+            <rect class="map-chip i18n-ko" stroke="{{ f.color }}"
+                  x="{{ f.label_x }}" y="{{ f.label_y }}"
+                  width="{{ f.w_ko }}" height="{{ f.chip_h }}"
+                  transform="translate({{ f.w_ko | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="7"/>
+            <rect class="map-chip i18n-en" stroke="{{ f.color }}"
+                  x="{{ f.label_x }}" y="{{ f.label_y }}"
+                  width="{{ f.w_en }}" height="{{ f.chip_h }}"
+                  transform="translate({{ f.w_en | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="7"/>
             <text x="{{ f.label_x }}" y="{{ f.label_y }}" fill="{{ f.color }}">
               <tspan class="i18n-ko">{{ f.name }}</tspan><tspan class="i18n-en">{{ f.name_en }}</tspan>
             </text>
@@ -130,10 +143,12 @@ permalink: /people/
         var card = document.getElementById(id);
         if (!card) return;
         event.preventDefault();   // the jump is the whole problem
+        var wasPinned = card.classList.contains("is-selected");
         explorer.querySelectorAll(".person-detail.is-selected")
           .forEach(function (el) { el.classList.remove("is-selected"); });
-        card.classList.add("is-selected");
-        explorer.classList.add("has-selection");
+        // clicking whoever is already pinned lets go of them
+        explorer.classList.toggle("has-selection", !wasPinned);
+        if (!wasPinned) card.classList.add("is-selected");
       });
     })();
   </script>
