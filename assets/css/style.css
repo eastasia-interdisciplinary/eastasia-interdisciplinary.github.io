@@ -274,12 +274,22 @@ html[data-lang="en"] .i18n-ko { display: none; }
 }
 
 .byline-photo {
-  width: 76px;
-  height: 76px;
+  width: 124px;
+  height: 124px;
   object-fit: cover;
   object-position: center 30%;
   border-radius: 2px;
   flex: 0 0 auto;
+}
+
+.home-photo {
+  margin: 0 0 3.2rem;
+}
+.home-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
 }
 
 .byline-name {
@@ -553,17 +563,20 @@ article.post .back-link {
 
 /* ---------- gallery ---------- */
 
+/* Uniform 4:3 tiles. The uploads mix landscape and portrait, and left at
+   their own heights one tall frame stretched a whole row. */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 2rem 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.6rem 1.4rem;
 }
 
 .gallery-item { margin: 0; }
 .gallery-item img {
   display: block;
   width: 100%;
-  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
   border-radius: 2px;
 }
 

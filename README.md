@@ -81,7 +81,8 @@ before anyone has written them up.
 `/about/` carries the group's introduction, signed by the leader
 (`leader_name` / `leader_photo` in `_config.yml`). The home page keeps a
 short version and links through. The margin links on both pages come from
-`_data/home_links.yml`.
+`_data/home_links.yml`. The home page also carries one group photo,
+`assets/images/home-gathering.jpg`, prepared the same way.
 
 ## Adding people
 
@@ -152,8 +153,15 @@ that never gets published.
 
 ## Adding gallery photos
 
-Put the image in `assets/images/gallery/` and add an entry to
-`_data/gallery.yml`; the page lists them newest first and shows a
+Run the photo through the preparer first — phone photos carry their
+rotation as an EXIF tag rather than in the pixels, and `sips -r` alone
+leaves the tag in place and produces a doubly-rotated file:
+
+```bash
+python3 tools/prepare_photo.py <source> assets/images/gallery/<name>.jpg 1400
+```
+
+Then add an entry to `_data/gallery.yml`; the page lists them newest first and shows a
 "모으는 중" note while the file is empty. Photos of people other than
 whoever is posting need their consent first — unlike the profile
 photos, nobody submitted these of themselves.

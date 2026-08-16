@@ -27,13 +27,15 @@ permalink: /about/
   {% assign leader_photo = site.leader_photo | default: site.data.people_photos[site.leader_name] %}
   <div class="byline">
     {% if leader_photo %}
-      <img class="byline-photo" src="{{ '/assets/images/people/' | append: leader_photo | relative_url }}"
-           alt="{{ site.leader_name }}">
+      <a href="{{ '/people/' | relative_url }}#{{ leader.name_en | default: site.leader_name | slugify }}">
+        <img class="byline-photo" src="{{ '/assets/images/people/' | append: leader_photo | relative_url }}"
+             alt="{{ site.leader_name }}">
+      </a>
     {% endif %}
     <div>
       <p class="byline-name">
-        {%- comment -%} name doubles as the contact link, as on the people page {%- endcomment -%}
-        <a href="mailto:{{ site.contact_email }}" title="{{ site.contact_email }}">
+        {%- comment -%} links through to his entry on the people page {%- endcomment -%}
+        <a href="{{ '/people/' | relative_url }}#{{ leader.name_en | default: site.leader_name | slugify }}">
           <span class="i18n-ko">{{ site.leader_name }}</span>
           <span class="i18n-en">{{ leader.name_en | default: site.leader_name }}</span>
         </a>

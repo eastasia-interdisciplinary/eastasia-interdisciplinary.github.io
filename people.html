@@ -9,7 +9,7 @@ permalink: /people/
   <div class="card-grid people-grid">
     {% for person in site.data.people %}
       {% assign photo = site.data.people_photos[person.name] %}
-      <div class="grid-card person">
+      <div class="grid-card person" id="{{ person.name_en | default: person.name | slugify }}">
         <div class="person-photo">
           {% if photo %}
             <img src="{{ '/assets/images/people/' | append: photo | relative_url }}" alt="{{ person.name }}">

@@ -1,13 +1,15 @@
 # Gallery entries, newest first. Rendered by gallery.html.
 #
 # Each entry needs an image in assets/images/gallery/ (filenames must not start
-# with an underscore -- Jekyll skips those). Caption fields are optional; the
-# Korean one is used for English too when caption_en is missing.
+# with an underscore -- Jekyll skips those). `date` and `caption` are optional;
+# the Korean caption is used for English too when caption_en is missing.
+#
+# Run photos through tools/prepare_photo.py first: it bakes the phone's
+# rotation into the pixels and downscales, so nothing depends on a viewer
+# honouring the EXIF tag.
 #
 # Photos of people other than the poster need their consent before going up:
 # unlike the profile photos, nobody submitted these of themselves.
-#
-# - image: 2026-08-seminar.jpg
-#   date: 2026-08-13
-#   caption: 2026년 8월 세미나
-#   caption_en: August 2026 seminar
+
+- image: gathering-long-table.jpg
+- image: gathering-table.jpg
