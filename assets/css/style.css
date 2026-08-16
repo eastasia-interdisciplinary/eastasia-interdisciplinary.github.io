@@ -221,6 +221,9 @@ html[data-lang="en"] .i18n-ko { display: none; }
   gap: 3rem;
 }
 
+/* a page that gives up its margin column, for the people map */
+.main-col--wide { grid-column: 1 / -1; }
+
 /* one meaningful divider — between the two columns, not one per item */
 .sidebar {
   border-left: 2px solid var(--green-dark);
@@ -289,12 +292,15 @@ html[data-lang="en"] .i18n-ko { display: none; }
    column width the faces dominated a page that is mostly text. */
 /* The introduction keeps the full column width, so the name and its English
    expansion sit on one line. */
-.home-intro { margin-bottom: 3.2rem; }
+.home-intro { margin-bottom: 1.8rem; }
 .home-intro .lede { margin: 0; }
 
-/* the photo is marginalia: supporting the page, not part of its argument */
+/* With the introduction, under it rather than beside it: the name and its
+   English expansion need the full column width to stay on one line. Held to
+   a size that reads as a supporting photograph, not a section of the page. */
 .home-photo {
-  margin: 0 0 2.4rem;
+  margin: 0 0 3.2rem;
+  max-width: 360px;
 }
 .home-photo img {
   display: block;
@@ -741,6 +747,8 @@ code {
   stroke: var(--rule);
   stroke-width: 1.5;
 }
+html[data-lang="en"] .map-name { font-size: 12.5px; }
+
 .map-name {
   font-family: var(--font-sans);
   font-size: 14px;
@@ -761,6 +769,66 @@ code {
 }
 .people-map svg:hover .map-node:hover .map-name { fill: var(--navy); font-weight: 700; }
 
+/* map and panel side by side; the page gives up its margin column for this */
+.people-explorer {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 3.4rem;
+  padding-bottom: 2.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+.people-explorer .people-map {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.people-panel {
+  flex: 0 0 300px;
+  position: sticky;
+  top: 2rem;
+  min-height: 320px;
+}
+/* the rule belongs to the card, not the column: an empty bordered column
+   reads as something failing to load */
+.person-detail {
+  border-left: 2px solid var(--green-dark);
+  padding-left: 1.5rem;
+}
+
+/* hidden until hovered or chosen; :has() lets a hover override the pinned one */
+.person-detail { display: none; }
+.person-detail:target,
+.person-detail.is-selected { display: block; }
+.people-explorer:has(.map-node:hover) .person-detail:target,
+.people-explorer:has(.map-node:hover) .person-detail.is-selected { display: none; }
+.panel-more { display: none; }
+
+.person-detail img {
+  display: block;
+  width: 116px;
+  height: 155px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 2px;
+  margin-bottom: 0.8rem;
+}
+.person-detail h3 {
+  font-family: var(--font-serif);
+  color: var(--navy);
+  font-size: 1.05rem;
+  margin: 0 0 0.15rem;
+}
+.person-detail p { font-size: 0.88rem; line-height: 1.62; margin: 0.4rem 0 0; }
+.panel-more { font-size: 0.82rem !important; margin-top: 0.8rem !important; }
+
+@media (max-width: 900px) {
+  .people-explorer { display: block; }
+  .people-panel { display: none; }
+}
 @media (max-width: 720px) {
-  .people-map { display: none; }
+  .people-explorer { display: none; }
 }

@@ -10,9 +10,9 @@
 # stretching across the middle. Run tools/build_graph.py after editing.
 
 fields:
-  - key: computation
-    name: 계산·기술
-    name_en: Computation
+  - key: science
+    name: 자연과학·공학
+    name_en: Natural Sciences & Engineering
   - key: language
     name: 어문
     name_en: Language & Literature
@@ -38,10 +38,10 @@ members:
   안진호: [history]
   엄윤주: [language]
   유미르: [language]
-  유하린: [language, computation] # 국어교육 + 소프트웨어
+  유하린: [language, science]     # 국어교육 + 소프트웨어
   윤오산하: [language]
   이나현: [politics]
-  이용우: [philosophy]
+  이용우: [philosophy, science]  # 철학 + 물리학
   이유경: [arts, history]        # 한국음악사
   이찬희: [language]
   이한석: [philosophy]
@@ -49,6 +49,6 @@ members:
   정우형: [politics, history]
   정재우: [language]
   정채연: [language]
-  조민경: [computation, language] # 자연어처리
+  조민경: [science, language]     # 자연어처리
   진준표: [history]
   황승혁: [history, philosophy]   # 동양사학 · 사상사

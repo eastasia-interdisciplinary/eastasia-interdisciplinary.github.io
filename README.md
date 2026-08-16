@@ -215,8 +215,18 @@ Positions are computed there and written to `_data/people_graph.yml`, so
 the page ships a finished SVG rather than settling a layout in the browser.
 The order of `fields` decides where they sit around the map — keep fields
 that share members next to each other, or those members are drawn stretching
-across the middle. The map is hidden below 720px and from assistive
-technology; the list underneath is the real content.
+across the middle. Hovering a node previews that person in the panel beside the map and
+clicking pins them there. The click is intercepted by a few lines of
+script: left to `:target` the browser scrolls the panel into view, which
+measured at 452px of jump per click — the interruption the panel exists to
+avoid. Without JavaScript the anchor still works, with the scroll.
+
+Node positions are relaxed after placement so names do not collide. English
+names are much wider than Korean ones ("Seunghyeok Hwang" against 황승혁),
+so the spacing is sized for the longer of the two.
+
+The map is hidden below 720px and from assistive technology; the list
+underneath is the real content.
 
 ## Deployment
 

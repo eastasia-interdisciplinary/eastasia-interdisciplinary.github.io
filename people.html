@@ -3,7 +3,7 @@ layout: default
 title: 사람들
 permalink: /people/
 ---
-<main class="main-col">
+<main class="main-col main-col--wide">
   <h2 class="section-label"><span class="i18n-ko">사람들</span><span class="i18n-en">People</span></h2>
 
 
@@ -14,14 +14,19 @@ permalink: /people/
     shows. Positions come from tools/build_graph.py, so this is a finished
     SVG: no layout library, nothing settling on load, same picture every time.
 
-    The list below is the real content; this is a way into it. Hidden from
-    assistive technology, which gets the list, and from narrow screens, where
-    a 22-node map is unreadable.
+    Clicking a node fills the panel beside it rather than jumping down the
+    page, so reading through the group does not mean scrolling back up each
+    time. That is :target, so it needs no script.
+
+    The list below is the real content; this is a way into it. The map is
+    hidden from assistive technology, which gets the list, and from narrow
+    screens, where a 22-node map is unreadable.
   {%- endcomment -%}
   {% assign g = site.data.people_graph %}
   {% if g %}
+  <div class="people-explorer">
     <figure class="people-map" aria-hidden="true">
-      <svg viewBox="0 0 {{ g.width }} {{ g.height }}" role="img">
+      <svg viewBox="{{ g.view_x }} {{ g.view_y }} {{ g.view_w }} {{ g.view_h }}" role="img">
         <g class="map-edges">
           {% for e in g.edges %}
             <line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}"/>
@@ -59,12 +64,73 @@ permalink: /people/
         {% endfor %}
       </svg>
     </figure>
+
+    <div class="people-panel" aria-hidden="true">
+      {% for person in site.data.people %}
+        {% assign slug = person.name_en | default: person.name | slugify %}
+        {% assign photo = site.data.people_photos[person.name] %}
+        <div class="person-detail" id="{{ slug }}">
+          {% if photo %}
+            <img src="{{ '/assets/images/people/' | append: photo | relative_url }}" alt="">
+          {% endif %}
+          <h3>
+            <span class="i18n-ko">{{ person.name }}</span>
+            <span class="i18n-en">{{ person.name_en | default: person.name }}</span>
+          </h3>
+          <div class="post-meta">
+            <span class="i18n-ko">{{ person.affiliation }}{% if person.field %} · {{ person.field }}{% endif %}</span>
+            <span class="i18n-en">{{ person.affiliation_en | default: person.affiliation }}{% if person.field_en or person.field %} · {{ person.field_en | default: person.field }}{% endif %}</span>
+          </div>
+          {% assign para = person.bio | strip | split: "
+
+" %}
+          <p class="i18n-ko">{{ para[0] | strip | newline_to_br }}</p>
+          {% assign para_en = person.bio_en | default: person.bio | strip | split: "
+
+" %}
+          <p class="i18n-en">{{ para_en[0] | strip | newline_to_br }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {%- comment -%}
+    Hover previews, click pins. Hover is CSS -- :has() on the node, one rule
+    per person. Pinning cannot be, because :target makes the browser scroll
+    the panel into view: measured at 452px of jump per click, which is the
+    interruption this panel exists to avoid. So a click is intercepted and
+    sets a class instead. Without JavaScript the href still works, with the
+    scroll; the map is decorative either way.
+  {%- endcomment -%}
+  <style>
+    {% for person in site.data.people %}{% assign s = person.name_en | default: person.name | slugify %}
+    .people-explorer:has(.map-node[href="#{{ s }}"]:hover) #{{ s }} { display: block; }{% endfor %}
+  </style>
+
+  <script>
+    (function () {
+      var explorer = document.querySelector(".people-explorer");
+      if (!explorer) return;
+      explorer.addEventListener("click", function (event) {
+        var node = event.target.closest(".map-node");
+        if (!node) return;
+        var id = (node.getAttribute("href") || "").slice(1);
+        var card = document.getElementById(id);
+        if (!card) return;
+        event.preventDefault();   // the jump is the whole problem
+        explorer.querySelectorAll(".person-detail.is-selected")
+          .forEach(function (el) { el.classList.remove("is-selected"); });
+        card.classList.add("is-selected");
+        explorer.classList.add("has-selection");
+      });
+    })();
+  </script>
   {% endif %}
 
   <div class="card-grid people-grid">
     {% for person in site.data.people %}
       {% assign photo = site.data.people_photos[person.name] %}
-      <div class="grid-card person" id="{{ person.name_en | default: person.name | slugify }}">
+      <div class="grid-card person" id="card-{{ person.name_en | default: person.name | slugify }}">
         <div class="person-photo">
           {% if photo %}
             <img src="{{ '/assets/images/people/' | append: photo | relative_url }}" alt="{{ person.name }}">
