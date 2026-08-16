@@ -60,14 +60,14 @@ permalink: /people/
               running into the letters. One per language, since the two are
               different widths and only one shows at a time.
             {%- endcomment -%}
-            <rect class="map-chip i18n-ko" stroke="{{ f.color }}"
+            <rect class="map-chip i18n-ko" style="color: {{ f.color }}"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_ko }}" height="{{ f.chip_h }}"
-                  transform="translate({{ f.w_ko | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="7"/>
-            <rect class="map-chip i18n-en" stroke="{{ f.color }}"
+                  transform="translate({{ f.w_ko | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="14"/>
+            <rect class="map-chip i18n-en" style="color: {{ f.color }}"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_en }}" height="{{ f.chip_h }}"
-                  transform="translate({{ f.w_en | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="7"/>
+                  transform="translate({{ f.w_en | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="14"/>
             <text x="{{ f.label_x }}" y="{{ f.label_y }}" fill="{{ f.color }}">
               <tspan class="i18n-ko">{{ f.name }}</tspan><tspan class="i18n-en">{{ f.name_en }}</tspan>
             </text>

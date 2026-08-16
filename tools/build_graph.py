@@ -32,9 +32,9 @@ OUT_PATH = "_data/people_graph.yml"
 # The canvas carries a margin so field names at the edges are not clipped.
 WIDTH, HEIGHT = 1020, 720
 CENTRE = (WIDTH / 2, HEIGHT / 2)
-FIELD_RADIUS = (330, 235)   # ellipse the field centres sit on
-MEMBER_RING = 104           # smallest orbit for a field's members
-SPACING_PER_MEMBER = 24     # orbit grows with the size of the field
+FIELD_RADIUS = (470, 335)   # ellipse the field centres sit on
+MEMBER_RING = 132           # smallest orbit for a field's members
+SPACING_PER_MEMBER = 30     # orbit grows with the size of the field
 LABEL_OFFSET = 46           # field name, kept against its hub
 LABEL_ARC = math.radians(96)  # slice of each ring kept clear for that name
 # Not 0.5. Sitting exactly between two fields says both are equally theirs,
@@ -42,12 +42,12 @@ LABEL_ARC = math.radians(96)  # slice of each ring kept clear for that name
 # second. The first field listed for a member is read as the primary one and
 # they are placed nearer to it, still visibly reaching toward the other.
 BRIDGE_PULL = 0.36
-BRIDGE_SPACING = 74         # gap between members bridging the same two fields
+BRIDGE_SPACING = 92         # gap between members bridging the same two fields
 # Nodes carry no name -- hovering one puts the person in the panel -- so the
 # spacing only has to keep the portraits apart, not the words that used to sit
 # under them. That is what pays for the larger nodes and the tighter map.
 NODE_RADIUS = 30            # keep in step with the r= in people.html
-MIN_SEPARATION = NODE_RADIUS * 2 + 20
+MIN_SEPARATION = NODE_RADIUS * 2 + 44
 RELAX_STEPS = 400
 NAME_DROP = 0
 

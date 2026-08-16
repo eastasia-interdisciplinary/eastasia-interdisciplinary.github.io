@@ -41,7 +41,7 @@ fields:
     color: "#6b4a73"
 
 members:
-  김나원: [language]
+  김나원: [language, science]   # 전근대 언어 대상 자연어처리
   김지현: [arts, history]        # 미술사학 — art history sits between the two
   김채영: [philosophy, politics] # 정치사상사
   서은교: [history]
@@ -54,12 +54,12 @@ members:
   이나현: [politics]
   이용우: [philosophy, science]  # 철학 + 물리학
   이유경: [arts, history]        # 한국음악사
-  이찬희: [language]
+  이찬희: [language, science]   # 코퍼스·통계 언어학
   이한석: [philosophy]
   전세은: [history]
   정우형: [politics, history]
   정재우: [language]
-  정채연: [language]
+  정채연: [language, science]   # 디지털인문학, 시맨틱 DB 구축
   조민경: [science, language]     # 자연어처리
   진준표: [history]
   황승혁: [history, philosophy]   # 동양사학 · 사상사

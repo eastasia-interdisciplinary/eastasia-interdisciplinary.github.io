@@ -732,7 +732,7 @@ code {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 560px;
+  max-height: 620px;
   overflow: visible;
 }
 
@@ -745,12 +745,15 @@ code {
   stroke-width: 2;
 }
 
-/* the name's own boundary: spokes meet this edge rather than the letters */
+/* The name's own ground rather than a drawn border: a soft wash of the
+   field's colour, no outline. The spokes still stop at an edge, but the edge
+   is a change of tone instead of a ruled line. */
 .map-chip {
-  fill: var(--bg);
-  stroke-width: 1.5;
-  stroke-opacity: 0.55;
+  fill: currentColor;
+  stroke: none;
+  opacity: 0.1;
 }
+.map-fields g { color: inherit; }
 
 .map-fields text {
   font-family: var(--font-serif);
@@ -771,14 +774,13 @@ code {
 }
 .map-halo-2 { stroke-width: 2.5; }
 
-/* hovering one person dims the rest, so their links stand out */
-.people-map svg:hover .map-node { opacity: 0.32; }
-.people-map svg:hover .map-node:hover { opacity: 1; }
-.people-map svg:hover .map-node:hover .map-halo {
-  stroke: var(--green-dark);
-  stroke-width: 2.5;
-}
-.people-map svg:hover .map-node:hover .map-name { fill: var(--navy); font-weight: 700; }
+/* Hovering one person sets the others back. By desaturating them, not by
+   making them transparent: at reduced opacity the spokes showed straight
+   through the portraits, which looked like a rendering fault. */
+.people-map svg:hover .map-node circle { filter: grayscale(0.92); }
+.people-map svg:hover .map-node:hover circle { filter: none; }
+.people-map svg:hover .map-edges line { stroke-opacity: 0.18; }
+.people-map svg:hover .map-node:hover .map-halo { stroke-width: 4.5; }
 
 /* map and panel side by side; the page gives up its margin column for this */
 .people-explorer {
