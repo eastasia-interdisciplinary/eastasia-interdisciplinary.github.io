@@ -343,11 +343,8 @@ html[data-lang="en"] .i18n-ko { display: none; }
 }
 .group-contact a {
   color: var(--navy);
-  border-bottom: 2px solid var(--green-dark);
-  padding-bottom: 1px;
   word-break: break-all;
 }
-.group-contact a:hover { text-decoration: none; }
 
 /* margin links: programs and the foundation, one short note each */
 .lineage-item { margin-bottom: 1.5rem; }
