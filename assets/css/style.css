@@ -304,10 +304,10 @@ html[data-lang="en"] .i18n-ko { display: none; }
   color: var(--text-muted);
 }
 
-/* contact: the one thing a visitor may need to act on, so it sits at the top
-   of the margin with the address spelled out rather than hidden behind a word */
+/* contact: first in the margin so it is easy to find, but stated rather than
+   explained -- a label and the address, no instruction to the reader */
 .contact-block { margin-bottom: 2.4rem; }
-.contact-block p { margin: 0 0 0.45rem; font-size: 0.9rem; }
+.contact-block .aside-label { margin-bottom: 0.5rem; }
 
 .contact-email {
   display: inline-block;
