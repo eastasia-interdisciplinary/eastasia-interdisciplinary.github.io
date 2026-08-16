@@ -36,11 +36,7 @@ permalink: /seminar/
           <span class="i18n-ko">Cycle {{ cycle.name }}: {{ newest.cycle }}</span>
           <span class="i18n-en">Cycle {{ cycle.name }}: {{ newest.cycle_en | default: newest.cycle }}</span>
         </span>
-        <span class="cycle-range">
-          {{ oldest.date | date: "%Y.%m" }} – {{ newest.date | date: "%Y.%m" }}
-          <span class="i18n-ko">· {{ entries.size }}회</span>
-          <span class="i18n-en">· {{ entries.size }} sessions</span>
-        </span>
+        <span class="cycle-range">{{ oldest.date | date: "%Y.%m" }} – {{ newest.date | date: "%Y.%m" }}</span>
       </summary>
 
       <div class="card-grid seminar-list">
