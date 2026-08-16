@@ -23,14 +23,25 @@ permalink: /seminar/
     {% assign newest = entries | first %}
     {% assign oldest = entries | last %}
 
-    <section class="cycle-section">
-      <h3 class="cycle-heading">
-        <span class="i18n-ko">Cycle {{ cycle.name }}: {{ newest.cycle }}</span>
-        <span class="i18n-en">Cycle {{ cycle.name }}: {{ newest.cycle_en | default: newest.cycle }}</span>
-      </h3>
-      <div class="cycle-range">
-        {{ oldest.date | date: "%Y.%m" }} – {{ newest.date | date: "%Y.%m" }}
-      </div>
+    {%- comment -%}
+      Each cycle folds shut, so the page opens as an index of the two 대주제
+      and the sessions appear on click. <details> rather than a script: it
+      folds without JavaScript and is already keyboard- and screen-reader
+      operable. The summary keeps the dates and the count so the closed row
+      still says what is inside.
+    {%- endcomment -%}
+    <details class="cycle-section">
+      <summary class="cycle-heading">
+        <span class="cycle-name">
+          <span class="i18n-ko">Cycle {{ cycle.name }}: {{ newest.cycle }}</span>
+          <span class="i18n-en">Cycle {{ cycle.name }}: {{ newest.cycle_en | default: newest.cycle }}</span>
+        </span>
+        <span class="cycle-range">
+          {{ oldest.date | date: "%Y.%m" }} – {{ newest.date | date: "%Y.%m" }}
+          <span class="i18n-ko">· {{ entries.size }}회</span>
+          <span class="i18n-en">· {{ entries.size }} sessions</span>
+        </span>
+      </summary>
 
       <div class="card-grid seminar-list">
         {% for entry in entries %}
@@ -67,6 +78,6 @@ permalink: /seminar/
           </article>
         {% endfor %}
       </div>
-    </section>
+    </details>
   {% endfor %}
 </main>

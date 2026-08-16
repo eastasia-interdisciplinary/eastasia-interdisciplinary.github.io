@@ -82,7 +82,7 @@ before anyone has written them up.
 (`leader_name` / `leader_photo` in `_config.yml`). The home page keeps a
 short version and links through. The margin links on both pages come from
 `_data/home_links.yml`; the contact address (`contact_email`) sits with
-the leader's signature on the about page, and in the footer site-wide. The home page also carries one group photo,
+the leader's signature on the about page. The home page also carries one group photo,
 `assets/images/home-gathering.jpg`, prepared the same way.
 
 ## Adding people
@@ -110,6 +110,9 @@ same order.
 Fields of study are normalised too: a leading "Department of" is dropped
 and the rest Title Cased, so "Department of History" and "Historical
 studies" end up in the same shape.
+
+English answers are converted to American spelling on import, word by word
+rather than by rule — a blanket -ise/-ize swap would also hit "surprise".
 
 Romanised names are normalised on import: Title Case, and reordered to
 given-name-first by matching a token against romanisations of the Korean

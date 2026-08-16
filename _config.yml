@@ -36,7 +36,7 @@ defaults:
 
 # The foundation whose scholarship recipients make up the group, per its own
 # introduction. Replaced a 문우림-specific set of fields, which described one
-# programme rather than the membership as the group states it.
+# program rather than the membership as the group states it.
 foundation_name: 한국고등교육재단
 foundation_name_en: Korea Foundation for Advanced Studies
 foundation_url: "https://www.kfas.or.kr"

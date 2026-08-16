@@ -161,6 +161,45 @@ OVERRIDES = {
     ("이나현", "field_en"): "Political Science & International Relations",
 }
 
+# The site is written in American spelling, but answers arrive in both. Listed
+# word by word rather than by rule: a blanket -ise -> -ize would also hit
+# "surprise", "exercise" and "precise", and -re -> -er would hit "genre".
+BRITISH = {
+    "behaviour": "behavior", "behavioural": "behavioral",
+    "colour": "color", "coloured": "colored",
+    "favour": "favor", "favourite": "favorite",
+    "honour": "honor", "labour": "labor", "neighbour": "neighbor",
+    "centre": "center", "centres": "centers", "theatre": "theater",
+    "metre": "meter", "metres": "meters", "fibre": "fiber",
+    "programme": "program", "programmes": "programs",
+    "catalogue": "catalog", "dialogue": "dialog",
+    "defence": "defense", "offence": "offense",
+    "modelling": "modeling", "travelled": "traveled", "travelling": "traveling",
+    "whilst": "while", "amongst": "among", "judgement": "judgment",
+    "learnt": "learned", "spelt": "spelled", "practise": "practice",
+}
+# -ise verbs and their families, which are regular enough to expand
+for _stem in ("analy", "organi", "reali", "recogni", "speciali", "emphasi",
+              "normali", "summari", "characteri", "criticis", "prioriti",
+              "utili", "apologi", "memori", "civili", "globali", "conceptuali",
+              "contextuali", "maximi", "minimi", "institutionali"):
+    _stem = _stem.rstrip("s")
+    for _suffix, _us in (("se", "ze"), ("sed", "zed"), ("ses", "zes"),
+                         ("sing", "zing"), ("sation", "zation"), ("sations", "zations")):
+        BRITISH[_stem + _suffix] = _stem + _us
+
+_BRITISH_RE = re.compile(r"\b(%s)\b" % "|".join(sorted(BRITISH, key=len, reverse=True)), re.I)
+
+
+def americanize(text):
+    """Convert British spellings to American, preserving capitalisation."""
+    def swap(match):
+        word = match.group(0)
+        fixed = BRITISH[word.lower()]
+        return fixed.capitalize() if word[0].isupper() else fixed
+    return _BRITISH_RE.sub(swap, text)
+
+
 MINOR_WORDS = {"of", "and", "the", "for", "in", "on", "at", "to"}
 
 
@@ -301,9 +340,11 @@ def main():
             if key == "name_en":
                 value = given_name_first(clean(person.get("B")), title_case(value))
             elif key == "affiliation_en":
-                value = sentence_case(value)
+                value = americanize(sentence_case(value))
             elif key == "field_en":
-                value = department_case(sentence_case(value))
+                value = americanize(department_case(sentence_case(value)))
+            elif key == "bio_en":
+                value = americanize(value)
             # Long bios are broken into paragraphs by hand for readability.
             # That editing is invisible to the form, so a re-import would undo
             # it; keep the edited text whenever the wording itself is unchanged.

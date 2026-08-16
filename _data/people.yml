@@ -316,7 +316,7 @@
   field_en: "Natural Language Processing"
   email: "minkyung.cho@kaist.ac.kr"
   bio: "저는 자연어처리(NLP)를 연구하며, 특히 언어 및 멀티모달 AI 모델의 정렬(alignment)과 해석가능성에 관심이 있습니다. 모델이 내놓은 답만 봐서는 그 답이 어떻게 나왔는지 알기 어렵습니다. 이 간극을 줄이기 위해 모델의 학습 방식과 평가 방법을 함께 연구하고 있습니다."
-  bio_en: "I work on natural language processing, with a focus on the alignment and interpretability of language and multimodal models. My research concerns the relationship between what a model outputs and the computation that produced it, spanning how models are trained, how they are evaluated, and what their behaviour reveals about what they have actually learned."
+  bio_en: "I work on natural language processing, with a focus on the alignment and interpretability of language and multimodal models. My research concerns the relationship between what a model outputs and the computation that produced it, spanning how models are trained, how they are evaluated, and what their behavior reveals about what they have actually learned."
   link: "https://www.linkedin.com/in/minkyung-cho/"
   sort_en: "cho minkyung"
   link_label: "LinkedIn"

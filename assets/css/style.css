@@ -80,7 +80,9 @@ html[data-lang="en"] .i18n-ko { display: none; }
   min-height: 280px;
   max-height: 440px;
   object-fit: cover;
-  object-position: center 32%;
+  /* anchored to the top: the peak is the painting's subject and was being cut
+     off, while what the crop gives up at the bottom is mist */
+  object-position: center top;
 }
 
 .hero-overlay {
@@ -106,7 +108,7 @@ html[data-lang="en"] .i18n-ko { display: none; }
   height: 168px;
   min-height: 0;
   max-height: 168px;
-  object-position: center 38%;
+  object-position: center 22%;
 }
 .site-header--inner .hero-inner { padding-bottom: 1.1rem; }
 .site-header--inner .site-title { font-size: clamp(1.3rem, 3.4vw, 1.9rem); }
@@ -282,14 +284,23 @@ html[data-lang="en"] .i18n-ko { display: none; }
   flex: 0 0 auto;
 }
 
+/* An inline figure, not a hero: at full column width the faces dominated a
+   page that is mostly text. Held to a size where it reads as one photo among
+   the writing rather than the thing the page is about. */
 .home-photo {
-  margin: 0 0 3.2rem;
+  margin: 0 0 3rem;
+  max-width: 420px;
 }
 .home-photo img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 2px;
+}
+.home-photo figcaption {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
 }
 
 .byline-name {
@@ -314,7 +325,7 @@ html[data-lang="en"] .i18n-ko { display: none; }
   word-break: break-all;
 }
 
-/* margin links: programmes and the foundation, one short note each */
+/* margin links: programs and the foundation, one short note each */
 .lineage-item { margin-bottom: 1.5rem; }
 .lineage-item:last-child { margin-bottom: 0; }
 .lineage-item p {
@@ -537,8 +548,8 @@ article.post .back-link {
 .seminar-list .grid-card h3 { font-size: 1rem; font-weight: 700; }
 .seminar-list .post-meta { margin-bottom: 0; }
 
-/* each 대주제 is its own section on the seminar page */
-.cycle-section { margin-bottom: 3.4rem; }
+/* each 대주제 folds shut; the summary is the row you click */
+.cycle-section { margin-bottom: 2.2rem; }
 .cycle-section:last-child { margin-bottom: 0; }
 
 .cycle-heading {
@@ -547,15 +558,43 @@ article.post .back-link {
   font-weight: 700;
   color: var(--navy);
   margin: 0;
-  padding-bottom: 0.35rem;
+  padding: 0 0 0.35rem 1.4rem;
   border-bottom: 2px solid var(--green-dark);
+  cursor: pointer;
+  position: relative;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.2rem 1rem;
 }
+/* the default disclosure triangle, replaced with one that matches the type */
+.cycle-heading::-webkit-details-marker { display: none; }
+.cycle-heading::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--green-dark);
+  font-size: 0.85em;
+  transition: transform 0.15s ease;
+  transform-origin: 0.3em 0.55em;
+}
+.cycle-section[open] > .cycle-heading::before { transform: rotate(90deg); }
+.cycle-heading:hover { color: var(--navy-dark); }
+.cycle-heading:focus-visible { outline: 2px solid var(--green-dark); outline-offset: 3px; }
+
+.cycle-name { flex: 1 1 auto; }
 
 .cycle-range {
+  font-family: var(--font-sans);
+  font-weight: 400;
   font-size: 0.78rem;
   color: var(--text-muted);
-  margin: 0.4rem 0 1.5rem;
+  flex: 0 0 auto;
 }
+
+.cycle-section .seminar-list { margin-top: 0.4rem; }
 
 /* cycle (대주제) the session belonged to, on a single entry page */
 .cycle-tag {
