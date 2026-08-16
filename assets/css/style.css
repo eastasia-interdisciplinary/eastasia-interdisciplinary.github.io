@@ -445,24 +445,16 @@ html[data-lang="en"] .i18n-ko { display: none; }
 
 .site-footer a { color: #fff; }
 
-.footer-links {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.4rem 1.6rem;
-  margin-bottom: 1.2rem;
-}
-.footer-links a { border-bottom: 1px solid transparent; padding-bottom: 1px; }
-.footer-links a:hover { text-decoration: none; border-bottom-color: var(--green-pale); }
-
-/* a mark, not a label: the repository is for the curious, not the visit */
+/* a mark beside the copyright, not a row of its own: the repository is for
+   the curious, not part of the visit */
 .footer-icon {
   display: inline-flex;
+  vertical-align: -0.2em;
+  margin-left: 0.55rem;
   color: var(--on-navy);
-  opacity: 0.55;
-  border-bottom: none !important;
+  opacity: 0.5;
 }
-.footer-icon:hover { opacity: 1; }
+.footer-icon:hover { opacity: 1; text-decoration: none; }
 
 .footer-credit,
 .footer-copy {
@@ -472,6 +464,7 @@ html[data-lang="en"] .i18n-ko { display: none; }
   opacity: 0.75;
 }
 .footer-copy { margin-top: 0.5rem; }
+.footer-credit { margin-bottom: 0; }
 
 /* ---------- single entry (post / seminar) ---------- */
 
