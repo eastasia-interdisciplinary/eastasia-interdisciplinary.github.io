@@ -32,8 +32,11 @@ permalink: /about/
     {% endif %}
     <div>
       <p class="byline-name">
-        <span class="i18n-ko">{{ site.leader_name }}</span>
-        <span class="i18n-en">{{ leader.name_en | default: site.leader_name }}</span>
+        {%- comment -%} name doubles as the contact link, as on the people page {%- endcomment -%}
+        <a href="mailto:{{ site.contact_email }}" title="{{ site.contact_email }}">
+          <span class="i18n-ko">{{ site.leader_name }}</span>
+          <span class="i18n-en">{{ leader.name_en | default: site.leader_name }}</span>
+        </a>
       </p>
       <p class="byline-role">
         <span class="i18n-ko">학회장</span>

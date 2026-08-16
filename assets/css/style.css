@@ -463,13 +463,17 @@ article.post .back-link {
    a mess. A square crops a landscape photo far less than the 4:5 portrait
    frame did, and the focal point sits above centre because that is where
    faces are in a portrait. */
-.person-photo { flex: 0 0 200px; width: 200px; height: 200px; }
+/* 3:4, matching the tallest upload. Every photo is at least this tall
+   relative to its width, so nothing is ever cropped vertically -- a square
+   frame was cutting just above the head and just below the shoulders. Wider
+   uploads lose some width instead, which is the harmless direction. */
+.person-photo { flex: 0 0 200px; width: 200px; height: 267px; }
 .person-photo img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center top;
   border-radius: 2px;
 }
 /* empty frame for anyone without a photo yet */

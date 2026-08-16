@@ -103,17 +103,19 @@ def main():
     # Late replies live in the pending file rather than the export; they carry
     # their Drive id directly, so they are handled on the same footing here.
     from import_people import PENDING_PATH, read_existing  # noqa: E402
-    rows = [(clean(r.get("B")), clean(r.get("C")), drive_id(clean(r.get("I"))))
+    rows = [(clean(r.get("B")), clean(r.get("C")), drive_id(clean(r.get("I"))), True)
             for r in read_rows(sys.argv[1])]
-    exported = {n for n, _, _ in rows}
+    exported = {n for n, _, _, _ in rows}
     for name, entry in read_existing(PENDING_PATH).items():
+        # listed=False: a pending member's file may be shared individually
+        # without sitting in the survey folder, so the listing cannot vouch
+        # for it and the download itself decides.
         if name not in exported and entry.get("photo_drive_id"):
-            rows.append((name, entry.get("name_en", ""), entry["photo_drive_id"]))
+            rows.append((name, entry.get("name_en", ""), entry["photo_drive_id"], False))
 
     lines, missing = [], []
-    for name_ko, name_en_raw, fid in rows:
-        mime = listing.get(fid, "")
-        if not fid or not mime.startswith("image/"):
+    for name_ko, name_en_raw, fid, listed in rows:
+        if not fid or (listed and not listing.get(fid, "").startswith("image/")):
             missing.append(name_ko)
             continue
 
