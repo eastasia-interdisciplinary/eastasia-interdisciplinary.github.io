@@ -54,10 +54,10 @@ permalink: /people/
         {% for n in g.nodes %}
           {% assign photo = site.data.people_photos[n.name] %}
           <a class="map-node" href="#{{ n.slug }}">
-            <circle cx="{{ n.x }}" cy="{{ n.y }}" r="23"
+            <circle cx="{{ n.x }}" cy="{{ n.y }}" r="34"
                     fill="{% if photo %}url(#p-{{ n.slug }}){% else %}var(--paper){% endif %}"/>
-            <circle class="map-halo" cx="{{ n.x }}" cy="{{ n.y }}" r="23"/>
-            <text class="map-name" x="{{ n.x }}" y="{{ n.y | plus: 39 }}">
+            <circle class="map-halo" cx="{{ n.x }}" cy="{{ n.y }}" r="34"/>
+            <text class="map-name" x="{{ n.x }}" y="{{ n.y | plus: 52 }}">
               <tspan class="i18n-ko">{{ n.name }}</tspan><tspan class="i18n-en">{{ n.name_en }}</tspan>
             </text>
           </a>
@@ -65,7 +65,18 @@ permalink: /people/
       </svg>
     </figure>
 
-    <div class="people-panel" aria-hidden="true">
+    <div class="people-panel">
+      {%- comment -%}
+        The note about the membership keeps the place it has on every other
+        page -- the right-hand margin -- rather than being pushed under the
+        list. The person detail appears beneath it.
+      {%- endcomment -%}
+      <div class="panel-note">
+        <h3 class="aside-label"><span class="i18n-ko">구성원</span><span class="i18n-en">Members</span></h3>
+        <p class="i18n-ko">{{ site.title }}는 {{ site.foundation_name }} 장학생들을 중심으로, 다양한 분야를 전공하는 학부생 및 대학원생들로 구성되어 있습니다.</p>
+        <p class="i18n-en">The {{ site.short_name_en }} is made up of undergraduate and graduate students from a wide range of fields, supported by the {{ site.foundation_name_en }}.</p>
+      </div>
+
       {% for person in site.data.people %}
         {% assign slug = person.name_en | default: person.name | slugify %}
         {% assign photo = site.data.people_photos[person.name] %}
@@ -173,10 +184,3 @@ permalink: /people/
   </div>
 </main>
 
-<aside class="sidebar">
-  <div class="marginalia">
-    <h3 class="aside-label"><span class="i18n-ko">구성원</span><span class="i18n-en">Members</span></h3>
-    <p class="i18n-ko">{{ site.title }}는 {{ site.foundation_name }} 장학생들을 중심으로, 다양한 분야를 전공하는 학부생 및 대학원생들로 구성되어 있습니다.</p>
-    <p class="i18n-en">The {{ site.short_name_en }} is made up of undergraduate and graduate students from a wide range of fields, supported by the {{ site.foundation_name_en }}.</p>
-  </div>
-</aside>

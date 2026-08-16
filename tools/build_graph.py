@@ -39,13 +39,19 @@ MEMBER_RING = 96            # smallest orbit for a field's members
 # number of members to keep that much room between them whichever language
 # the reader has chosen.
 SPACING_PER_MEMBER = 22
-LABEL_OFFSET = 118          # field name, pushed clear of the member ring
-BRIDGE_PULL = 0.5           # 0.5 puts a two-field member exactly between them
+LABEL_OFFSET = 118          # where a field name starts before being pushed clear
+# Not 0.5. Sitting exactly between two fields says both are equally theirs,
+# which is wrong for someone like 이유경, whose 한국음악 is art first and history
+# second. The first field listed for a member is read as the primary one and
+# they are placed nearer to it, still visibly reaching toward the other.
+BRIDGE_PULL = 0.36
 BRIDGE_SPACING = 74         # gap between members bridging the same two fields
 # A name is wider than its node, so nodes need more room than they look like
 # they need. Sized for the longest English name in the group.
-MIN_SEPARATION = 122
+MIN_SEPARATION = 148
 RELAX_STEPS = 400
+NODE_RADIUS = 34            # keep in step with the r= in people.html
+NAME_DROP = 52              # baseline of the name under a node
 
 
 def read_clusters(path):
@@ -169,6 +175,90 @@ def relax(positions):
             break
 
 
+LABEL_HALF_H = 15
+
+
+def label_clear(x, y, half_w, positions):
+    """True if the label's box misses every node's box.
+
+    A node's box is its circle plus the name printed under it, so a label
+    slipping into the gap between two circles still counts as a collision --
+    it would land on their names.
+    """
+    l_left, l_right = x - half_w, x + half_w
+    l_top, l_bottom = y - LABEL_HALF_H, y + LABEL_HALF_H
+    for nx, ny in positions.values():
+        n_left, n_right = nx - NODE_RADIUS - 8, nx + NODE_RADIUS + 8
+        n_top, n_bottom = ny - NODE_RADIUS - 4, ny + NAME_DROP + 6
+        if l_right > n_left and l_left < n_right and l_bottom > n_top and l_top < n_bottom:
+            return False
+    return True
+
+
+def place_labels(fields, centres, positions):
+    """Slide each field name outward until it clears the nodes.
+
+    Fixing the distance does not work: how far out a name has to sit depends
+    on how many members that field ended up with and where relaxation pushed
+    them, so it is found rather than assumed.
+    """
+    out = {}
+    for field in fields:
+        cx, cy = centres[field["key"]]
+        angle = math.atan2(cy - CENTRE[1], cx - CENTRE[0])
+        # widest the name gets in either language; Korean glyphs are ~2x latin
+        # measured against the rendered 19px serif: Korean glyphs run about
+        # the full size, Latin about half. Underestimating this is what let
+        # "Language & Literature" sit on top of a node.
+        half_w = max(len(field.get("name", "")) * 19.0,
+                     len(field.get("name_en", "")) * 9.0) / 2 + 14
+        distance = MEMBER_RING + LABEL_OFFSET
+        for _ in range(60):
+            x = cx + distance * math.cos(angle)
+            y = cy + distance * math.sin(angle)
+            if label_clear(x, y, half_w, positions):
+                break
+            distance += 12
+        out[field["key"]] = (x, y)
+    return out
+
+
+def territory(points, padding=52, rays=64):
+    """A closed blob enclosing a field's members.
+
+    Distance from a hub does not tell a reader who belongs to it: 정재우 works
+    only in 어문 but ends up as near the 자연과학 hub as 조민경, who actually
+    works in both. Drawing the fields as areas answers that directly -- inside
+    one is membership, inside the overlap of two is the interdisciplinary
+    case -- and the overlaps deepen in tint on their own.
+    """
+    cx = sum(p[0] for p in points) / len(points)
+    cy = sum(p[1] for p in points) / len(points)
+
+    ring = []
+    for i in range(rays):
+        angle = 2 * math.pi * i / rays
+        ux, uy = math.cos(angle), math.sin(angle)
+        # how far this field reaches in this direction
+        reach = max((p[0] - cx) * ux + (p[1] - cy) * uy for p in points)
+        reach = max(reach, 0) + padding
+        ring.append((cx + reach * ux, cy + reach * uy))
+
+    # smooth the outline so it reads as a region rather than a polygon
+    smoothed = []
+    for i in range(rays):
+        a, b, c = ring[i - 1], ring[i], ring[(i + 1) % rays]
+        smoothed.append(((a[0] + 2 * b[0] + c[0]) / 4, (a[1] + 2 * b[1] + c[1]) / 4))
+
+    path = "M %.1f %.1f " % smoothed[0]
+    for i in range(1, len(smoothed) + 1):
+        p0 = smoothed[i - 1]
+        p1 = smoothed[i % len(smoothed)]
+        path += "Q %.1f %.1f %.1f %.1f " % (p0[0], p0[1],
+                                            (p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2)
+    return path + "Z"
+
+
 def spokes(members, positions, centres):
     """One line from each person to each field they work in."""
     out = []
@@ -192,21 +282,17 @@ def main():
     if missing:
         print("no field listed, left off the map:", ", ".join(missing))
 
-    centres, positions = place(fields, {k: v for k, v in members.items() if k in people})
+    members = {k: v for k, v in members.items() if k in people}
+    centres, positions = place(fields, members)
 
     # The viewBox is fitted to what was actually drawn rather than assumed:
     # a field sitting at the top of the ellipse puts its name above y=0, and a
     # fixed box would clip it.
-    labels = {}
-    for field in fields:
-        x, y = centres[field["key"]]
-        angle = math.atan2(y - CENTRE[1], x - CENTRE[0])
-        labels[field["key"]] = (x + (MEMBER_RING + LABEL_OFFSET) * math.cos(angle),
-                                y + (MEMBER_RING + LABEL_OFFSET) * math.sin(angle))
+    labels = place_labels(fields, centres, positions)
 
     xs = [p[0] for p in positions.values()] + [p[0] for p in labels.values()]
     ys = [p[1] for p in positions.values()] + [p[1] for p in labels.values()]
-    pad_node, pad_label = 34, 90   # node radius plus its name; label half-width
+    pad_node, pad_label = NODE_RADIUS + 26, 140  # node plus its name; label half-width
     min_x, max_x = min(xs) - pad_label, max(xs) + pad_label
     min_y, max_y = min(ys) - pad_node, max(ys) + pad_node + 18
 
@@ -225,6 +311,15 @@ def main():
                   '    name_en: "%s"' % field.get("name_en", field.get("name", field["key"])),
                   "    x: %.1f" % x, "    y: %.1f" % y]
 
+    lines += ["", "territories:"]
+    for field in fields:
+        key = field["key"]
+        pts = [positions[n] for n, keys in members.items()
+               if key in keys and n in positions]
+        if not pts:
+            continue
+        lines += ['  - key: "%s"' % key, '    d: "%s"' % territory(pts + [centres[key]])]
+
     lines += ["", "nodes:"]
     for name in sorted(positions):
         x, y = positions[name]
@@ -239,8 +334,7 @@ def main():
                   "    x: %.1f" % x, "    y: %.1f" % y]
 
     lines += ["", "edges:"]
-    for (ax, ay), (bx, by) in spokes({k: v for k, v in members.items() if k in people},
-                                     positions, centres):
+    for (ax, ay), (bx, by) in spokes(members, positions, centres):
         lines += ["  - x1: %.1f" % ax, "    y1: %.1f" % ay,
                   "    x2: %.1f" % bx, "    y2: %.1f" % by]
 

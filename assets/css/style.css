@@ -724,9 +724,15 @@ code {
 }
 .people-map svg { display: block; width: 100%; height: auto; overflow: visible; }
 
+/* The spokes are what say who belongs where -- one line means one field, two
+   means someone works across both -- so they are drawn to be read, not as
+   background texture. Filling the fields as areas was tried instead and
+   failed: members pulled toward their primary field are not contiguous, so
+   the regions overlapped into one shape. */
 .map-edges line {
-  stroke: var(--rule);
-  stroke-width: 1.3;
+  stroke: var(--green-dark);
+  stroke-opacity: 0.42;
+  stroke-width: 1.8;
 }
 
 .map-fields text {
@@ -738,7 +744,7 @@ code {
   dominant-baseline: middle;
   opacity: 0.55;
 }
-.map-hub { fill: var(--green-dark); opacity: 0.65; }
+.map-hub { fill: var(--green-dark); opacity: 0.9; }
 
 .map-node { cursor: pointer; }
 .map-node circle { transition: opacity 0.15s ease; }
@@ -791,13 +797,12 @@ html[data-lang="en"] .map-name { font-size: 12.5px; }
   position: sticky;
   top: 2rem;
   min-height: 320px;
-}
-/* the rule belongs to the card, not the column: an empty bordered column
-   reads as something failing to load */
-.person-detail {
   border-left: 2px solid var(--green-dark);
   padding-left: 1.5rem;
 }
+.panel-note p { margin: 0 0 0.7rem; font-size: 0.93rem; }
+.panel-note { margin-bottom: 2rem; }
+
 
 /* hidden until hovered or chosen; :has() lets a hover override the pinned one */
 .person-detail { display: none; }
