@@ -159,6 +159,8 @@ OVERRIDES = {
     ("김지현", "field_en"): "Art History",
     # typed without spaces around the ampersand, unlike every other answer
     ("이나현", "field_en"): "Political Science & International Relations",
+    # supplied after the survey closed
+    ("이용우", "link"): "https://www.linkedin.com/in/yongwoo-yi-331653381/",
 }
 
 # The site is written in American spelling, but answers arrive in both. Listed
@@ -366,7 +368,7 @@ def main():
         elif display:
             entry.append(emit("sort_en", display.lower()))
 
-        link = clean(person.get("L"))
+        link = OVERRIDES.get((clean(person.get("B")), "link"), clean(person.get("L")))
         if link:
             entry.append(emit("link_label", link_label(link)))
         # entries are indented two spaces; the first one carries the "- " marker

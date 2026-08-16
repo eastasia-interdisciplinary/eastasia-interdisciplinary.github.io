@@ -80,9 +80,11 @@ html[data-lang="en"] .i18n-ko { display: none; }
   min-height: 280px;
   max-height: 440px;
   object-fit: cover;
-  /* anchored to the top: the peak is the painting's subject and was being cut
-     off, while what the crop gives up at the bottom is mist */
-  object-position: center top;
+  /* The band of misty ridges rather than the summit: anchored high the peak
+     sat flush against the top edge, and lower down the crop cut through the
+     mountain mass. Here nothing reads as cut, and the tone runs dark at the
+     top to mist at the bottom, which is where the title sits. */
+  object-position: center 62%;
 }
 
 .hero-overlay {
@@ -108,8 +110,7 @@ html[data-lang="en"] .i18n-ko { display: none; }
   height: 168px;
   min-height: 0;
   max-height: 168px;
-  /* same reasoning as the home banner: keep the peak, give up the mist */
-  object-position: center top;
+  object-position: center 62%; /* same band as the home banner */
 }
 .site-header--inner .hero-inner { padding-bottom: 1.1rem; }
 .site-header--inner .site-title { font-size: clamp(1.3rem, 3.4vw, 1.9rem); }
@@ -331,15 +332,22 @@ html[data-lang="en"] .i18n-ko { display: none; }
   color: var(--text-muted);
 }
 
-/* the address sits with the signature, since it reaches that person */
-.byline-contact {
-  margin: 0.35rem 0 0;
-  font-size: 0.86rem;
+/* the group's address, closing the introduction rather than the signature */
+.group-contact {
+  margin: 0 0 2.4rem;
+  font-size: 0.95rem;
 }
-.byline-contact a {
-  color: var(--green-dark);
+.group-contact span:first-child {
+  color: var(--text-muted);
+  margin-right: 0.6rem;
+}
+.group-contact a {
+  color: var(--navy);
+  border-bottom: 2px solid var(--green-dark);
+  padding-bottom: 1px;
   word-break: break-all;
 }
+.group-contact a:hover { text-decoration: none; }
 
 /* margin links: programs and the foundation, one short note each */
 .lineage-item { margin-bottom: 1.5rem; }
@@ -446,6 +454,15 @@ html[data-lang="en"] .i18n-ko { display: none; }
 }
 .footer-links a { border-bottom: 1px solid transparent; padding-bottom: 1px; }
 .footer-links a:hover { text-decoration: none; border-bottom-color: var(--green-pale); }
+
+/* a mark, not a label: the repository is for the curious, not the visit */
+.footer-icon {
+  display: inline-flex;
+  color: var(--on-navy);
+  opacity: 0.55;
+  border-bottom: none !important;
+}
+.footer-icon:hover { opacity: 1; }
 
 .footer-credit,
 .footer-copy {
