@@ -49,5 +49,18 @@ permalink: /about/
 </main>
 
 <aside class="sidebar">
+  {%- comment -%}
+    Contact sits here rather than in the shared margin: this is the page a
+    reader reaches when they want to know who the group is, so it is where
+    they would look for how to reach it.
+  {%- endcomment -%}
+  <div class="marginalia contact-block">
+    <h3 class="aside-label">
+      <span class="i18n-ko">연락</span>
+      <span class="i18n-en">Contact</span>
+    </h3>
+    <a class="contact-email" href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a>
+  </div>
+
   {% include lineage.html %}
 </aside>

@@ -81,7 +81,8 @@ before anyone has written them up.
 `/about/` carries the group's introduction, signed by the leader
 (`leader_name` / `leader_photo` in `_config.yml`). The home page keeps a
 short version and links through. The margin links on both pages come from
-`_data/home_links.yml`. The home page also carries one group photo,
+`_data/home_links.yml`; the contact address sits in the about page's margin
+(`contact_email`), and in the footer site-wide. The home page also carries one group photo,
 `assets/images/home-gathering.jpg`, prepared the same way.
 
 ## Adding people
