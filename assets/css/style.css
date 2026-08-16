@@ -292,15 +292,15 @@ html[data-lang="en"] .i18n-ko { display: none; }
    column width the faces dominated a page that is mostly text. */
 .home-intro {
   display: flex;
-  align-items: flex-start;
-  gap: 2rem;
+  align-items: center;
+  gap: 2.2rem;
   margin-bottom: 3.2rem;
 }
 .home-intro .lede { flex: 1 1 auto; margin: 0; min-width: 0; }
 
 .home-photo {
-  flex: 0 0 300px;
-  max-width: 300px;
+  flex: 0 0 250px;
+  max-width: 250px;
   margin: 0;
 }
 
