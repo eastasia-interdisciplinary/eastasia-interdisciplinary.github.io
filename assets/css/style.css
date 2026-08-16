@@ -395,6 +395,10 @@ html[data-lang="en"] .i18n-ko { display: none; }
 
 .more-link { margin: 2.5rem 0 0; font-size: 0.9rem; }
 
+/* the four letters the short name is built from, so EAST and the address
+   explain themselves without a sentence saying so */
+.acronym { color: var(--navy); font-weight: 700; }
+
 /* ---------- sidebar: deliberately NOT a repeated box per item ---------- */
 
 /* marginalia: a note in the margin, set apart by whitespace, not a rule */
