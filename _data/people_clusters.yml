@@ -1,0 +1,54 @@
+# Which fields each member works in, for the map on the people page.
+#
+# This is an editorial reading of the 전공 answers, not something the survey
+# asked, so it is kept here where the group can correct it rather than being
+# inferred in code. Anyone listed under two fields is drawn between the two,
+# which is the point of the map: it shows where the group actually overlaps.
+#
+# Order of `fields` sets where they sit around the map, so fields that share
+# members are kept next to each other -- otherwise those members are drawn
+# stretching across the middle. Run tools/build_graph.py after editing.
+
+fields:
+  - key: computation
+    name: 계산·기술
+    name_en: Computation
+  - key: language
+    name: 어문
+    name_en: Language & Literature
+  - key: arts
+    name: 예술
+    name_en: Arts
+  - key: history
+    name: 역사
+    name_en: History
+  - key: politics
+    name: 정치·사회
+    name_en: Politics & Society
+  - key: philosophy
+    name: 철학·사상
+    name_en: Philosophy & Thought
+
+members:
+  김나원: [language]
+  김지현: [arts, history]        # 미술사학 — art history sits between the two
+  김채영: [philosophy, politics] # 정치사상사
+  서은교: [history]
+  성민경: [history]
+  안진호: [history]
+  엄윤주: [language]
+  유미르: [language]
+  유하린: [language, computation] # 국어교육 + 소프트웨어
+  윤오산하: [language]
+  이나현: [politics]
+  이용우: [philosophy]
+  이유경: [arts, history]        # 한국음악사
+  이찬희: [language]
+  이한석: [philosophy]
+  전세은: [history]
+  정우형: [politics, history]
+  정재우: [language]
+  정채연: [language]
+  조민경: [computation, language] # 자연어처리
+  진준표: [history]
+  황승혁: [history, philosophy]   # 동양사학 · 사상사

@@ -6,6 +6,61 @@ permalink: /people/
 <main class="main-col">
   <h2 class="section-label"><span class="i18n-ko">사람들</span><span class="i18n-en">People</span></h2>
 
+
+  {%- comment -%}
+    A map of the group rather than a list of it. Each field is a point, its
+    members orbit it, and anyone working in two fields is drawn between the
+    two -- which is where the interdisciplinary part of the group actually
+    shows. Positions come from tools/build_graph.py, so this is a finished
+    SVG: no layout library, nothing settling on load, same picture every time.
+
+    The list below is the real content; this is a way into it. Hidden from
+    assistive technology, which gets the list, and from narrow screens, where
+    a 22-node map is unreadable.
+  {%- endcomment -%}
+  {% assign g = site.data.people_graph %}
+  {% if g %}
+    <figure class="people-map" aria-hidden="true">
+      <svg viewBox="0 0 {{ g.width }} {{ g.height }}" role="img">
+        <g class="map-edges">
+          {% for e in g.edges %}
+            <line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}"/>
+          {% endfor %}
+        </g>
+        <g class="map-fields">
+          {% for f in g.fields %}
+            <circle class="map-hub" cx="{{ f.x }}" cy="{{ f.y }}" r="4"/>
+            <text x="{{ f.label_x }}" y="{{ f.label_y }}">
+              <tspan class="i18n-ko">{{ f.name }}</tspan><tspan class="i18n-en">{{ f.name_en }}</tspan>
+            </text>
+          {% endfor %}
+        </g>
+        <defs>
+          {% for n in g.nodes %}
+            {% assign photo = site.data.people_photos[n.name] %}
+            {% if photo %}
+              <pattern id="p-{{ n.slug }}" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <image href="{{ '/assets/images/people/' | append: photo | relative_url }}"
+                       width="1" height="1" preserveAspectRatio="xMidYMid slice"/>
+              </pattern>
+            {% endif %}
+          {% endfor %}
+        </defs>
+        {% for n in g.nodes %}
+          {% assign photo = site.data.people_photos[n.name] %}
+          <a class="map-node" href="#{{ n.slug }}">
+            <circle cx="{{ n.x }}" cy="{{ n.y }}" r="23"
+                    fill="{% if photo %}url(#p-{{ n.slug }}){% else %}var(--paper){% endif %}"/>
+            <circle class="map-halo" cx="{{ n.x }}" cy="{{ n.y }}" r="23"/>
+            <text class="map-name" x="{{ n.x }}" y="{{ n.y | plus: 39 }}">
+              <tspan class="i18n-ko">{{ n.name }}</tspan><tspan class="i18n-en">{{ n.name_en }}</tspan>
+            </text>
+          </a>
+        {% endfor %}
+      </svg>
+    </figure>
+  {% endif %}
+
   <div class="card-grid people-grid">
     {% for person in site.data.people %}
       {% assign photo = site.data.people_photos[person.name] %}

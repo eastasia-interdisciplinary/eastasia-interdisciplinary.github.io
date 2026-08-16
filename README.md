@@ -190,14 +190,33 @@ The preview card is wired up through `defaults` in `_config.yml` rather
 than a top-level `image:` key, because jekyll-seo-tag only reads
 `page.image` and ignores `site.image`.
 
-## Local development
+## Previewing before you publish
 
 ```bash
-bundle install
-bundle exec jekyll serve
+./preview.sh
 ```
 
-Then open http://127.0.0.1:4000/.
+Builds the site and opens it in a browser at http://127.0.0.1:4000/. Pages
+rebuild as you edit, so leave it running and refresh. Nothing reaches the
+live site until you push.
+
+## The people map
+
+`people.html` opens with a map of the group: each field is a point, its
+members orbit it, and anyone working in two fields is drawn between them.
+Who belongs to which field is an editorial reading of the 전공 answers, so
+it lives in `_data/people_clusters.yml` where it can be corrected:
+
+```bash
+python3 tools/build_graph.py   # after editing the clusters file
+```
+
+Positions are computed there and written to `_data/people_graph.yml`, so
+the page ships a finished SVG rather than settling a layout in the browser.
+The order of `fields` decides where they sit around the map — keep fields
+that share members next to each other, or those members are drawn stretching
+across the middle. The map is hidden below 720px and from assistive
+technology; the list underneath is the real content.
 
 ## Deployment
 
