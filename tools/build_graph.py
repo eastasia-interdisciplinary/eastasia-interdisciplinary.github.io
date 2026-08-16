@@ -39,7 +39,8 @@ MEMBER_RING = 96            # smallest orbit for a field's members
 # number of members to keep that much room between them whichever language
 # the reader has chosen.
 SPACING_PER_MEMBER = 22
-LABEL_OFFSET = 40           # field name, kept close to its hub
+LABEL_OFFSET = 46           # field name, kept against its hub
+LABEL_ARC = math.radians(96)  # slice of each ring kept clear for that name
 # Not 0.5. Sitting exactly between two fields says both are equally theirs,
 # which is wrong for someone like 이유경, whose 한국음악 is art first and history
 # second. The first field listed for a member is read as the primary one and
@@ -109,12 +110,17 @@ def place(fields, members):
         count = len(names)
         # a ring, rotated so members fan away from the middle of the canvas
         facing = math.atan2(cy - CENTRE[1], cx - CENTRE[0])
-        radius = max(MEMBER_RING, count * SPACING_PER_MEMBER) if count > 1 else 0
+        # even a field of one puts its member on the ring rather than on the
+        # hub itself, which otherwise sat under the field name
+        radius = max(MEMBER_RING, count * SPACING_PER_MEMBER)
+        # The field name sits straight outward from the hub, so that slice of
+        # the ring is left empty and the members share what is left. Leaving
+        # room for the name is cheaper than moving people out of it afterwards,
+        # and it lets the name sit against its own dot with no leader line.
+        arc = 2 * math.pi - LABEL_ARC
         for i, name in enumerate(sorted(names)):
-            # half a step of rotation, so no member sits directly under the
-            # field name that is placed straight outward from the centre
-            step = 2 * math.pi / count if count else 0
-            angle = facing + step * (i + 0.5)
+            step = arc / count if count else 0
+            angle = facing + LABEL_ARC / 2 + step * (i + 0.5)
             positions[name] = (cx + radius * math.cos(angle), cy + radius * math.sin(angle))
 
     # Two-field members sit on the line between their fields. Where several
@@ -224,40 +230,26 @@ def box_free(x, y, half_w, positions, taken):
 
 
 def place_labels(fields, centres, positions):
-    """Put each field name in the nearest free spot around its own hub.
+    """The field name sits against its own hub, just outside it.
 
-    Nodes were pushed away from the names first, but a node shoved out of one
-    name landed in another and back again, and a handful of overlaps survived
-    hundreds of rounds. Moving the names instead is the tractable version of
-    the problem: there are six of them, they may sit anywhere near their hub,
-    and searching outward from the hub finds a free spot or there is none.
-    Distance from the hub is what is minimised, so a name stays with the dot
-    it belongs to.
+    Nothing has to be searched for or joined by a leader line: the ring of
+    members is laid out with that slice left empty, so the name has somewhere
+    to be. It only steps outward if a member from a neighbouring field has
+    drifted into the gap.
     """
-    out, taken = {}, []
+    out = {}
     for field in fields:
         cx, cy = centres[field["key"]]
         half_w = label_half_width(field)
-        outward = math.atan2(cy - CENTRE[1], cx - CENTRE[0])
-
-        best = None
-        for radius in range(LABEL_OFFSET, 340, 10):
-            # the outward side first, then further round, so the name stays on
-            # the side of the hub the reader expects it
-            for turn in [0] + [s * d for d in range(1, 19) for s in (1, -1)]:
-                angle = outward + math.radians(turn * 10)
-                x = cx + radius * math.cos(angle)
-                y = cy + radius * math.sin(angle)
-                if box_free(x, y, half_w, positions, taken):
-                    best = (x, y)
-                    break
-            if best:
+        angle = math.atan2(cy - CENTRE[1], cx - CENTRE[0])
+        distance = LABEL_OFFSET
+        for _ in range(40):
+            x = cx + distance * math.cos(angle)
+            y = cy + distance * math.sin(angle)
+            if box_free(x, y, half_w, positions, []):
                 break
-        if not best:
-            best = (cx + LABEL_OFFSET * math.cos(outward),
-                    cy + LABEL_OFFSET * math.sin(outward))
-        out[field["key"]] = best
-        taken.append((best[0], best[1], half_w))
+            distance += 10
+        out[field["key"]] = (x, y)
     return out
 
 

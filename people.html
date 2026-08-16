@@ -34,8 +34,6 @@ permalink: /people/
         </g>
         <g class="map-fields">
           {% for f in g.fields %}
-            <line class="map-leader" x1="{{ f.x }}" y1="{{ f.y }}"
-                  x2="{{ f.label_x }}" y2="{{ f.label_y }}" stroke="{{ f.color }}"/>
             <circle class="map-hub" cx="{{ f.x }}" cy="{{ f.y }}" r="6" fill="{{ f.color }}"/>
             <text x="{{ f.label_x }}" y="{{ f.label_y }}" fill="{{ f.color }}">
               <tspan class="i18n-ko">{{ f.name }}</tspan><tspan class="i18n-en">{{ f.name_en }}</tspan>
