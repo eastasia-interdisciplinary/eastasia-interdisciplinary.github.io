@@ -727,15 +727,13 @@ code {
 }
 .people-map svg { display: block; width: 100%; height: auto; overflow: visible; }
 
-/* The spokes are what say who belongs where -- one line means one field, two
-   means someone works across both -- so they are drawn to be read, not as
-   background texture. Filling the fields as areas was tried instead and
-   failed: members pulled toward their primary field are not contiguous, so
-   the regions overlapped into one shape. */
+/* Each spoke takes its field's colour, set per line in the markup. No stroke
+   colour here on purpose: a CSS declaration overrides an SVG presentation
+   attribute, so naming one would repaint every edge the same and undo the
+   colour coding. */
 .map-edges line {
-  stroke: var(--green-dark);
-  stroke-opacity: 0.42;
-  stroke-width: 1.8;
+  stroke-opacity: 0.55;
+  stroke-width: 2;
 }
 
 .map-fields text {
@@ -744,6 +742,12 @@ code {
   font-weight: 700;
   text-anchor: middle;
   dominant-baseline: middle;
+  /* a halo in the page colour, so a name stays legible where it crosses the
+     spokes running into its own hub */
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 6px;
+  stroke-linejoin: round;
 }
 
 
@@ -754,18 +758,6 @@ code {
   stroke-width: 3;
 }
 .map-halo-2 { stroke-width: 2.5; }
-html[data-lang="en"] .map-name { font-size: 12.5px; }
-
-.map-name {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  fill: var(--text-muted);
-  text-anchor: middle;
-  paint-order: stroke;
-  stroke: var(--bg);
-  stroke-width: 4px;   /* a halo so names stay legible where they cross a line */
-  stroke-linejoin: round;
-}
 
 /* hovering one person dims the rest, so their links stand out */
 .people-map svg:hover .map-node { opacity: 0.32; }
@@ -804,9 +796,12 @@ html[data-lang="en"] .map-name { font-size: 12.5px; }
 .panel-note p { margin: 0 0 0.7rem; font-size: 0.93rem; }
 .panel-note { padding-bottom: 1.6rem; }
 
-/* the note is about the group, what follows is about one person: a dashed
-   rule so the panel does not read as one continuous block */
-.person-detail { border-top: 1px dashed var(--rule); padding-top: 1.6rem; }
+/* When a person is showing, the note about the group steps back rather than
+   being fenced off by a rule -- the panel is about one thing at a time. */
+.panel-note { transition: opacity 0.18s ease; }
+.people-explorer:has(.map-node:hover) .panel-note,
+.people-explorer:has(.person-detail:target) .panel-note,
+.people-explorer.has-selection .panel-note { opacity: 0.35; }
 
 
 /* hidden until hovered or chosen; :has() lets a hover override the pinned one */

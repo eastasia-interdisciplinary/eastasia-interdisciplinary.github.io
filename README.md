@@ -222,15 +222,20 @@ measured at 452px of jump per click — the interruption the panel exists to
 avoid. Without JavaScript the anchor still works, with the scroll.
 
 Each field carries a colour, set in the clusters file and used for its name,
-its hub, the spokes running to it and the ring around its members. Someone in
+the spokes running to it and the ring around its members. The name is the
+hub — there is no separate dot — and members ring it. Someone in
 two fields gets two rings, so who works across what is legible without
 counting lines.
 
-Node positions are relaxed after placement so names do not collide. Field
-names are then placed by searching outward from their hub for a free spot,
-with a leader line drawn back to the dot — pushing nodes out of the names
-instead was tried and does not converge, since a node shoved clear of one
-name lands in the next. English
+Nodes carry no name of their own; hovering one puts that person in the
+panel. That is what pays for the larger portraits, and it removes the
+problem of English names being far wider than Korean ones.
+
+Positions are relaxed after placement so nothing collides, with members
+pushed radially out of the field names. Anyone still caught between two
+names is settled by moving the name outward instead — pushing the node
+does not converge, since one shoved clear of the first name lands in the
+second. English
 names are much wider than Korean ones ("Seunghyeok Hwang" against 황승혁),
 so the spacing is sized for the longer of the two.
 

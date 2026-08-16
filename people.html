@@ -32,14 +32,6 @@ permalink: /people/
             <line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}" stroke="{{ e.color }}"/>
           {% endfor %}
         </g>
-        <g class="map-fields">
-          {% for f in g.fields %}
-            <circle class="map-hub" cx="{{ f.x }}" cy="{{ f.y }}" r="6" fill="{{ f.color }}"/>
-            <text x="{{ f.label_x }}" y="{{ f.label_y }}" fill="{{ f.color }}">
-              <tspan class="i18n-ko">{{ f.name }}</tspan><tspan class="i18n-en">{{ f.name_en }}</tspan>
-            </text>
-          {% endfor %}
-        </g>
         <defs>
           {% for n in g.nodes %}
             {% assign photo = site.data.people_photos[n.name] %}
@@ -54,15 +46,20 @@ permalink: /people/
         {% for n in g.nodes %}
           {% assign photo = site.data.people_photos[n.name] %}
           <a class="map-node" href="#{{ n.slug }}">
-            <circle cx="{{ n.x }}" cy="{{ n.y }}" r="34"
+            <circle cx="{{ n.x }}" cy="{{ n.y }}" r="44"
                     fill="{% if photo %}url(#p-{{ n.slug }}){% else %}var(--paper){% endif %}"/>
-            <circle class="map-halo" cx="{{ n.x }}" cy="{{ n.y }}" r="34" stroke="{{ n.color }}"/>
-            {% if n.color2 != "" %}<circle class="map-halo map-halo-2" cx="{{ n.x }}" cy="{{ n.y }}" r="39" stroke="{{ n.color2 }}"/>{% endif %}
-            <text class="map-name" x="{{ n.x }}" y="{{ n.y | plus: 52 }}">
-              <tspan class="i18n-ko">{{ n.name }}</tspan><tspan class="i18n-en">{{ n.name_en }}</tspan>
-            </text>
+            <circle class="map-halo" cx="{{ n.x }}" cy="{{ n.y }}" r="44" stroke="{{ n.color }}"/>
+            {% if n.color2 != "" %}<circle class="map-halo map-halo-2" cx="{{ n.x }}" cy="{{ n.y }}" r="50" stroke="{{ n.color2 }}"/>{% endif %}
           </a>
         {% endfor %}
+        {%- comment -%} drawn last so a name is never buried under a portrait {%- endcomment -%}
+        <g class="map-fields">
+          {% for f in g.fields %}
+            <text x="{{ f.label_x }}" y="{{ f.label_y }}" fill="{{ f.color }}">
+              <tspan class="i18n-ko">{{ f.name }}</tspan><tspan class="i18n-en">{{ f.name_en }}</tspan>
+            </text>
+          {% endfor %}
+        </g>
       </svg>
     </figure>
 

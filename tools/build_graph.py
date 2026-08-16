@@ -32,13 +32,9 @@ OUT_PATH = "_data/people_graph.yml"
 # The canvas carries a margin so field names at the edges are not clipped.
 WIDTH, HEIGHT = 1020, 720
 CENTRE = (WIDTH / 2, HEIGHT / 2)
-FIELD_RADIUS = (300, 215)   # ellipse the field centres sit on
-MEMBER_RING = 96            # smallest orbit for a field's members
-# Names sit under the nodes, and the English ones are far wider than the
-# Korean ("Seunghyeok Hwang" against 황승혁), so the orbit grows with the
-# number of members to keep that much room between them whichever language
-# the reader has chosen.
-SPACING_PER_MEMBER = 22
+FIELD_RADIUS = (330, 235)   # ellipse the field centres sit on
+MEMBER_RING = 118           # smallest orbit for a field's members
+SPACING_PER_MEMBER = 24     # orbit grows with the size of the field
 LABEL_OFFSET = 46           # field name, kept against its hub
 LABEL_ARC = math.radians(96)  # slice of each ring kept clear for that name
 # Not 0.5. Sitting exactly between two fields says both are equally theirs,
@@ -47,12 +43,13 @@ LABEL_ARC = math.radians(96)  # slice of each ring kept clear for that name
 # they are placed nearer to it, still visibly reaching toward the other.
 BRIDGE_PULL = 0.36
 BRIDGE_SPACING = 74         # gap between members bridging the same two fields
-# A name is wider than its node, so nodes need more room than they look like
-# they need. Sized for the longest English name in the group.
-MIN_SEPARATION = 148
+# Nodes carry no name -- hovering one puts the person in the panel -- so the
+# spacing only has to keep the portraits apart, not the words that used to sit
+# under them. That is what pays for the larger nodes and the tighter map.
+NODE_RADIUS = 44            # keep in step with the r= in people.html
+MIN_SEPARATION = NODE_RADIUS * 2 + 20
 RELAX_STEPS = 400
-NODE_RADIUS = 34            # keep in step with the r= in people.html
-NAME_DROP = 52              # baseline of the name under a node
+NAME_DROP = 0
 
 
 def read_clusters(path):
@@ -94,6 +91,7 @@ def field_centres(fields):
 def place(fields, members):
     centres = field_centres(fields)
     order = [f["key"] for f in fields]
+    half_widths = {f["key"]: label_half_width(f) for f in fields}
 
     single = {k: [] for k in order}
     bridges = []
@@ -110,17 +108,13 @@ def place(fields, members):
         count = len(names)
         # a ring, rotated so members fan away from the middle of the canvas
         facing = math.atan2(cy - CENTRE[1], cx - CENTRE[0])
-        # even a field of one puts its member on the ring rather than on the
-        # hub itself, which otherwise sat under the field name
-        radius = max(MEMBER_RING, count * SPACING_PER_MEMBER)
-        # The field name sits straight outward from the hub, so that slice of
-        # the ring is left empty and the members share what is left. Leaving
-        # room for the name is cheaper than moving people out of it afterwards,
-        # and it lets the name sit against its own dot with no leader line.
-        arc = 2 * math.pi - LABEL_ARC
+        # The field name occupies the middle, so the ring has to clear it --
+        # "Natural Sciences & Engineering" is wider than the default orbit.
+        radius = max(MEMBER_RING, count * SPACING_PER_MEMBER,
+                     half_widths[key] + NODE_RADIUS + 20)
         for i, name in enumerate(sorted(names)):
-            step = arc / count if count else 0
-            angle = facing + LABEL_ARC / 2 + step * (i + 0.5)
+            step = 2 * math.pi / count if count else 0
+            angle = facing + step * (i + 0.5)
             positions[name] = (cx + radius * math.cos(angle), cy + radius * math.sin(angle))
 
     # Two-field members sit on the line between their fields. Where several
@@ -139,12 +133,22 @@ def place(fields, members):
             dx, dy = bx - ax, by - ay
             length = math.hypot(dx, dy) or 1
             offset = BRIDGE_SPACING * i - span / 2
-            positions[name] = (x - dy / length * offset, y + dx / length * offset)
+            x, y = x - dy / length * offset, y + dx / length * offset
+            # a bridge lands between two hubs, which is where the field names
+            # now are; slide it along the line until it is clear of both
+            for hub in (a, b):
+                hx, hy = centres[hub]
+                need = half_widths[hub] + NODE_RADIUS + 16
+                while abs(x - hx) < need and abs(y - hy) < LABEL_HALF_H + NODE_RADIUS + 16:
+                    x += (bx - ax) / length * 8 * (1 if hub == a else -1)
+                    y += (by - ay) / length * 8 * (1 if hub == a else -1)
+            positions[name] = (x, y)
 
     return centres, positions
 
 
-def relax(positions):
+
+def relax(positions, labels=None, half_widths=None):
     """Push overlapping nodes apart, pulling each back toward where it belongs.
 
     Placing by field and by bridge gets the structure right but says nothing
@@ -180,6 +184,26 @@ def relax(positions):
             x, y = positions[name]
             ix, iy = ideal[name]
             positions[name] = (x + (ix - x) * 0.06, y + (iy - y) * 0.06)
+
+        # and last, out of the field names. Radially, away from the centre the
+        # ring already runs around, so it cannot bounce a node into the next
+        # name; and last in the iteration so separation cannot undo it.
+        if labels:
+            for name in names:
+                x, y = positions[name]
+                for key, (lx, ly) in labels.items():
+                    need_x = half_widths[key] + NODE_RADIUS + 12
+                    need_y = LABEL_HALF_H + NODE_RADIUS + 12
+                    if abs(x - lx) >= need_x or abs(y - ly) >= need_y:
+                        continue
+                    dx, dy = x - lx, y - ly
+                    distance = math.hypot(dx, dy)
+                    ux, uy = (dx / distance, dy / distance) if distance > 1 else (1.0, 0.0)
+                    while abs(x - lx) < need_x and abs(y - ly) < need_y:
+                        x += ux * 6
+                        y += uy * 6
+                    positions[name] = (x, y)
+                    moved = True
 
 
         if not moved:
@@ -229,28 +253,37 @@ def box_free(x, y, half_w, positions, taken):
     return True
 
 
-def place_labels(fields, centres, positions):
-    """The field name sits against its own hub, just outside it.
+def nudge_labels(labels, centres, positions, half_widths):
+    """Last resort: if a member still sits on a field name, move the name.
 
-    Nothing has to be searched for or joined by a leader line: the ring of
-    members is laid out with that slice left empty, so the name has somewhere
-    to be. It only steps outward if a member from a neighbouring field has
-    drifted into the gap.
+    Members are pushed out of the names during relaxation, but one caught
+    between two names can be shoved out of the first and into the second and
+    back. The names have somewhere to go and are few, so whoever is left over
+    is settled by moving the name outward instead, which always terminates.
     """
-    out = {}
-    for field in fields:
-        cx, cy = centres[field["key"]]
-        half_w = label_half_width(field)
+    for key, (lx, ly) in list(labels.items()):
+        cx, cy = centres[key]
         angle = math.atan2(cy - CENTRE[1], cx - CENTRE[0])
-        distance = LABEL_OFFSET
-        for _ in range(40):
-            x = cx + distance * math.cos(angle)
-            y = cy + distance * math.sin(angle)
-            if box_free(x, y, half_w, positions, []):
+        for _ in range(60):
+            clash = any(abs(x - lx) < half_widths[key] + NODE_RADIUS + 12
+                        and abs(y - ly) < LABEL_HALF_H + NODE_RADIUS + 12
+                        for x, y in positions.values())
+            if not clash:
                 break
-            distance += 10
-        out[field["key"]] = (x, y)
-    return out
+            lx += 12 * math.cos(angle)
+            ly += 12 * math.sin(angle)
+        labels[key] = (lx, ly)
+
+
+def place_labels(fields, centres, positions):
+    """The field name is the hub.
+
+    A dot and a name beside it were two marks for one thing, and whenever the
+    name got pushed off it needed a leader line to say which dot it belonged
+    to. The name sits at the centre instead, the members ring it, and the
+    spokes run to the name itself.
+    """
+    return {f["key"]: centres[f["key"]] for f in fields}
 
 
 def colour_of(fields, key):
@@ -321,12 +354,14 @@ def main():
 
     members = {k: v for k, v in members.items() if k in people}
     centres, positions = place(fields, members)
-    relax(positions)
 
     # The viewBox is fitted to what was actually drawn rather than assumed:
     # a field sitting at the top of the ellipse puts its name above y=0, and a
     # fixed box would clip it.
+    half_widths = {f["key"]: label_half_width(f) for f in fields}
     labels = place_labels(fields, centres, positions)
+    relax(positions, labels, half_widths)
+    nudge_labels(labels, centres, positions, half_widths)
 
 
     xs = [p[0] for p in positions.values()] + [p[0] for p in labels.values()]
