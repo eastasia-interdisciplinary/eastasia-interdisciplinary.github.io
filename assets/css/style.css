@@ -197,6 +197,20 @@ html[data-lang="en"] .i18n-ko { display: none; }
   gap: 1.75rem;
 }
 
+/* Five items set in spaced capitals are wider in English than in Korean and
+   ran off the edge of a phone. They close up, and wrap if they still do not
+   fit rather than pushing the page sideways. */
+@media (max-width: 560px) {
+  .site-nav {
+    flex-wrap: wrap;
+    gap: 0 0.9rem;
+  }
+  .site-nav a {
+    padding: 0.6rem 0;
+    font-size: 0.76rem;
+  }
+}
+
 .site-nav a {
   color: var(--text);
   padding: 0.85rem 0;
