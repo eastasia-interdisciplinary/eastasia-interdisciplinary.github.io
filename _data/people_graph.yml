@@ -329,201 +329,235 @@ edges:
     y2: 192.5
     color: "#3f4a8c"
     person: "nawon-kim"
+    field: "language"
   - x1: 728.1
     y1: 366.1
     x2: 510.0
     y2: 25.0
     color: "#55703c"
     person: "nawon-kim"
+    field: "science"
   - x1: 790.4
     y1: 683.9
     x2: 917.0
     y2: 527.5
     color: "#2f7a75"
     person: "jihyun-kim"
+    field: "arts"
   - x1: 790.4
     y1: 683.9
     x2: 510.0
     y2: 695.0
     color: "#a1734a"
     person: "jihyun-kim"
+    field: "history"
   - x1: 103.0
     y1: 313.1
     x2: 103.0
     y2: 192.5
     color: "#6b4a73"
     person: "chaeyoung-kim"
+    field: "philosophy"
   - x1: 103.0
     y1: 313.1
     x2: 103.0
     y2: 527.5
     color: "#a05340"
     person: "chaeyoung-kim"
+    field: "politics"
   - x1: 421.8
     y1: 816.4
     x2: 510.0
     y2: 695.0
     color: "#a1734a"
     person: "eunkyo-suh"
+    field: "history"
   - x1: 373.9
     y1: 674.3
     x2: 510.0
     y2: 695.0
     color: "#a1734a"
     person: "minkyoung-seong"
+    field: "history"
   - x1: 510.0
     y1: 545.0
     x2: 510.0
     y2: 695.0
     color: "#a1734a"
     person: "jinho-ahn"
+    field: "history"
   - x1: 1096.6
     y1: 330.9
     x2: 917.0
     y2: 192.5
     color: "#3f4a8c"
     person: "yoon-ju-eom"
+    field: "language"
   - x1: 917.0
     y1: 313.1
     x2: 917.0
     y2: 192.5
     color: "#3f4a8c"
     person: "mireu-yu"
+    field: "language"
   - x1: 917.0
     y1: 313.1
     x2: 917.0
     y2: 527.5
     color: "#2f7a75"
     person: "mireu-yu"
+    field: "arts"
   - x1: 674.3
     y1: 142.7
     x2: 917.0
     y2: 192.5
     color: "#3f4a8c"
     person: "harin-yu"
+    field: "language"
   - x1: 674.3
     y1: 142.7
     x2: 510.0
     y2: 25.0
     color: "#55703c"
     person: "harin-yu"
+    field: "science"
   - x1: 741.9
     y1: 273.9
     x2: 917.0
     y2: 192.5
     color: "#3f4a8c"
     person: "sanah-yun"
+    field: "language"
   - x1: 316.6
     y1: 488.8
     x2: 103.0
     y2: 527.5
     color: "#a05340"
     person: "nahyeon-lee"
+    field: "politics"
   - x1: 301.9
     y1: 110.7
     x2: 103.0
     y2: 192.5
     color: "#6b4a73"
     person: "yongwoo-yi"
+    field: "philosophy"
   - x1: 301.9
     y1: 110.7
     x2: 510.0
     y2: 25.0
     color: "#55703c"
     person: "yongwoo-yi"
+    field: "science"
   - x1: 727.3
     y1: 514.1
     x2: 917.0
     y2: 527.5
     color: "#2f7a75"
     person: "yugyeong-lee"
+    field: "arts"
   - x1: 727.3
     y1: 514.1
     x2: 510.0
     y2: 695.0
     color: "#a1734a"
     person: "yugyeong-lee"
+    field: "history"
   - x1: 770.8
     y1: 109.6
     x2: 917.0
     y2: 192.5
     color: "#3f4a8c"
     person: "chanhee-lee"
+    field: "language"
   - x1: 770.8
     y1: 109.6
     x2: 510.0
     y2: 25.0
     color: "#55703c"
     person: "chanhee-lee"
+    field: "science"
   - x1: 305.6
     y1: 275.9
     x2: 103.0
     y2: 192.5
     color: "#6b4a73"
     person: "han-seok-lee"
+    field: "philosophy"
   - x1: 650.1
     y1: 641.9
     x2: 510.0
     y2: 695.0
     color: "#a1734a"
     person: "seeun-jeon"
+    field: "history"
   - x1: 311.9
     y1: 591.2
     x2: 103.0
     y2: 527.5
     color: "#a05340"
     person: "woohyung-jung"
+    field: "politics"
   - x1: 311.9
     y1: 591.2
     x2: 510.0
     y2: 695.0
     color: "#a1734a"
     person: "woohyung-jung"
+    field: "history"
   - x1: 947.1
     y1: -32.2
     x2: 917.0
     y2: 192.5
     color: "#3f4a8c"
     person: "jaewoo-jeong"
+    field: "language"
   - x1: 817.3
     y1: 19.5
     x2: 917.0
     y2: 192.5
     color: "#3f4a8c"
     person: "chaeyeon-jeong"
+    field: "language"
   - x1: 817.3
     y1: 19.5
     x2: 510.0
     y2: 25.0
     color: "#55703c"
     person: "chaeyeon-jeong"
+    field: "science"
   - x1: 559.7
     y1: 229.6
     x2: 510.0
     y2: 25.0
     color: "#55703c"
     person: "minkyung-cho"
+    field: "science"
   - x1: 559.7
     y1: 229.6
     x2: 917.0
     y2: 192.5
     color: "#3f4a8c"
     person: "minkyung-cho"
+    field: "language"
   - x1: 598.2
     y1: 816.4
     x2: 510.0
     y2: 695.0
     color: "#a1734a"
     person: "jun-pyo-jin"
+    field: "history"
   - x1: 402.2
     y1: 535.7
     x2: 510.0
     y2: 695.0
     color: "#a1734a"
     person: "seunghyeok-hwang"
+    field: "history"
   - x1: 402.2
     y1: 535.7
     x2: 103.0
     y2: 192.5
     color: "#6b4a73"
     person: "seunghyeok-hwang"
+    field: "philosophy"

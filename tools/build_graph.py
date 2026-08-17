@@ -536,7 +536,8 @@ def main():
                   "    x2: %.1f" % bx, "    y2: %.1f" % by,
                   '    color: "%s"' % colour_of(fields, key),
                   '    person: "%s"' % re.sub(r"[^a-z0-9]+", "-",
-                                              people[who].get("name_en", who).lower()).strip("-")]
+                                              people[who].get("name_en", who).lower()).strip("-"),
+                  '    field: "%s"' % key]
 
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")

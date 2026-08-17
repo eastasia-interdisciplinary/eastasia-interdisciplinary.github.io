@@ -30,7 +30,7 @@ permalink: /people/
         <g class="map-edges">
           {% for e in g.edges %}
             <line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}"
-                  stroke="{{ e.color }}" data-person="{{ e.person }}"/>
+                  stroke="{{ e.color }}" data-person="{{ e.person }}" data-field="{{ e.field }}"/>
           {% endfor %}
         </g>
         <defs>
@@ -61,7 +61,7 @@ permalink: /people/
               running into the letters. One per language, since the two are
               different widths and only one shows at a time.
             {%- endcomment -%}
-            <g data-field="{{ f.key }}">
+            <g class="map-field" data-field="{{ f.key }}" role="button" tabindex="0">
             <rect class="map-chip i18n-ko" fill="{{ f.chip }}" style="filter: drop-shadow(0 2px 10px {{ f.glow }})"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_ko }}" height="{{ f.chip_h }}"
@@ -123,10 +123,14 @@ permalink: /people/
   </div>
 
   {%- comment -%}
-    Hover previews and lights that person's own spokes and fields; click pins
-    them, and clicking again lets go. Done in script rather than :hover and
-    :has(), which needed two generated rules per person and could not be
-    verified -- this can, by dispatching events at it.
+    Two ways round the same map. Hovering a person lights their spokes and
+    the fields they work in; clicking holds it. Clicking a field name instead
+    lights everyone in it, and fields add up, so selecting two shows both
+    memberships at once.
+
+    Done in script rather than :hover and :has(), which needed two generated
+    rules per person and could not be verified -- this can, by dispatching
+    events at it.
 
     Without JavaScript the anchor still works and the list below is unaffected;
     the map is decorative either way.
@@ -136,26 +140,23 @@ permalink: /people/
       var explorer = document.querySelector(".people-explorer");
       if (!explorer) return;
       var svg = explorer.querySelector("svg");
-      var pinned = null;
+      var nodes = [].slice.call(svg.querySelectorAll(".map-node"));
+      var fieldGroups = [].slice.call(svg.querySelectorAll(".map-field"));
 
-      function light(slug, fields) {
+      var pinned = null;      // a person, held until clicked again
+      var chosen = [];        // fields, any number of them
+
+      function fieldsOf(node) {
+        return (node.getAttribute("data-fields") || "").split(" ").filter(Boolean);
+      }
+
+      function clear() {
         explorer.querySelectorAll(".is-lit").forEach(function (el) {
           el.classList.remove("is-lit");
         });
-        if (!slug) { svg.classList.remove("is-dimmed"); return; }
-        svg.classList.add("is-dimmed");
-        var node = svg.querySelector('.map-node[href="#' + slug + '"]');
-        if (node) node.classList.add("is-lit");
-        svg.querySelectorAll('line[data-person="' + slug + '"]').forEach(function (line) {
-          line.classList.add("is-lit");
-        });
-        (fields || "").split(" ").forEach(function (key) {
-          var group = key && svg.querySelector('g[data-field="' + key + '"]');
-          if (group) group.classList.add("is-lit");
-        });
       }
 
-      function show(slug) {
+      function showPerson(slug) {
         explorer.querySelectorAll(".person-detail.showing").forEach(function (el) {
           el.classList.remove("showing");
         });
@@ -164,19 +165,79 @@ permalink: /people/
         explorer.classList.toggle("has-selection", !!slug);
       }
 
-      svg.querySelectorAll(".map-node").forEach(function (node) {
+      function lightPerson(node) {
+        node.classList.add("is-lit");
         var slug = (node.getAttribute("href") || "").slice(1);
-        var fields = node.getAttribute("data-fields") || "";
-        node.addEventListener("mouseenter", function () { light(slug, fields); show(slug); });
-        node.addEventListener("mouseleave", function () {
-          light(pinned && pinned.slug, pinned && pinned.fields);
-          show(pinned && pinned.slug);
+        svg.querySelectorAll('line[data-person="' + slug + '"]').forEach(function (line) {
+          line.classList.add("is-lit");
         });
+        fieldsOf(node).forEach(function (key) {
+          var group = svg.querySelector('.map-field[data-field="' + key + '"]');
+          if (group) group.classList.add("is-lit");
+        });
+        showPerson(slug);
+      }
+
+      function lightFields(keys) {
+        keys.forEach(function (key) {
+          var group = svg.querySelector('.map-field[data-field="' + key + '"]');
+          if (group) group.classList.add("is-lit");
+        });
+        nodes.forEach(function (node) {
+          var mine = fieldsOf(node).filter(function (k) { return keys.indexOf(k) >= 0; });
+          if (!mine.length) return;
+          node.classList.add("is-lit");
+          var slug = (node.getAttribute("href") || "").slice(1);
+          mine.forEach(function (key) {
+            svg.querySelectorAll('line[data-person="' + slug + '"][data-field="' + key + '"]')
+              .forEach(function (line) { line.classList.add("is-lit"); });
+          });
+        });
+        showPerson(null);
+      }
+
+      // `preview` is whatever the pointer is over; it wins over what is held
+      function apply(preview) {
+        clear();
+        if (preview && preview.node) { svg.classList.add("is-dimmed"); lightPerson(preview.node); return; }
+        if (preview && preview.field) { svg.classList.add("is-dimmed"); lightFields([preview.field]); return; }
+        if (pinned) { svg.classList.add("is-dimmed"); lightPerson(pinned); return; }
+        if (chosen.length) { svg.classList.add("is-dimmed"); lightFields(chosen); return; }
+        svg.classList.remove("is-dimmed");
+        showPerson(null);
+      }
+
+      nodes.forEach(function (node) {
+        node.addEventListener("mouseenter", function () { apply({ node: node }); });
+        node.addEventListener("mouseleave", function () { apply(); });
         node.addEventListener("click", function (event) {
           event.preventDefault();   // the jump this panel exists to avoid
-          pinned = (pinned && pinned.slug === slug) ? null : { slug: slug, fields: fields };
-          light(pinned && pinned.slug, pinned && pinned.fields);
-          show(pinned && pinned.slug);
+          chosen = [];
+          pinned = pinned === node ? null : node;
+          apply();
+        });
+      });
+
+      // Fields are selectable too, any number at once: the map reads either
+      // way round, from a person to their fields or from fields to who is in
+      // them.
+      fieldGroups.forEach(function (group) {
+        var key = group.getAttribute("data-field");
+        function toggle() {
+          pinned = null;
+          var at = chosen.indexOf(key);
+          if (at >= 0) chosen.splice(at, 1); else chosen.push(key);
+          apply();
+        }
+        group.addEventListener("mouseenter", function () {
+          if (!pinned && !chosen.length) apply({ field: key });
+        });
+        group.addEventListener("mouseleave", function () {
+          if (!pinned && !chosen.length) apply();
+        });
+        group.addEventListener("click", toggle);
+        group.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggle(); }
         });
       });
     })();
