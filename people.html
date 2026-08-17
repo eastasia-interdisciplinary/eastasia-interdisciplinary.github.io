@@ -80,46 +80,72 @@ permalink: /people/
     </figure>
 
     {%- comment -%}
-      The same reading of the group, for a screen the map cannot be drawn on.
-      A 22-node map shrunk to a phone is portraits the size of a full stop,
-      and panned it is a keyhole; grouped by field it stays a picture of who
-      sits with whom, read down the page instead of across it. Anyone in two
-      fields appears under both, carrying the other field's colour as a second
-      ring -- which is what the spokes say on the map.
+      The map redrawn for a screen it cannot be drawn on. Six fields as a ring
+      and nothing else: the portraits are what will not shrink, and repeating
+      the ones who work in two fields -- which a list per field has to do --
+      made twenty-two people look like thirty-four. Pick a field and its
+      members come up over the page, counted once, where there is room to
+      read them.
     {%- endcomment -%}
     {% assign clusters = site.data.people_clusters %}
-    <div class="field-groups">
+    <ul class="field-ring">
       {% for f in clusters.fields %}
-        <section class="field-group">
-          <h3 class="field-group-name" style="color: {{ f.color }}; border-bottom-color: {{ f.color }}">
+        <li class="field-ring-cell">
+          <button type="button" class="field-chip" data-field="{{ f.key }}"
+                  style="--field: {{ f.color }}">
             <span class="i18n-ko">{{ f.name }}</span><span class="i18n-en">{{ f.name_en }}</span>
+          </button>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {%- comment -%}
+      One list per field, kept out of sight until its field is picked and then
+      copied into the card. Written here rather than assembled in script, so
+      the names and affiliations come from the same data as everything else.
+    {%- endcomment -%}
+    <div class="field-lists" hidden>
+      {% for f in clusters.fields %}
+        {% assign n = 0 %}
+        {% for person in site.data.people %}
+          {% assign mine = clusters.members[person.name] %}
+          {% if mine contains f.key %}{% assign n = n | plus: 1 %}{% endif %}
+        {% endfor %}
+        <div id="field-{{ f.key }}">
+          <h3 class="field-list-name" style="color: {{ f.color }}">
+            <span class="i18n-ko">{{ f.name }}</span><span class="i18n-en">{{ f.name_en }}</span>
+            <span class="field-list-count">
+              <span class="i18n-ko">{{ n }}명</span><span class="i18n-en">{{ n }}</span>
+            </span>
           </h3>
-          <ul class="field-members">
+          <ul class="field-list">
             {% for person in site.data.people %}
               {% assign mine = clusters.members[person.name] %}
               {% if mine contains f.key %}
                 {% assign slug = person.name_en | default: person.name | slugify %}
                 {% assign photo = site.data.people_photos[person.name] %}
-                {% assign other_key = "" %}
-                {% for k in mine %}{% if k != f.key %}{% assign other_key = k %}{% endif %}{% endfor %}
-                {% assign other = clusters.fields | where: "key", other_key | first %}
                 <li>
-                  <a class="field-member" href="#{{ slug }}" data-slug="{{ slug }}"
-                     style="--ring: {{ f.color }}{% if other %}; --ring-2: {{ other.color }}{% endif %}">
-                    <span class="field-member-photo">
+                  <button type="button" class="field-list-row" data-slug="{{ slug }}">
+                    <span class="field-list-photo">
                       {% if photo %}
                         <img src="{{ '/assets/images/people/' | append: photo | relative_url }}" alt="" loading="lazy">
                       {% endif %}
                     </span>
-                    <span class="field-member-name">
-                      <span class="i18n-ko">{{ person.name }}</span><span class="i18n-en">{{ person.name_en | default: person.name }}</span>
+                    <span class="field-list-who">
+                      <span class="field-list-person">
+                        <span class="i18n-ko">{{ person.name }}</span><span class="i18n-en">{{ person.name_en | default: person.name }}</span>
+                      </span>
+                      <span class="post-meta">
+                        <span class="i18n-ko">{{ person.affiliation }}{% if person.field %} · {{ person.field }}{% endif %}</span>
+                        <span class="i18n-en">{{ person.affiliation_en | default: person.affiliation }}{% if person.field_en or person.field %} · {{ person.field_en | default: person.field }}{% endif %}</span>
+                      </span>
                     </span>
-                  </a>
+                  </button>
                 </li>
               {% endif %}
             {% endfor %}
           </ul>
-        </section>
+        </div>
       {% endfor %}
     </div>
 
@@ -174,6 +200,10 @@ permalink: /people/
   <div class="person-sheet" hidden>
     <div class="person-sheet-scrim" data-close></div>
     <div class="person-sheet-card" role="dialog" aria-modal="true">
+      <button class="person-sheet-back" type="button" hidden>
+        <span aria-hidden="true">&larr;</span>
+        <span class="i18n-ko">분야로</span><span class="i18n-en">Back</span>
+      </button>
       <button class="person-sheet-close" type="button" data-close>
         <span aria-hidden="true">&times;</span>
         <span class="i18n-ko sr-only">닫기</span><span class="i18n-en sr-only">Close</span>
@@ -206,6 +236,8 @@ permalink: /people/
       var panel = explorer.querySelector(".people-panel");
       var sheet = document.querySelector(".person-sheet");
       var sheetBody = sheet && sheet.querySelector(".person-sheet-body");
+      var sheetBack = sheet && sheet.querySelector(".person-sheet-back");
+      var fromField = null;   // the field list to go back to, if there is one
 
       var pinned = null;      // a person, held until clicked again
       var chosen = [];        // fields, any number of them
@@ -214,10 +246,29 @@ permalink: /people/
       // reader somewhere: the person's own entry, further down the page.
       function panelShown() { return !!panel && panel.offsetParent !== null; }
 
-      function openSheet(slug) {
-        var source = document.getElementById(slug);
-        if (!sheet || !source) return;
+      function fill(id) {
+        var source = document.getElementById(id);
+        if (!sheet || !source) return false;
         sheetBody.innerHTML = source.innerHTML;
+        sheetBody.scrollTop = 0;
+        return true;
+      }
+
+      function openField(key) {
+        if (!fill("field-" + key)) return;
+        fromField = key;
+        sheetBack.hidden = true;
+        show();
+      }
+
+      function openSheet(slug, back) {
+        if (!fill(slug)) return;
+        fromField = back || null;
+        sheetBack.hidden = !back;
+        show();
+      }
+
+      function show() {
         sheet.hidden = false;
         // a frame's grace, or the card is already in place when the
         // transition is asked to run it up from the bottom
@@ -230,16 +281,29 @@ permalink: /people/
         sheet.classList.remove("is-open");
         sheet.hidden = true;
         document.body.classList.remove("is-sheet-open");
+        fromField = null;
         pinned = null;
         apply();
       }
 
-      explorer.querySelectorAll(".field-member").forEach(function (link) {
-        link.addEventListener("click", function (event) {
-          event.preventDefault();
-          openSheet(link.getAttribute("data-slug"));
+      explorer.querySelectorAll(".field-chip").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          openField(chip.getAttribute("data-field"));
         });
       });
+
+      // the rows are copied into the card, so the listener sits on the card
+      if (sheetBody) {
+        sheetBody.addEventListener("click", function (event) {
+          var row = event.target.closest(".field-list-row");
+          if (row) openSheet(row.getAttribute("data-slug"), fromField);
+        });
+      }
+      if (sheetBack) {
+        sheetBack.addEventListener("click", function () {
+          if (fromField) openField(fromField);
+        });
+      }
 
       if (sheet) {
         sheet.addEventListener("click", function (event) {

@@ -1099,40 +1099,6 @@ code {
 /* the page behind holds still while the card is up */
 body.is-sheet-open { overflow: hidden; }
 
-/* ---------- field groups (the map, for a narrow screen) ---------- */
-
-.field-groups { display: none; }
-
-.field-group + .field-group { margin-top: 1.9rem; }
-
-.field-group-name {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 0 0 0.9rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 2px solid;
-}
-
-.field-members {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  /* as many to a row as the screen holds, sharing the width evenly rather
-     than lining up left with a ragged gap at the end */
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
-  gap: 1.15rem 0.55rem;
-}
-.field-members li { margin: 0; }
-
-.field-member {
-  display: block;
-  text-align: center;
-  color: var(--text);
-}
-.field-member:hover { text-decoration: none; }
-
 /* The ring is the field's colour; anyone who works in a second field carries
    that field's colour outside it, which is what a spoke says on the map. */
 .field-member-photo {
@@ -1160,10 +1126,131 @@ body.is-sheet-open { overflow: hidden; }
   color: var(--navy);
 }
 
-/* Below this the map gives way to the field groups: shrunk to a phone its
+/* ---------- field ring (the map, for a narrow screen) ---------- */
+
+/* Six fields set out as a hexagon -- two across the top, one to each side,
+   two across the bottom -- keeping the order they have on the map, so fields
+   that share members stay next to each other. */
+.field-ring {
+  display: none;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.9rem 0.4rem;
+  align-items: stretch;
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+}
+.field-ring-cell { margin: 0; display: flex; }
+.field-ring-cell:nth-child(1) { grid-column: 2 / 4; grid-row: 1; }
+.field-ring-cell:nth-child(2) { grid-column: 4 / 6; grid-row: 1; }
+.field-ring-cell:nth-child(3) { grid-column: 5 / 7; grid-row: 2; }
+.field-ring-cell:nth-child(4) { grid-column: 4 / 6; grid-row: 3; }
+.field-ring-cell:nth-child(5) { grid-column: 2 / 4; grid-row: 3; }
+.field-ring-cell:nth-child(6) { grid-column: 1 / 3; grid-row: 2; }
+
+.field-chip {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.7rem 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--field);
+  background: var(--paper);
+  border: 2px solid var(--field);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.field-chip:focus-visible { outline: 2px solid var(--green-dark); outline-offset: 3px; }
+
+/* ---------- a field's members, in the card ---------- */
+
+.field-lists[hidden] { display: none; }
+
+.field-list-name {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  margin: 0 0 0.9rem;
+}
+.field-list-count {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 0.4rem;
+}
+
+.field-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.field-list li + li { border-top: 1px solid var(--rule); }
+
+.field-list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 0.6rem 0;
+  text-align: left;
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+.field-list-photo {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg);
+}
+.field-list-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  display: block;
+}
+.field-list-who { min-width: 0; }
+.field-list-person {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 0.98rem;
+  color: var(--navy);
+}
+.field-list-who .post-meta { margin: 0.1rem 0 0; font-size: 0.78rem; }
+
+.person-sheet-back {
+  position: absolute;
+  top: 0.9rem;
+  left: 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--navy);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.person-sheet-back[hidden] { display: none; }
+.person-sheet-back:focus-visible { outline: 2px solid var(--green-dark); outline-offset: 2px; }
+/* the entry drops below the back link when there is one */
+.person-sheet-back:not([hidden]) ~ .person-sheet-body { padding-top: 1.5rem; }
+
+/* Below this the map gives way to the ring of fields: shrunk to a phone its
    portraits are the size of a full stop, and panned it is a keyhole. Last in
    the sheet, so it outranks the default state of both. */
 @media (max-width: 720px) {
   .people-map { display: none; }
-  .field-groups { display: block; }
+  .field-ring { display: grid; }
 }
