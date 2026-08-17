@@ -273,6 +273,7 @@ def relax(positions, labels=None, half_widths=None, fields_of=None, centres=None
 
 
 LABEL_HALF_H = 20
+CHIP_PAD = 38            # breathing room either side of a field name
 LABEL_FONT = 32          # keep in step with .map-fields text in the CSS
 
 
@@ -293,11 +294,30 @@ def label_clear(x, y, half_w, positions):
     return True
 
 
+NARROW = "·・-–— .,&"
+
+
+def text_width(text):
+    """Rendered width of a name, measured against the display serif.
+
+    Korean glyphs run about the full point size, Latin about half, and
+    punctuation like the interpunct a good deal less than either.
+    """
+    total = 0.0
+    for char in text:
+        if char in NARROW:
+            total += LABEL_FONT * 0.34
+        elif ord(char) > 0x2000:      # CJK and Hangul
+            total += LABEL_FONT
+        else:
+            total += LABEL_FONT * 0.47
+    return total
+
+
 def label_half_width(field):
-    """Widest the name gets in either language, measured against the rendered
-    serif: Korean glyphs run about the full size, Latin about half."""
-    return max(len(field.get("name", "")) * LABEL_FONT,
-               len(field.get("name_en", "")) * LABEL_FONT * 0.47) / 2 + 14
+    """Half the chip's width, for keeping members clear of it."""
+    return max(text_width(field.get("name", "")),
+               text_width(field.get("name_en", ""))) / 2 + CHIP_PAD / 2 + 6
 
 
 def box_free(x, y, half_w, positions, taken):
@@ -459,15 +479,17 @@ def main():
     for field in fields:
         x, y = centres[field["key"]]
         lx, ly = labels[field["key"]]
-        # widths for the chip drawn behind the name, one per language since
-        # only one is ever showing
-        w_ko = len(field.get("name", "")) * LABEL_FONT + 26
-        w_en = len(field.get("name_en", "")) * LABEL_FONT * 0.47 + 26
+        # Chip widths, one per language since only one is ever showing. Counted
+        # per character rather than by length: 자연과학·공학 is seven characters
+        # but the interpunct is a third the width of the rest, and treating
+        # them alike drew a box half again wider than the name inside it.
+        w_ko = text_width(field.get("name", "")) + CHIP_PAD
+        w_en = text_width(field.get("name_en", "")) + CHIP_PAD
         lines += ['  - key: "%s"' % field["key"],
                   '    color: "%s"' % field.get("color", "#55703c"),
                   '    chip: "%s"' % chip_colour(field.get("color", "#55703c")),
                   "    w_ko: %.1f" % w_ko, "    w_en: %.1f" % w_en,
-                  "    chip_h: %d" % (LABEL_HALF_H * 2 + 12),
+                  "    chip_h: %d" % (LABEL_HALF_H * 2 + 14),
                   "    label_x: %.1f" % lx, "    label_y: %.1f" % ly,
                   '    name: "%s"' % field.get("name", field["key"]),
                   '    name_en: "%s"' % field.get("name_en", field.get("name", field["key"])),

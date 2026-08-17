@@ -65,11 +65,11 @@ permalink: /people/
             <rect class="map-chip i18n-ko" fill="{{ f.chip }}"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_ko }}" height="{{ f.chip_h }}"
-                  transform="translate({{ f.w_ko | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="14"/>
+                  transform="translate({{ f.w_ko | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="10"/>
             <rect class="map-chip i18n-en" fill="{{ f.chip }}"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_en }}" height="{{ f.chip_h }}"
-                  transform="translate({{ f.w_en | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="14"/>
+                  transform="translate({{ f.w_en | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="10"/>
             <text x="{{ f.label_x }}" y="{{ f.label_y }}" fill="{{ f.color }}">
               <tspan class="i18n-ko">{{ f.name }}</tspan><tspan class="i18n-en">{{ f.name_en }}</tspan>
             </text>
