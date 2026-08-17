@@ -774,10 +774,13 @@ summary.cycle-heading::before {
   color: var(--text-muted);
   padding: 0.5rem 0.1rem 0;
 }
-/* Where the pointer can hover, the caption sits over the foot of the photo
-   and appears on hover or keyboard focus; elsewhere it stays printed below,
-   since a touch screen has no hover to reveal it with. */
-@media (hover: hover) {
+/* Where the pointer can hover AND the photograph is big enough to hold a
+   sentence, the caption sits over its foot and appears on hover or keyboard
+   focus. On a touch screen there is no hover to reveal it with, and on a
+   narrow one the photographs are a hundred-odd pixels across -- a caption
+   laid over one of those runs straight out of the frame. Both cases keep it
+   printed underneath. */
+@media (hover: hover) and (min-width: 561px) {
   .gallery-item figcaption {
     position: absolute;
     left: 0;
@@ -1324,6 +1327,15 @@ body.is-sheet-open { overflow: hidden; }
 /* Below this the map gives way to the ring of fields: shrunk to a phone its
    portraits are the size of a full stop, and panned it is a keyhole. Last in
    the sheet, so it outranks the default state of both. */
+/* Two to a row rather than a whole day across one: three photographs sharing
+   a phone's width are ninety pixels each, which is a thumbnail, not a photo. */
+@media (max-width: 560px) {
+  .gallery-grid { flex-wrap: wrap; }
+  .gallery-item { flex: 0 1 calc(50% - 0.7rem); }
+  /* a day of one photograph has the row to itself, so it takes it */
+  .gallery-item:only-child { flex: 1 1 100%; }
+}
+
 @media (max-width: 720px) {
   .people-map { display: none; }
   .field-ring-wrap { display: block; }
