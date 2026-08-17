@@ -388,8 +388,12 @@ permalink: /people/
           chip.setAttribute("aria-pressed",
             chosen.indexOf(chip.getAttribute("data-field")) >= 0);
         });
-        picked.classList.toggle("is-active", chosen.length > 0);
-        if (!chosen.length) { pickedHead.innerHTML = ""; pickedList.innerHTML = ""; return; }
+        if (!chosen.length) {
+          picked.classList.remove("is-active");
+          pickedHead.innerHTML = "";
+          pickedList.innerHTML = "";
+          return;
+        }
 
         var lists = chosen.map(rowsIn);
         var rest = lists.slice(1).map(function (rows) {
@@ -399,6 +403,11 @@ permalink: /people/
           var slug = row.getAttribute("data-slug");
           return rest.every(function (slugs) { return slugs.indexOf(slug) >= 0; });
         });
+
+        // Nothing in common shows nothing: the fields stay lit, so the picking
+        // still reads, and an empty overlap is not worth a sentence saying so.
+        picked.classList.toggle("is-active", hits.length > 0);
+        if (!hits.length) { pickedHead.innerHTML = ""; pickedList.innerHTML = ""; return; }
 
         var names = chosen.map(function (key) {
           var chip = explorer.querySelector('.field-chip[data-field="' + key + '"]');
@@ -410,12 +419,6 @@ permalink: /people/
           '<span class="i18n-en">' + hits.length + '</span></span>';
 
         pickedList.innerHTML = "";
-        if (!hits.length) {
-          pickedList.innerHTML = '<li class="field-picked-none">' +
-            '<span class="i18n-ko">두 분야를 함께 하는 구성원은 아직 없습니다.</span>' +
-            '<span class="i18n-en">No one works in all of these yet.</span></li>';
-          return;
-        }
         hits.forEach(function (row) {
           var li = document.createElement("li");
           li.appendChild(row.cloneNode(true));

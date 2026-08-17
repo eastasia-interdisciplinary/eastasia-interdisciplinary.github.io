@@ -1195,12 +1195,7 @@ body.is-sheet-open { overflow: hidden; }
   font-weight: 400;
   color: var(--text-muted);
 }
-.field-picked-none {
-  padding: 0.6rem 0;
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  font-style: italic;
-}
+
 
 /* ---------- a field's members, in the card ---------- */
 
