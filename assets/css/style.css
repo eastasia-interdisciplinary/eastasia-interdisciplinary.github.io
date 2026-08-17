@@ -1131,10 +1131,35 @@ body.is-sheet-open { overflow: hidden; }
 /* Six fields set out as a hexagon -- two across the top, one to each side,
    two across the bottom -- keeping the order they have on the map, so fields
    that share members stay next to each other. */
-.field-ring {
+.field-ring-wrap {
   display: none;
+  position: relative;
+}
+
+/* behind the chips, which carry an opaque ground, so a line stops at an edge
+   rather than running under a name */
+.field-ring-links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.field-ring-links line {
+  stroke-opacity: 0.45;
+  transition: stroke-opacity 0.15s ease;
+}
+.field-ring-links.is-dimmed line { stroke-opacity: 0.12; }
+.field-ring-links.is-dimmed line.is-lit { stroke-opacity: 0.95; }
+
+.field-ring {
+  display: grid;
+  position: relative;
   grid-template-columns: repeat(6, 1fr);
-  gap: 0.9rem 0.4rem;
+  /* roomy enough that the line between two neighbouring fields is a line and
+     not a seam: they sit side by side at the top and along the bottom */
+  gap: 1.5rem 1rem;
   align-items: stretch;
   list-style: none;
   margin: 0 0 0.5rem;
@@ -1160,7 +1185,11 @@ body.is-sheet-open { overflow: hidden; }
   font-weight: 700;
   line-height: 1.3;
   color: var(--field);
-  background: var(--paper);
+  /* a wash of the field's own colour over the page, the same way the names on
+     the map sit on a tint of themselves. Flat --paper read as a white card
+     dropped on the cream, which nothing else on the site does. */
+  background: var(--bg);
+  background: color-mix(in srgb, var(--field) 11%, var(--bg));
   border: 2px solid var(--field);
   border-radius: 999px;
   cursor: pointer;
@@ -1168,9 +1197,20 @@ body.is-sheet-open { overflow: hidden; }
 .field-chip:focus-visible { outline: 2px solid var(--green-dark); outline-offset: 3px; }
 
 /* picked: filled rather than outlined, so several at once read at a glance */
+.field-chip {
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
 .field-chip.is-picked {
   color: var(--paper);
   background: var(--field);
+}
+
+/* set back, not shut off: picking it would leave the list empty, but it is
+   still a button and still says what it is */
+.field-chip.is-faded {
+  color: var(--text-muted);
+  background: var(--bg);
+  border-color: var(--rule);
 }
 
 /* ---------- what the picked fields come to ---------- */
@@ -1282,6 +1322,6 @@ body.is-sheet-open { overflow: hidden; }
    the sheet, so it outranks the default state of both. */
 @media (max-width: 720px) {
   .people-map { display: none; }
-  .field-ring { display: grid; }
+  .field-ring-wrap { display: block; }
   .field-picked.is-active { display: block; }
 }

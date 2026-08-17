@@ -89,7 +89,14 @@ permalink: /people/
       and picking a second field is the whole point of the thing.
     {%- endcomment -%}
     {% assign clusters = site.data.people_clusters %}
-    <ul class="field-ring">
+    <div class="field-ring-wrap">
+      {%- comment -%}
+        The lines are drawn in script rather than written out here: where the
+        chips sit depends on how the names wrap, which depends on the language
+        and the width of the screen.
+      {%- endcomment -%}
+      <svg class="field-ring-links" aria-hidden="true"></svg>
+      <ul class="field-ring">
       {% for f in clusters.fields %}
         <li class="field-ring-cell">
           <button type="button" class="field-chip" data-field="{{ f.key }}"
@@ -98,7 +105,8 @@ permalink: /people/
           </button>
         </li>
       {% endfor %}
-    </ul>
+      </ul>
+    </div>
 
     <div class="field-picked">
       <p class="field-picked-head"></p>
@@ -242,6 +250,9 @@ permalink: /people/
       var pickedHead = picked && picked.querySelector(".field-picked-head");
       var pickedList = picked && picked.querySelector(".field-picked-list");
       var chips = [].slice.call(explorer.querySelectorAll(".field-chip"));
+      var ring = explorer.querySelector(".field-ring");
+      var links = explorer.querySelector(".field-ring-links");
+      var SVG_NS = "http://www.w3.org/2000/svg";
 
       var pinned = null;      // a person, held until clicked again
       var chosen = [];        // fields, any number of them
@@ -279,6 +290,17 @@ permalink: /people/
         pinned = null;
         apply();
       }
+
+      drawLinks();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawLinks);
+      var redraw;
+      window.addEventListener("resize", function () {
+        clearTimeout(redraw);
+        redraw = setTimeout(drawLinks, 120);
+      });
+      // the names are a different length in each language, so the chips move
+      new MutationObserver(drawLinks).observe(document.documentElement,
+        { attributes: true, attributeFilter: ["data-lang"] });
 
       chips.forEach(function (chip) {
         chip.addEventListener("click", function () {
@@ -371,6 +393,78 @@ permalink: /people/
         showPerson(null);
       }
 
+      function slugsIn(key) {
+        return rowsIn(key).map(function (row) { return row.getAttribute("data-slug"); });
+      }
+
+      // A line between two fields that have members in common, thickening with
+      // how many -- the ring's version of the spokes on the map. Drawn to
+      // where the chips actually are, since that moves with the language and
+      // the width of the screen, and redrawn when either changes.
+      function drawLinks() {
+        if (!links || !ring) return;
+        var box = ring.getBoundingClientRect();
+        if (!box.width) return;
+        links.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
+
+        var centre = {}, colour = {};
+        chips.forEach(function (chip) {
+          var key = chip.getAttribute("data-field");
+          var r = chip.getBoundingClientRect();
+          centre[key] = [r.left - box.left + r.width / 2, r.top - box.top + r.height / 2];
+          colour[key] = chip.style.getPropertyValue("--field").trim() || "#55703c";
+        });
+
+        var keys = chips.map(function (c) { return c.getAttribute("data-field"); });
+        var defs = document.createElementNS(SVG_NS, "defs");
+        links.innerHTML = "";
+        links.appendChild(defs);
+
+        keys.forEach(function (a, i) {
+          var mine = slugsIn(a);
+          keys.slice(i + 1).forEach(function (b) {
+            var shared = slugsIn(b).filter(function (slug) { return mine.indexOf(slug) >= 0; });
+            if (!shared.length) return;
+            var id = "ring-link-" + a + "-" + b;
+            var grad = document.createElementNS(SVG_NS, "linearGradient");
+            grad.setAttribute("id", id);
+            grad.setAttribute("gradientUnits", "userSpaceOnUse");
+            grad.setAttribute("x1", centre[a][0]); grad.setAttribute("y1", centre[a][1]);
+            grad.setAttribute("x2", centre[b][0]); grad.setAttribute("y2", centre[b][1]);
+            [[0, a], [1, b]].forEach(function (end) {
+              var stop = document.createElementNS(SVG_NS, "stop");
+              stop.setAttribute("offset", end[0]);
+              stop.setAttribute("stop-color", colour[end[1]]);
+              grad.appendChild(stop);
+            });
+            defs.appendChild(grad);
+
+            var line = document.createElementNS(SVG_NS, "line");
+            line.setAttribute("x1", centre[a][0]); line.setAttribute("y1", centre[a][1]);
+            line.setAttribute("x2", centre[b][0]); line.setAttribute("y2", centre[b][1]);
+            line.setAttribute("stroke", "url(#" + id + ")");
+            line.setAttribute("stroke-width", Math.min(3.4, 1 + shared.length * 0.45));
+            line.setAttribute("data-fields", a + " " + b);
+            links.appendChild(line);
+          });
+        });
+        litLinks();
+      }
+
+      // One field picked asks what it touches, so every line running to it
+      // stays. Two or more asks what they have in common, so only the lines
+      // between the picked fields do -- the same narrowing the list makes.
+      function litLinks() {
+        if (!links) return;
+        links.classList.toggle("is-dimmed", chosen.length > 0);
+        [].forEach.call(links.querySelectorAll("line"), function (line) {
+          var ends = (line.getAttribute("data-fields") || "").split(" ");
+          var picks = ends.filter(function (k) { return chosen.indexOf(k) >= 0; });
+          line.classList.toggle("is-lit",
+            chosen.length === 1 ? picks.length === 1 : picks.length === 2);
+        });
+      }
+
       // Everyone in every field picked, taken from the per-field lists already
       // on the page rather than from a second copy of the memberships. Two
       // fields picked asks who works in both -- the same question the map
@@ -380,8 +474,23 @@ permalink: /people/
         return list ? [].slice.call(list.querySelectorAll(".field-list-row")) : [];
       }
 
+      function nudgeChips(hits) {
+        chips.forEach(function (chip) {
+          var key = chip.getAttribute("data-field");
+          if (!chosen.length || chosen.indexOf(key) >= 0) {
+            chip.classList.remove("is-faded");
+            return;
+          }
+          var mine = slugsIn(key);
+          chip.classList.toggle("is-faded", !hits.some(function (slug) {
+            return mine.indexOf(slug) >= 0;
+          }));
+        });
+      }
+
       function renderPicked() {
         if (!picked) return;
+        litLinks();
         chips.forEach(function (chip) {
           chip.classList.toggle("is-picked",
             chosen.indexOf(chip.getAttribute("data-field")) >= 0);
@@ -389,6 +498,7 @@ permalink: /people/
             chosen.indexOf(chip.getAttribute("data-field")) >= 0);
         });
         if (!chosen.length) {
+          nudgeChips([]);
           picked.classList.remove("is-active");
           pickedHead.innerHTML = "";
           pickedList.innerHTML = "";
@@ -403,6 +513,11 @@ permalink: /people/
           var slug = row.getAttribute("data-slug");
           return rest.every(function (slugs) { return slugs.indexOf(slug) >= 0; });
         });
+
+        // A field that would empty the list if it were picked next is set
+        // back, so the ones worth adding are the ones still standing. Nothing
+        // is disabled by it: the nudge is soft, and the tap still works.
+        nudgeChips(hits.map(function (row) { return row.getAttribute("data-slug"); }));
 
         // Nothing in common shows nothing: the fields stay lit, so the picking
         // still reads, and an empty overlap is not worth a sentence saying so.
