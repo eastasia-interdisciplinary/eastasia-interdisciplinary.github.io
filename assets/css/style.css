@@ -1205,12 +1205,16 @@ body.is-sheet-open { overflow: hidden; }
   background: var(--field);
 }
 
-/* set back, not shut off: picking it would leave the list empty, but it is
-   still a button and still says what it is */
+/* Set back, not shut off: picking it would leave the list empty, but it is
+   still a button and still says what it is. Taken most of the way to the page
+   colour rather than made see-through -- the links run behind the chips, and
+   at any transparency they show through the names. */
 .field-chip.is-faded {
-  color: var(--text-muted);
+  color: #adaba1;
+  color: color-mix(in srgb, var(--text-muted) 42%, var(--bg));
   background: var(--bg);
-  border-color: var(--rule);
+  border-color: #e6e4d9;
+  border-color: color-mix(in srgb, var(--rule) 40%, var(--bg));
 }
 
 /* ---------- what the picked fields come to ---------- */
