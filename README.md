@@ -202,6 +202,17 @@ Builds the site and opens it in a browser at http://127.0.0.1:4000/. Pages
 rebuild as you edit, so leave it running and refresh. Nothing reaches the
 live site until you push.
 
+For the narrow layout -- the ring of fields in place of the map, the card
+that comes up over the page -- open the phone-sized window on it:
+
+```bash
+open tools/mobile.html
+```
+
+It needs `./preview.sh` running, and has a picker for the page and for the
+screen size. It lives in `tools/`, which is excluded from the build, so it
+is never published.
+
 ## The people map
 
 `people.html` opens with a map of the group: each field is a point, its
