@@ -794,7 +794,7 @@ code {
 
 .map-fields text {
   font-family: var(--font-serif);
-  font-size: 32px;
+  font-size: 25px;
   font-weight: 700;
   text-anchor: middle;
   dominant-baseline: middle;

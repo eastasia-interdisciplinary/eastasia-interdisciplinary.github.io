@@ -273,10 +273,10 @@ def relax(positions, labels=None, half_widths=None, fields_of=None, centres=None
 
 
 LABEL_HALF_H = 20
-CHIP_PAD = 38            # breathing room either side of a field name
-CHIP_HALF_H = 27         # half the chip's height, per chip_h below
+CHIP_PAD = 32            # breathing room either side of a field name
+CHIP_HALF_H = 23         # half the chip's height, per chip_h below
 CHIP_CLEARANCE = 24      # gap left between a chip and the nearest portrait
-LABEL_FONT = 32          # keep in step with .map-fields text in the CSS
+LABEL_FONT = 25          # keep in step with .map-fields text in the CSS
 
 
 def label_clear(x, y, half_w, positions):
@@ -504,7 +504,7 @@ def main():
                   '    chip: "%s"' % chip_colour(field.get("color", "#55703c")),
                   '    glow: "%s"' % glow_colour(field.get("color", "#55703c")),
                   "    w_ko: %.1f" % w_ko, "    w_en: %.1f" % w_en,
-                  "    chip_h: %d" % (LABEL_HALF_H * 2 + 14),
+                  "    chip_h: %d" % (LABEL_HALF_H * 2 + 6),
                   "    label_x: %.1f" % lx, "    label_y: %.1f" % ly,
                   '    name: "%s"' % field.get("name", field["key"]),
                   '    name_en: "%s"' % field.get("name_en", field.get("name", field["key"])),
