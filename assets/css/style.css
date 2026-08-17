@@ -841,7 +841,13 @@ code {
    is a change of tone instead of a ruled line. */
 /* a soft halo in the field's own colour: the name sits on the page rather
    than being stamped onto it */
-.map-chip { stroke: none; transition: filter 0.15s ease; }
+/* The ring is drawn in the field's own colour, carried on the rect so each
+   one differs; it is only given a width once the field is selected. */
+.map-chip {
+  stroke-width: 0;
+  transition: filter 0.15s ease;
+}
+.map-field.is-chosen .map-chip { stroke-width: 3.5; }
 /* Clicking a field left a blue mark behind: the browser's own focus ring on
    an element made clickable, and the label's text being selected by the
    second click of a toggle. Neither survives now, while keyboard focus still

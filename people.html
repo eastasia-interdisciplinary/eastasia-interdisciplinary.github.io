@@ -66,11 +66,11 @@ permalink: /people/
               different widths and only one shows at a time.
             {%- endcomment -%}
             <g class="map-field" data-field="{{ f.key }}" role="button" tabindex="0">
-            <rect class="map-chip i18n-ko" fill="{{ f.chip }}" style="filter: drop-shadow(0 1px 2px {{ f.glow }})"
+            <rect class="map-chip i18n-ko" fill="{{ f.chip }}" stroke="{{ f.color }}" style="filter: drop-shadow(0 1px 2px {{ f.glow }})"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_ko }}" height="{{ f.chip_h }}"
                   transform="translate({{ f.w_ko | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="10"/>
-            <rect class="map-chip i18n-en" fill="{{ f.chip }}" style="filter: drop-shadow(0 1px 2px {{ f.glow }})"
+            <rect class="map-chip i18n-en" fill="{{ f.chip }}" stroke="{{ f.color }}" style="filter: drop-shadow(0 1px 2px {{ f.glow }})"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_en }}" height="{{ f.chip_h }}"
                   transform="translate({{ f.w_en | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="10"/>
@@ -161,8 +161,19 @@ permalink: /people/
       }
 
       function clear() {
-        explorer.querySelectorAll(".is-lit").forEach(function (el) {
+        explorer.querySelectorAll(".is-lit, .is-chosen").forEach(function (el) {
           el.classList.remove("is-lit");
+          el.classList.remove("is-chosen");
+        });
+      }
+
+      // A field you picked has to look picked, and not merely the same as a
+      // field the pointer happens to be over: it keeps a ring in its own
+      // colour, so which of the six are stacked up is readable at a glance.
+      function markChosen() {
+        chosen.forEach(function (key) {
+          var group = svg.querySelector('.map-field[data-field="' + key + '"]');
+          if (group) group.classList.add("is-chosen");
         });
       }
 
@@ -216,7 +227,7 @@ permalink: /people/
         if (preview && preview.node) { svg.classList.add("is-dimmed"); lightPerson(preview.node); return; }
         if (preview && preview.field) { svg.classList.add("is-dimmed"); lightFields([preview.field]); return; }
         if (pinned) { svg.classList.add("is-dimmed"); lightPerson(pinned); return; }
-        if (chosen.length) { svg.classList.add("is-dimmed"); lightFields(chosen); return; }
+        if (chosen.length) { svg.classList.add("is-dimmed"); lightFields(chosen); markChosen(); return; }
         svg.classList.remove("is-dimmed");
         showPerson(null);
       }
