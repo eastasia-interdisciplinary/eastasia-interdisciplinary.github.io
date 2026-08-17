@@ -2,13 +2,14 @@
 layout: post
 title: "첫 세미나를 열었습니다"
 title_en: "The First Seminar"
+# The summary sits directly under the title in the list, so it does not
+# repeat it: it says what the seminar was about instead.
 summary: >-
-  동아시아학제연구회의 첫 세미나를 열었습니다. 첫 대주제 «동아시아와 타자»의
-  시작으로 <a href="/seminar/#cycle-1">「총칭문과 혐오의 인지과학」</a>을
+  첫 대주제 «동아시아와 타자»의 시작으로
+  <a href="/seminar/#cycle-1">「총칭문과 혐오의 인지과학」</a>을
   다루었습니다.
 summary_en: >-
-  The group's first seminar, opening the cycle 동아시아와 타자 (East Asia and
-  the Other) with
+  Opening the cycle 동아시아와 타자 (East Asia and the Other) with
   <a href="/seminar/#cycle-1">Generics and Hatred: A Cognitive-Scientific
   Approach</a>.
 content_en: |
