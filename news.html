@@ -26,11 +26,21 @@ permalink: /news/
         <span class="i18n-ko">{{ post.date | date: "%Y년 %-m월 %-d일" }}</span>
         <span class="i18n-en">{{ post.date | date: "%B %-d, %Y" }}</span>
       </div>
-      <p class="i18n-ko">{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
-      {% if post.excerpt_en %}
-        <p class="i18n-en">{{ post.excerpt_en | truncatewords: 40 }}</p>
+      {%- comment -%}
+        `summary` is written out in the post's front matter when the sentence
+        needs a link in it; the generated excerpt cannot carry one, since it
+        is stripped of tags before being cut to length.
+      {%- endcomment -%}
+      {% if post.summary %}
+        <p class="i18n-ko">{{ post.summary }}</p>
+        <p class="i18n-en">{{ post.summary_en | default: post.summary }}</p>
       {% else %}
-        <p class="i18n-en">{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
+        <p class="i18n-ko">{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
+        {% if post.excerpt_en %}
+          <p class="i18n-en">{{ post.excerpt_en | truncatewords: 40 }}</p>
+        {% else %}
+          <p class="i18n-en">{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
+        {% endif %}
       {% endif %}
       {% if post.credit %}
         <p class="post-credit">
