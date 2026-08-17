@@ -241,6 +241,11 @@ html[data-lang="en"] .i18n-ko { display: none; }
 /* a page that gives up its margin column, for the people map */
 .main-col--wide { grid-column: 1 / -1; }
 
+/* A grid track is content-wide by default, so anything inside that sets a
+   width -- the map when it becomes pannable -- would push the whole page out
+   sideways instead of scrolling within itself. */
+.page-wrap > * { min-width: 0; }
+
 /* one meaningful divider — between the two columns, not one per item */
 .sidebar {
   border-left: 2px solid var(--green-dark);
@@ -901,6 +906,14 @@ code {
   border: none;
 }
 
+/* only shown once the map has to be panned to be read */
+.map-hint {
+  display: none;
+  margin: 0 0 0.7rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
 .people-panel {
   flex: 0 0 300px;
   position: sticky;
@@ -947,6 +960,37 @@ code {
   .people-explorer { display: block; }
   .people-panel { display: none; }
 }
+/* The map is a third again as wide as it is tall. Squeezed into a phone the
+   portraits come out the size of a full stop, so it keeps a legible width and
+   the reader pans across it. The panel is already gone at this width, so a
+   tap on a face jumps to that person's entry in the list instead. */
 @media (max-width: 720px) {
-  .people-explorer { display: none; }
+  .people-map {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  .people-map svg {
+    min-width: 720px;
+    max-height: none;
+  }
+  .map-hint { display: block; }
+}
+
+/* ---------- touch ---------- */
+
+/* A finger is not a pointer. On the widths a phone or tablet reports, the
+   small links get enough height to be hit -- padding rather than a bigger
+   type size, so nothing about the page's proportions changes. */
+@media (max-width: 900px) {
+  .lang-btn { padding: 0.45rem 0.3rem; }
+  .person-link,
+  .person-name a,
+  .post-preview h3 a,
+  .back-link,
+  .lineage-link { display: inline-block; padding: 0.25rem 0; }
+
+  /* 0.74rem lands under 12px on a phone, below what small print reads at */
+  .footer-credit,
+  .footer-copy { font-size: 0.8rem; }
 }

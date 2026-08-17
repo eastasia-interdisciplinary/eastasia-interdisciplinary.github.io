@@ -25,6 +25,10 @@ permalink: /people/
   {% assign g = site.data.people_graph %}
   {% if g %}
   <div class="people-explorer">
+    <p class="map-hint">
+      <span class="i18n-ko">지도를 좌우로 밀어 보세요. 얼굴을 누르면 그 사람의 소개로 넘어갑니다.</span>
+      <span class="i18n-en">Drag the map sideways. Tap a face to jump to that person's entry.</span>
+    </p>
     <figure class="people-map" aria-hidden="true">
       <svg viewBox="{{ g.view_x }} {{ g.view_y }} {{ g.view_w }} {{ g.view_h }}" role="img">
         <g class="map-edges">
@@ -143,8 +147,14 @@ permalink: /people/
       var nodes = [].slice.call(svg.querySelectorAll(".map-node"));
       var fieldGroups = [].slice.call(svg.querySelectorAll(".map-field"));
 
+      var panel = explorer.querySelector(".people-panel");
+
       var pinned = null;      // a person, held until clicked again
       var chosen = [];        // fields, any number of them
+
+      // Below 900px there is no panel to fill, so a tap has to take the
+      // reader somewhere: the person's own entry, further down the page.
+      function panelShown() { return !!panel && panel.offsetParent !== null; }
 
       function fieldsOf(node) {
         return (node.getAttribute("data-fields") || "").split(" ").filter(Boolean);
@@ -217,6 +227,14 @@ permalink: /people/
         node.addEventListener("click", function (event) {
           event.preventDefault();   // the jump this panel exists to avoid
           chosen = [];
+          if (!panelShown()) {
+            pinned = node;
+            apply();
+            var card = document.getElementById(
+              "card-" + (node.getAttribute("href") || "").slice(1));
+            if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+          }
           pinned = pinned === node ? null : node;
           apply();
         });
