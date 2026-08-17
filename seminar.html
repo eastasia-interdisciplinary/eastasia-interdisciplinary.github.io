@@ -16,8 +16,13 @@ permalink: /seminar/
   {%- comment -%}
     Cycles are distinct 대주제, so each gets its own section, newest cycle
     first and newest session first within it.
+
+    Grouped after sorting by date rather than sorted by cycle number: the
+    groups then come out in the order the sessions ran, whatever the numbering
+    does. Sorted by name, "10" would fall between "1" and "2" and the current
+    cycle would stop being the first one.
   {%- endcomment -%}
-  {% assign cycles = site.seminar | group_by: "cycle_no" | sort: "name" | reverse %}
+  {% assign cycles = site.seminar | sort: "date" | reverse | group_by: "cycle_no" %}
   {% for cycle in cycles %}
     {% assign entries = cycle.items | sort: "date" | reverse %}
     {% assign newest = entries | first %}
@@ -30,9 +35,9 @@ permalink: /seminar/
       operable. The summary keeps the dates and the count so the closed row
       still says what is inside.
 
-      The current cycle starts open: shut, the page was two rows and a footer,
-      which on a phone reads as a page that failed to load rather than as an
-      index.
+      The first of them -- the current cycle -- starts open: shut, the page was
+      two rows and a footer, which on a phone reads as a page that failed to
+      load rather than as an index.
     {%- endcomment -%}
     <details class="cycle-section" id="cycle-{{ cycle.name }}"{% if forloop.first %} open{% endif %}>
       <summary class="cycle-heading">
