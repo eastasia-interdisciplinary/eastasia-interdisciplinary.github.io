@@ -23,18 +23,26 @@ ROTATION = {3: 180, 6: 90, 8: 270}
 
 
 def _ifd0_orientation_offset(data):
-    """Byte offset of the orientation value in IFD0, or None."""
+    """Byte offset of the orientation value in IFD0, or None.
+
+    Written for the JPEG layout. HEIC keeps its EXIF somewhere else entirely,
+    so the offsets read here land outside the file -- hence the guard rather
+    than a crash. sips gets the rotation right when converting those anyway.
+    """
     start = data.find(b"Exif\x00\x00")
     if start < 0:
         return None
-    tiff = start + 6
-    byte_order = ">" if data[tiff:tiff + 2] == b"MM" else "<"
-    ifd = tiff + struct.unpack(byte_order + "I", data[tiff + 4:tiff + 8])[0]
-    count = struct.unpack(byte_order + "H", data[ifd:ifd + 2])[0]
-    for i in range(count):
-        entry = ifd + 2 + i * 12
-        if struct.unpack(byte_order + "H", data[entry:entry + 2])[0] == 0x0112:
-            return entry + 8, byte_order
+    try:
+        tiff = start + 6
+        byte_order = ">" if data[tiff:tiff + 2] == b"MM" else "<"
+        ifd = tiff + struct.unpack(byte_order + "I", data[tiff + 4:tiff + 8])[0]
+        count = struct.unpack(byte_order + "H", data[ifd:ifd + 2])[0]
+        for i in range(count):
+            entry = ifd + 2 + i * 12
+            if struct.unpack(byte_order + "H", data[entry:entry + 2])[0] == 0x0112:
+                return entry + 8, byte_order
+    except (struct.error, IndexError):
+        return None
     return None
 
 
@@ -62,7 +70,10 @@ def clear_orientation(path):
 
 
 def prepare(src, dest, max_edge=DEFAULT_MAX_EDGE):
-    degrees = ROTATION.get(read_orientation(src), 0)
+    # Only JPEG sources are rotated here. sips already applies the rotation
+    # when it converts anything else, and doing it twice would undo it.
+    is_jpeg = src.lower().endswith((".jpg", ".jpeg"))
+    degrees = ROTATION.get(read_orientation(src), 0) if is_jpeg else 0
     os.makedirs(os.path.dirname(dest) or ".", exist_ok=True)
 
     subprocess.run(["sips", "-Z", str(max_edge), "-s", "format", "jpeg",

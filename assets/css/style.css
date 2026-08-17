@@ -610,7 +610,7 @@ article.post .back-link {
   font-weight: 700;
   color: var(--navy);
   margin: 0;
-  padding: 0 0 0.35rem 1.4rem;
+  padding: 0 0 0.35rem;
   border-bottom: 2px solid var(--green-dark);
   cursor: pointer;
   position: relative;
@@ -620,9 +620,12 @@ article.post .back-link {
   align-items: baseline;
   gap: 0.2rem 0.9rem;
 }
-/* the default disclosure triangle, replaced with one that matches the type */
+/* the default disclosure triangle, replaced with one that matches the type.
+   Only on a summary: the gallery borrows this heading style for its dates,
+   which do not open or close. */
 .cycle-heading::-webkit-details-marker { display: none; }
-.cycle-heading::before {
+summary.cycle-heading { padding-left: 1.4rem; }
+summary.cycle-heading::before {
   content: "▸";
   position: absolute;
   left: 0;

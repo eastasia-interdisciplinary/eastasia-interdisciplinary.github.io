@@ -16,6 +16,24 @@
 # Photos of people other than the poster need their consent before going up:
 # unlike the profile photos, nobody submitted these of themselves.
 
+- image: kaist-meetup.jpg
+  date: 2026-07-28
+  # this file arrived through a messenger, which strips EXIF, so the date is
+  # the group's own rather than the phone's
+  caption: 카이스트에서
+  caption_en: At KAIST
+
+- image: daejeon-rooftop.jpg
+  date: 2026-07-18
+
+- image: daejeon-view.jpg
+  date: 2026-07-18
+  caption: 대전 전경
+  caption_en: Daejeon from above
+
+- image: daejeon-cafe.jpg
+  date: 2026-07-18
+
 - image: gathering-long-table.jpg
   date: 2026-03-08
 

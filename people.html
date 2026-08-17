@@ -183,12 +183,16 @@ permalink: /people/
           var group = svg.querySelector('.map-field[data-field="' + key + '"]');
           if (group) group.classList.add("is-lit");
         });
+        // Selecting two fields asks who works in both, not who works in
+        // either: the second is just the first field selected twice over,
+        // while the overlap is the question this group is about.
         nodes.forEach(function (node) {
-          var mine = fieldsOf(node).filter(function (k) { return keys.indexOf(k) >= 0; });
-          if (!mine.length) return;
+          var mine = fieldsOf(node);
+          var inAll = keys.every(function (k) { return mine.indexOf(k) >= 0; });
+          if (!inAll) return;
           node.classList.add("is-lit");
           var slug = (node.getAttribute("href") || "").slice(1);
-          mine.forEach(function (key) {
+          keys.forEach(function (key) {
             svg.querySelectorAll('line[data-person="' + slug + '"][data-field="' + key + '"]')
               .forEach(function (line) { line.classList.add("is-lit"); });
           });
