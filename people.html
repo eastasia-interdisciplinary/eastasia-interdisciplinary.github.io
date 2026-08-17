@@ -84,8 +84,9 @@ permalink: /people/
       and nothing else: the portraits are what will not shrink, and repeating
       the ones who work in two fields -- which a list per field has to do --
       made twenty-two people look like thirty-four. Pick a field and its
-      members come up over the page, counted once, where there is room to
-      read them.
+      members come out under it, counted once. Under it rather than over it
+      because fields add up: a card would cover the ring it was picked from,
+      and picking a second field is the whole point of the thing.
     {%- endcomment -%}
     {% assign clusters = site.data.people_clusters %}
     <ul class="field-ring">
@@ -98,6 +99,11 @@ permalink: /people/
         </li>
       {% endfor %}
     </ul>
+
+    <div class="field-picked">
+      <p class="field-picked-head"></p>
+      <ul class="field-list field-picked-list"></ul>
+    </div>
 
     {%- comment -%}
       One list per field, kept out of sight until its field is picked and then
@@ -200,10 +206,6 @@ permalink: /people/
   <div class="person-sheet" hidden>
     <div class="person-sheet-scrim" data-close></div>
     <div class="person-sheet-card" role="dialog" aria-modal="true">
-      <button class="person-sheet-back" type="button" hidden>
-        <span aria-hidden="true">&larr;</span>
-        <span class="i18n-ko">분야로</span><span class="i18n-en">Back</span>
-      </button>
       <button class="person-sheet-close" type="button" data-close>
         <span aria-hidden="true">&times;</span>
         <span class="i18n-ko sr-only">닫기</span><span class="i18n-en sr-only">Close</span>
@@ -236,8 +238,10 @@ permalink: /people/
       var panel = explorer.querySelector(".people-panel");
       var sheet = document.querySelector(".person-sheet");
       var sheetBody = sheet && sheet.querySelector(".person-sheet-body");
-      var sheetBack = sheet && sheet.querySelector(".person-sheet-back");
-      var fromField = null;   // the field list to go back to, if there is one
+      var picked = explorer.querySelector(".field-picked");
+      var pickedHead = picked && picked.querySelector(".field-picked-head");
+      var pickedList = picked && picked.querySelector(".field-picked-list");
+      var chips = [].slice.call(explorer.querySelectorAll(".field-chip"));
 
       var pinned = null;      // a person, held until clicked again
       var chosen = [];        // fields, any number of them
@@ -254,17 +258,8 @@ permalink: /people/
         return true;
       }
 
-      function openField(key) {
-        if (!fill("field-" + key)) return;
-        fromField = key;
-        sheetBack.hidden = true;
-        show();
-      }
-
-      function openSheet(slug, back) {
+      function openSheet(slug) {
         if (!fill(slug)) return;
-        fromField = back || null;
-        sheetBack.hidden = !back;
         show();
       }
 
@@ -281,27 +276,24 @@ permalink: /people/
         sheet.classList.remove("is-open");
         sheet.hidden = true;
         document.body.classList.remove("is-sheet-open");
-        fromField = null;
         pinned = null;
         apply();
       }
 
-      explorer.querySelectorAll(".field-chip").forEach(function (chip) {
+      chips.forEach(function (chip) {
         chip.addEventListener("click", function () {
-          openField(chip.getAttribute("data-field"));
+          pinned = null;
+          var key = chip.getAttribute("data-field");
+          var at = chosen.indexOf(key);
+          if (at >= 0) chosen.splice(at, 1); else chosen.push(key);
+          apply();
         });
       });
 
-      // the rows are copied into the card, so the listener sits on the card
-      if (sheetBody) {
-        sheetBody.addEventListener("click", function (event) {
+      if (pickedList) {
+        pickedList.addEventListener("click", function (event) {
           var row = event.target.closest(".field-list-row");
-          if (row) openSheet(row.getAttribute("data-slug"), fromField);
-        });
-      }
-      if (sheetBack) {
-        sheetBack.addEventListener("click", function () {
-          if (fromField) openField(fromField);
+          if (row) openSheet(row.getAttribute("data-slug"));
         });
       }
 
@@ -379,8 +371,65 @@ permalink: /people/
         showPerson(null);
       }
 
+      // Everyone in every field picked, taken from the per-field lists already
+      // on the page rather than from a second copy of the memberships. Two
+      // fields picked asks who works in both -- the same question the map
+      // answers by lighting only the people standing between them.
+      function rowsIn(key) {
+        var list = document.getElementById("field-" + key);
+        return list ? [].slice.call(list.querySelectorAll(".field-list-row")) : [];
+      }
+
+      function renderPicked() {
+        if (!picked) return;
+        chips.forEach(function (chip) {
+          chip.classList.toggle("is-picked",
+            chosen.indexOf(chip.getAttribute("data-field")) >= 0);
+          chip.setAttribute("aria-pressed",
+            chosen.indexOf(chip.getAttribute("data-field")) >= 0);
+        });
+        picked.classList.toggle("is-active", chosen.length > 0);
+        if (!chosen.length) { pickedHead.innerHTML = ""; pickedList.innerHTML = ""; return; }
+
+        var lists = chosen.map(rowsIn);
+        var rest = lists.slice(1).map(function (rows) {
+          return rows.map(function (r) { return r.getAttribute("data-slug"); });
+        });
+        var hits = lists[0].filter(function (row) {
+          var slug = row.getAttribute("data-slug");
+          return rest.every(function (slugs) { return slugs.indexOf(slug) >= 0; });
+        });
+
+        var names = chosen.map(function (key) {
+          var chip = explorer.querySelector('.field-chip[data-field="' + key + '"]');
+          return chip ? chip.innerHTML : key;
+        }).join('<span class="field-picked-and"> · </span>');
+        pickedHead.innerHTML = names +
+          '<span class="field-picked-count">' +
+          '<span class="i18n-ko">' + hits.length + '명</span>' +
+          '<span class="i18n-en">' + hits.length + '</span></span>';
+
+        pickedList.innerHTML = "";
+        if (!hits.length) {
+          pickedList.innerHTML = '<li class="field-picked-none">' +
+            '<span class="i18n-ko">두 분야를 함께 하는 구성원은 아직 없습니다.</span>' +
+            '<span class="i18n-en">No one works in all of these yet.</span></li>';
+          return;
+        }
+        hits.forEach(function (row) {
+          var li = document.createElement("li");
+          li.appendChild(row.cloneNode(true));
+          pickedList.appendChild(li);
+        });
+      }
+
       // `preview` is whatever the pointer is over; it wins over what is held
       function apply(preview) {
+        applyMap(preview);
+        renderPicked();
+      }
+
+      function applyMap(preview) {
         clear();
         if (preview && preview.node) { svg.classList.add("is-dimmed"); lightPerson(preview.node); return; }
         if (preview && preview.field) { svg.classList.add("is-dimmed"); lightFields([preview.field]); return; }
