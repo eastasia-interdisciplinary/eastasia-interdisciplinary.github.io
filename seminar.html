@@ -30,7 +30,7 @@ permalink: /seminar/
       operable. The summary keeps the dates and the count so the closed row
       still says what is inside.
     {%- endcomment -%}
-    <details class="cycle-section">
+    <details class="cycle-section" id="cycle-{{ cycle.name }}">
       <summary class="cycle-heading">
         <span class="cycle-name">
           <span class="i18n-ko">Cycle {{ cycle.name }}: {{ newest.cycle }}</span>
@@ -76,4 +76,24 @@ permalink: /seminar/
       </div>
     </details>
   {% endfor %}
+
+  {%- comment -%}
+    A link to /seminar/#cycle-1 should land on that cycle open. <details> does
+    not respond to :target on its own, and there is no CSS that makes it, so
+    the hash is read on arrival and when it changes.
+  {%- endcomment -%}
+  <script>
+    (function () {
+      function openFromHash() {
+        var id = location.hash.slice(1);
+        var section = id && document.getElementById(id);
+        if (section && section.tagName === "DETAILS") {
+          section.open = true;
+          section.scrollIntoView({ block: "start" });
+        }
+      }
+      openFromHash();
+      window.addEventListener("hashchange", openFromHash);
+    })();
+  </script>
 </main>

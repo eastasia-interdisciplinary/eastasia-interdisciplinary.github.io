@@ -46,6 +46,16 @@ layout: default
       {% else %}
         <p class="i18n-en">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
       {% endif %}
+      {%- comment -%}
+        A credit is not part of the summary, and reads badly wrapped into the
+        end of one, so it keeps its own line.
+      {%- endcomment -%}
+      {% if post.credit %}
+        <p class="post-credit">
+          <span class="i18n-ko">{{ post.credit }}</span>
+          <span class="i18n-en">{{ post.credit_en | default: post.credit }}</span>
+        </p>
+      {% endif %}
     </article>
   {% endfor %}
   </div>

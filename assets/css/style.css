@@ -395,6 +395,13 @@ html[data-lang="en"] .i18n-ko { display: none; }
 
 .more-link { margin: 2.5rem 0 0; font-size: 0.9rem; }
 
+/* a credit, set apart from the summary it followed */
+.post-credit {
+  margin-top: 0.5rem !important;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
 /* the four letters the short name is built from, so EAST and the address
    explain themselves without a sentence saying so */
 .acronym { color: var(--navy); font-weight: 700; }
@@ -601,7 +608,7 @@ article.post .back-link {
 .seminar-list .post-meta { margin-bottom: 0; }
 
 /* each 대주제 folds shut; the summary is the row you click */
-.cycle-section { margin-bottom: 2.2rem; }
+.cycle-section { margin-bottom: 2.2rem; scroll-margin-top: 1.5rem; }
 .cycle-section:last-child { margin-bottom: 0; }
 
 .cycle-heading {

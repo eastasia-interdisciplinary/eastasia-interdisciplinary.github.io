@@ -32,6 +32,12 @@ permalink: /news/
       {% else %}
         <p class="i18n-en">{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
       {% endif %}
+      {% if post.credit %}
+        <p class="post-credit">
+          <span class="i18n-ko">{{ post.credit }}</span>
+          <span class="i18n-en">{{ post.credit_en | default: post.credit }}</span>
+        </p>
+      {% endif %}
     </article>
   {% endfor %}
   </div>
