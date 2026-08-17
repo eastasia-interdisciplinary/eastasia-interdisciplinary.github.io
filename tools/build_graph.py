@@ -125,22 +125,39 @@ def place(fields, members):
             positions[name] = (cx + radius * math.cos(angle), cy + radius * math.sin(angle))
 
     # Two-field members sit on the line between their fields. Where several
-    # bridge the same pair they are spread symmetrically across that line,
-    # rather than one sitting on it and the others pushed off to one side.
+    # bridge the same pair they are fanned inward from that line, so the line
+    # itself stays the outer edge of the drawing and nobody is stranded on the
+    # margin outside the ring of fields.
     by_pair = {}
     for name, a, b in bridges:
         by_pair.setdefault(tuple(sorted((a, b))), []).append((name, a, b))
 
     for pair, group in by_pair.items():
+        # One offset axis per pair, taken from the pair itself and pointed into
+        # the canvas. Taking it from each member's own field order flipped the
+        # axis for anyone who listed the two the other way round, which put
+        # them both on the same side and close enough that the relaxer had to
+        # shove one of them out past the field names; and pointing it outward
+        # puts a member beyond the ring of fields, off on the empty margin.
+        (px, py), (qx, qy) = centres[pair[0]], centres[pair[1]]
+        nx, ny = -(qy - py), qx - px
+        span_len = math.hypot(nx, ny) or 1
+        nx, ny = nx / span_len, ny / span_len
+        if (CENTRE[0] - px) * nx + (CENTRE[1] - py) * ny < 0:
+            nx, ny = -nx, -ny
         span = BRIDGE_SPACING * (len(group) - 1)
+        # The fan is centred on the line, then nudged inward by half a step:
+        # enough to keep a pair of bridges on the inside of it without
+        # dragging a wider fan into the middle of the map.
+        shift = min(span / 2, BRIDGE_SPACING / 2)
         for i, (name, a, b) in enumerate(sorted(group)):
             (ax, ay), (bx, by) = centres[a], centres[b]
             x = ax + (bx - ax) * BRIDGE_PULL
             y = ay + (by - ay) * BRIDGE_PULL
             dx, dy = bx - ax, by - ay
             length = math.hypot(dx, dy) or 1
-            offset = BRIDGE_SPACING * i - span / 2
-            x, y = x - dy / length * offset, y + dx / length * offset
+            offset = BRIDGE_SPACING * i - span / 2 + shift
+            x, y = x + nx * offset, y + ny * offset
             # a bridge lands between two hubs, which is where the field names
             # now are; slide it along the line until it is clear of both
             for hub in (a, b):
