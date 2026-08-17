@@ -647,6 +647,14 @@ summary.cycle-heading::before {
 
 .cycle-name { flex: 0 1 auto; }
 
+.gallery-event {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  flex: 0 1 auto;
+}
+
 .cycle-range {
   font-family: var(--font-sans);
   font-weight: 400;
@@ -675,13 +683,18 @@ summary.cycle-heading::before {
 
 /* Uniform 4:3 tiles. The uploads mix landscape and portrait, and left at
    their own heights one tall frame stretched a whole row. */
+/* One day to a row: the photographs of an occasion belong together, so they
+   share the width rather than wrapping onto a second line. A day of a single
+   photograph is capped, so it does not blow up to the width of the column. */
 .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.6rem 1.4rem;
+  display: flex;
+  gap: 1.4rem;
 }
 
 .gallery-item {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 420px;
   margin: 0;
   position: relative;
   overflow: hidden;
@@ -768,8 +781,16 @@ code {
 /* a soft halo in the field's own colour: the name sits on the page rather
    than being stamped onto it */
 .map-chip { stroke: none; transition: filter 0.15s ease; }
+/* Clicking a field left a blue mark behind: the browser's own focus ring on
+   an element made clickable, and the label's text being selected by the
+   second click of a toggle. Neither survives now, while keyboard focus still
+   shows -- in the site's own green. */
+.people-map svg { -webkit-user-select: none; user-select: none; }
 .map-field { cursor: pointer; }
-.map-field:focus-visible { outline: 2px solid var(--green-dark); outline-offset: 4px; }
+.map-field:focus,
+.map-node:focus { outline: none; }
+.map-field:focus-visible,
+.map-node:focus-visible { outline: 2px solid var(--green-dark); outline-offset: 4px; }
 
 .map-fields text {
   font-family: var(--font-serif);

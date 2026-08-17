@@ -23,15 +23,19 @@ permalink: /gallery/
       {% assign first = day.items | first %}
       <section class="gallery-day">
         <h3 class="cycle-heading">
-          <span class="i18n-ko">{{ day.name | date: "%Y년 %-m월 %-d일" }}</span>
-          <span class="i18n-en">{{ day.name | date: "%-d %B %Y" }}</span>
-        </h3>
-        {% if first.place %}
-          <div class="cycle-range">
-            <span class="i18n-ko">{{ first.place }}</span>
-            <span class="i18n-en">{{ first.place_en | default: first.place }}</span>
-          </div>
+          <span class="cycle-name">
+            <span class="i18n-ko">{{ day.name | date: "%Y년 %-m월 %-d일" }}</span>
+            <span class="i18n-en">{{ day.name | date: "%-d %B %Y" }}</span>
+          </span>
+        {%- comment -%} the occasion, taken from whichever photo of the day names it {%- endcomment -%}
+        {% assign named = day.items | where_exp: "shot", "shot.event" | first %}
+        {% if named %}
+          <span class="gallery-event">
+            <span class="i18n-ko">{{ named.event }}</span>
+            <span class="i18n-en">{{ named.event_en | default: named.event }}</span>
+          </span>
         {% endif %}
+        </h3>
 
         <div class="gallery-grid">
           {% for shot in day.items %}

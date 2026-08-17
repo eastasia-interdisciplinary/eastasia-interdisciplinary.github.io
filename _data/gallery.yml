@@ -9,9 +9,10 @@
 # honouring the EXIF tag. tools/photo_meta.py reads the date the phone
 # recorded, from the ORIGINAL file -- the prepared copy no longer carries it.
 #
-# `place` and `place_en` are supported and show under the date heading, but
-# are left empty: the photos are of a private gathering and where it happened
-# is not something the page needs to publish.
+# `event` and `event_en` sit beside the date and name the occasion in a few
+# words; the first entry of a day that carries one names the whole day.
+# `caption` belongs to a single photograph and shows on hovering it -- who is
+# in the frame, or what it is a picture of.
 #
 # Photos of people other than the poster need their consent before going up:
 # unlike the profile photos, nobody submitted these of themselves.
@@ -20,19 +21,27 @@
   date: 2026-07-28
   # this file arrived through a messenger, which strips EXIF, so the date is
   # the group's own rather than the phone's
-  caption: 카이스트에서
-  caption_en: At KAIST
+  event: 카이스트에서
+  event_en: At KAIST
+  caption: DH '26 발표하러 온 찬희, 나현과 대학원생 민경
+  caption_en: Chanhee and Nahyeon, over to present at DH '26, with Minkyung from KAIST
 
 - image: daejeon-rooftop.jpg
   date: 2026-07-18
+  event: 대전 최고층 타워에서
+  event_en: At the top of Daejeon's tallest tower
+  caption: 이유경, 성민경, 조민경
+  caption_en: Yugyeong Lee, Minkyoung Seong, Minkyung Cho
 
 - image: daejeon-view.jpg
   date: 2026-07-18
-  caption: 대전 최고층 빌딩에서 뷰를 감상하며
-  caption_en: Taking in the view from Daejeon's tallest building
+  caption: 엑스포타워에서 본 대전
+  caption_en: Daejeon from the Expo Tower
 
 - image: daejeon-cafe.jpg
   date: 2026-07-18
+  caption: 이유경, 성민경, 조민경
+  caption_en: Yugyeong Lee, Minkyoung Seong, Minkyung Cho
 
 - image: gathering-long-table.jpg
   date: 2026-03-08

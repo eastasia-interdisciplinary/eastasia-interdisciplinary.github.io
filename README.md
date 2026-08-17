@@ -167,8 +167,10 @@ python3 tools/prepare_photo.py <source> assets/images/gallery/<name>.jpg 1400
 
 `tools/photo_meta.py` reads the date and coordinates the phone recorded —
 run it on the ORIGINAL, since the prepared copy no longer carries them.
-Then add an entry to `_data/gallery.yml`; the page groups them by date,
-newest first, and shows a "모으는 중" note while the file is empty. A `place`
+Then add an entry to `_data/gallery.yml`; the page groups them by date, newest
+first, one day to a row, and shows a "모으는 중" note while the file is empty.
+`event` sits beside the date and names the occasion; `caption` belongs to a
+single photograph and shows on hovering it. A `place`
 under the date heading is supported but unused: where a private gathering
 happened is not something the page needs to publish, and a geocoder's
 nearest point of interest is unreliable anyway — on these photos it named
