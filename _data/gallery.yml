@@ -21,17 +21,13 @@
   date: 2026-07-28
   # this file arrived through a messenger, which strips EXIF, so the date is
   # the group's own rather than the phone's
-  event: 카이스트에서
-  event_en: At KAIST
   caption: DH '26 발표하러 온 찬희, 나현과 대학원생 민경
   caption_en: Chanhee and Nahyeon, over to present at DH '26, with Minkyung from KAIST
 
 - image: daejeon-rooftop.jpg
   date: 2026-07-18
-  event: 대전 최고층 타워에서
-  event_en: At the top of Daejeon's tallest tower
-  caption: 이유경, 성민경, 조민경
-  caption_en: Yugyeong Lee, Minkyoung Seong, Minkyung Cho
+  caption: 2민경과 유경
+  caption_en: The two Minkyungs and Yugyeong
 
 - image: daejeon-view.jpg
   date: 2026-07-18
@@ -40,11 +36,13 @@
 
 - image: daejeon-cafe.jpg
   date: 2026-07-18
-  caption: 이유경, 성민경, 조민경
-  caption_en: Yugyeong Lee, Minkyoung Seong, Minkyung Cho
+  caption: 3인 4커피
+  caption_en: Three people, four coffees
 
 - image: gathering-long-table.jpg
   date: 2026-03-08
+  event: 첫 대면 모임
+  event_en: The first meeting in person
 
 - image: gathering-table.jpg
   date: 2026-03-08

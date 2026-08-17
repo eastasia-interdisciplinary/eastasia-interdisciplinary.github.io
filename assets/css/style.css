@@ -395,9 +395,14 @@ html[data-lang="en"] .i18n-ko { display: none; }
 
 .more-link { margin: 2.5rem 0 0; font-size: 0.9rem; }
 
-/* a credit, set apart from the summary it followed */
+/* A credit belongs to the summary above it, not beside it: it sits closer to
+   that sentence than the date sits to the title, so the two read as one entry
+   rather than as three items of equal standing. The summaries' own bottom
+   margin has to come off too -- adjacent margins collapse to the larger. */
+.post-preview > p { margin-bottom: 0; }
+
 .post-credit {
-  margin-top: 0.5rem !important;
+  margin-top: 0.25rem !important;
   font-size: 0.86rem;
   color: var(--text-muted);
 }
@@ -690,6 +695,12 @@ summary.cycle-heading::before {
   display: flex;
   gap: 1.4rem;
 }
+
+/* The dates borrow the seminar cycle heading, whose spacing there comes from
+   the list under it. The gallery has to supply its own, or the photographs
+   sit on the rule and one day runs straight into the next. */
+.gallery-day .gallery-grid { margin-top: 0.85rem; }
+.gallery-day + .gallery-day { margin-top: 2.4rem; }
 
 .gallery-item {
   flex: 1 1 0;
