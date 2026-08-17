@@ -35,6 +35,36 @@
     {{ content }}
   </div>
   {% include footer.html %}
+
+  {%- comment -%}
+    The people page sends you a long way down: tapping a face on the map jumps
+    to that person's entry, and the way back is otherwise a drag through
+    twenty-odd cards. The button holds off until the page has been scrolled a
+    screen and a half, so short pages never show one.
+  {%- endcomment -%}
+  <button class="to-top" type="button">
+    <span class="to-top-arrow" aria-hidden="true">&uarr;</span>
+    <span class="i18n-ko">위로</span><span class="i18n-en">Top</span>
+  </button>
+  <script>
+    (function () {
+      var btn = document.querySelector(".to-top");
+      if (!btn) return;
+      var shown = false;
+      function update() {
+        var past = window.scrollY > window.innerHeight * 1.5;
+        if (past === shown) return;
+        shown = past;
+        btn.classList.toggle("is-shown", past);
+      }
+      window.addEventListener("scroll", update, { passive: true });
+      update();
+      btn.addEventListener("click", function () {
+        var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: 0, behavior: still ? "auto" : "smooth" });
+      });
+    })();
+  </script>
   <script src="{{ '/assets/js/lang.js' | relative_url }}"></script>
 </body>
 </html>

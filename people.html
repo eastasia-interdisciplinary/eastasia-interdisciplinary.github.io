@@ -26,8 +26,8 @@ permalink: /people/
   {% if g %}
   <div class="people-explorer">
     <p class="map-hint">
-      <span class="i18n-ko">지도를 좌우로 밀어 보세요. 얼굴을 누르면 그 사람의 소개로 넘어갑니다.</span>
-      <span class="i18n-en">Drag the map sideways. Tap a face to jump to that person's entry.</span>
+      <span class="i18n-ko">지도를 좌우로 밀어 보세요. 얼굴을 누르면 소개가 뜹니다.</span>
+      <span class="i18n-en">Drag the map sideways. Tap a face for that person's entry.</span>
     </p>
     <figure class="people-map" aria-hidden="true">
       <svg viewBox="{{ g.view_x }} {{ g.view_y }} {{ g.view_w }} {{ g.view_h }}" role="img">
@@ -127,6 +127,22 @@ permalink: /people/
   </div>
 
   {%- comment -%}
+    Where there is no room for the panel beside the map, the same card comes
+    up over the page instead. Filled from the panel's own markup, so there is
+    one copy of each entry rather than two to keep in step.
+  {%- endcomment -%}
+  <div class="person-sheet" hidden>
+    <div class="person-sheet-scrim" data-close></div>
+    <div class="person-sheet-card" role="dialog" aria-modal="true">
+      <button class="person-sheet-close" type="button" data-close>
+        <span aria-hidden="true">&times;</span>
+        <span class="i18n-ko sr-only">닫기</span><span class="i18n-en sr-only">Close</span>
+      </button>
+      <div class="person-sheet-body"></div>
+    </div>
+  </div>
+
+  {%- comment -%}
     Two ways round the same map. Hovering a person lights their spokes and
     the fields they work in; clicking holds it. Clicking a field name instead
     lights everyone in it, and fields add up, so selecting two shows both
@@ -148,6 +164,15 @@ permalink: /people/
       var fieldGroups = [].slice.call(svg.querySelectorAll(".map-field"));
 
       var panel = explorer.querySelector(".people-panel");
+      var frame = explorer.querySelector(".people-map");
+      var sheet = document.querySelector(".person-sheet");
+      var sheetBody = sheet && sheet.querySelector(".person-sheet-body");
+
+      // Where the map has to be panned to be read, it opens on its middle
+      // rather than on its left edge, which is the emptiest part of it.
+      if (frame && frame.scrollWidth > frame.clientWidth) {
+        frame.scrollLeft = (frame.scrollWidth - frame.clientWidth) / 2;
+      }
 
       var pinned = null;      // a person, held until clicked again
       var chosen = [];        // fields, any number of them
@@ -155,6 +180,35 @@ permalink: /people/
       // Below 900px there is no panel to fill, so a tap has to take the
       // reader somewhere: the person's own entry, further down the page.
       function panelShown() { return !!panel && panel.offsetParent !== null; }
+
+      function openSheet(slug) {
+        var source = document.getElementById(slug);
+        if (!sheet || !source) return;
+        sheetBody.innerHTML = source.innerHTML;
+        sheet.hidden = false;
+        // a frame's grace, or the card is already in place when the
+        // transition is asked to run it up from the bottom
+        requestAnimationFrame(function () { sheet.classList.add("is-open"); });
+        document.body.classList.add("is-sheet-open");
+      }
+
+      function closeSheet() {
+        if (!sheet || sheet.hidden) return;
+        sheet.classList.remove("is-open");
+        sheet.hidden = true;
+        document.body.classList.remove("is-sheet-open");
+        pinned = null;
+        apply();
+      }
+
+      if (sheet) {
+        sheet.addEventListener("click", function (event) {
+          if (event.target.closest("[data-close]")) closeSheet();
+        });
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") closeSheet();
+        });
+      }
 
       function fieldsOf(node) {
         return (node.getAttribute("data-fields") || "").split(" ").filter(Boolean);
@@ -241,9 +295,7 @@ permalink: /people/
           if (!panelShown()) {
             pinned = node;
             apply();
-            var card = document.getElementById(
-              "card-" + (node.getAttribute("href") || "").slice(1));
-            if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+            openSheet((node.getAttribute("href") || "").slice(1));
             return;
           }
           pinned = pinned === node ? null : node;
