@@ -25,10 +25,6 @@ permalink: /people/
   {% assign g = site.data.people_graph %}
   {% if g %}
   <div class="people-explorer">
-    <p class="map-hint">
-      <span class="i18n-ko">지도를 좌우로 밀어 보세요. 얼굴을 누르면 소개가 뜹니다.</span>
-      <span class="i18n-en">Drag the map sideways. Tap a face for that person's entry.</span>
-    </p>
     <figure class="people-map" aria-hidden="true">
       <svg viewBox="{{ g.view_x }} {{ g.view_y }} {{ g.view_w }} {{ g.view_h }}" role="img">
         <g class="map-edges">
@@ -82,6 +78,50 @@ permalink: /people/
         </g>
       </svg>
     </figure>
+
+    {%- comment -%}
+      The same reading of the group, for a screen the map cannot be drawn on.
+      A 22-node map shrunk to a phone is portraits the size of a full stop,
+      and panned it is a keyhole; grouped by field it stays a picture of who
+      sits with whom, read down the page instead of across it. Anyone in two
+      fields appears under both, carrying the other field's colour as a second
+      ring -- which is what the spokes say on the map.
+    {%- endcomment -%}
+    {% assign clusters = site.data.people_clusters %}
+    <div class="field-groups">
+      {% for f in clusters.fields %}
+        <section class="field-group">
+          <h3 class="field-group-name" style="color: {{ f.color }}; border-bottom-color: {{ f.color }}">
+            <span class="i18n-ko">{{ f.name }}</span><span class="i18n-en">{{ f.name_en }}</span>
+          </h3>
+          <ul class="field-members">
+            {% for person in site.data.people %}
+              {% assign mine = clusters.members[person.name] %}
+              {% if mine contains f.key %}
+                {% assign slug = person.name_en | default: person.name | slugify %}
+                {% assign photo = site.data.people_photos[person.name] %}
+                {% assign other_key = "" %}
+                {% for k in mine %}{% if k != f.key %}{% assign other_key = k %}{% endif %}{% endfor %}
+                {% assign other = clusters.fields | where: "key", other_key | first %}
+                <li>
+                  <a class="field-member" href="#{{ slug }}" data-slug="{{ slug }}"
+                     style="--ring: {{ f.color }}{% if other %}; --ring-2: {{ other.color }}{% endif %}">
+                    <span class="field-member-photo">
+                      {% if photo %}
+                        <img src="{{ '/assets/images/people/' | append: photo | relative_url }}" alt="" loading="lazy">
+                      {% endif %}
+                    </span>
+                    <span class="field-member-name">
+                      <span class="i18n-ko">{{ person.name }}</span><span class="i18n-en">{{ person.name_en | default: person.name }}</span>
+                    </span>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+    </div>
 
     <div class="people-panel">
       {%- comment -%}
@@ -164,15 +204,8 @@ permalink: /people/
       var fieldGroups = [].slice.call(svg.querySelectorAll(".map-field"));
 
       var panel = explorer.querySelector(".people-panel");
-      var frame = explorer.querySelector(".people-map");
       var sheet = document.querySelector(".person-sheet");
       var sheetBody = sheet && sheet.querySelector(".person-sheet-body");
-
-      // Where the map has to be panned to be read, it opens on its middle
-      // rather than on its left edge, which is the emptiest part of it.
-      if (frame && frame.scrollWidth > frame.clientWidth) {
-        frame.scrollLeft = (frame.scrollWidth - frame.clientWidth) / 2;
-      }
 
       var pinned = null;      // a person, held until clicked again
       var chosen = [];        // fields, any number of them
@@ -200,6 +233,13 @@ permalink: /people/
         pinned = null;
         apply();
       }
+
+      explorer.querySelectorAll(".field-member").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          openSheet(link.getAttribute("data-slug"));
+        });
+      });
 
       if (sheet) {
         sheet.addEventListener("click", function (event) {
