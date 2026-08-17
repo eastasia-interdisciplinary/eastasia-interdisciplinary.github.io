@@ -531,7 +531,14 @@ article.post .back-link {
 .person-body { flex: 1 1 auto; min-width: 0; }
 
 @media (max-width: 560px) {
-  .people-grid .grid-card { flex-direction: column; gap: 1rem; }
+  /* Stacked, the portrait and the bio have to start at the same edge. The
+     centring that pairs them side by side put the photo in the middle of a
+     left-aligned paragraph, which made every card look differently indented. */
+  .people-grid .grid-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 }
 
 /* Square frame. Uploads range from 0.56 to 1.64 in aspect, so left at their
@@ -748,7 +755,9 @@ code {
 /* The name's own ground rather than a drawn border: a soft wash of the
    field's colour, no outline. The spokes still stop at an edge, but the edge
    is a change of tone instead of a ruled line. */
-.map-chip { stroke: none; }
+/* a soft halo in the field's own colour: the name sits on the page rather
+   than being stamped onto it */
+.map-chip { stroke: none; transition: filter 0.15s ease; }
 
 .map-fields text {
   font-family: var(--font-serif);
@@ -773,16 +782,18 @@ code {
    spokes and the fields they work in stay, so what is left standing is
    exactly their place in the group. Desaturating rather than fading, because
    at reduced opacity the spokes showed straight through the portraits. */
-.map-fields g,
-.map-edges line { transition: opacity 0.15s ease, stroke-opacity 0.15s ease; }
+.map-fields g { transition: filter 0.15s ease; }
+.map-edges line { transition: stroke-opacity 0.15s ease; }
 
 .map-node.is-lit .map-halo { stroke-width: 4.5; }
 .people-map svg.is-dimmed .map-node circle { filter: grayscale(0.92); }
 .people-map svg.is-dimmed .map-node.is-lit circle { filter: none; }
 .people-map svg.is-dimmed .map-edges line { stroke-opacity: 0.1; }
 .people-map svg.is-dimmed .map-edges line.is-lit { stroke-opacity: 1; stroke-width: 3.5; }
-.people-map svg.is-dimmed .map-fields g { opacity: 0.28; }
-.people-map svg.is-dimmed .map-fields g.is-lit { opacity: 1; }
+/* desaturated, not faded: at reduced opacity the chip stopped covering the
+   spokes behind it and they showed through the field name */
+.people-map svg.is-dimmed .map-fields g { filter: grayscale(0.95); }
+.people-map svg.is-dimmed .map-fields g.is-lit { filter: none; }
 
 /* map and panel side by side; the page gives up its margin column for this */
 .people-explorer {

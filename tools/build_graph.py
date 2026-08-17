@@ -253,8 +253,8 @@ def relax(positions, labels=None, half_widths=None, fields_of=None, centres=None
             for name in names:
                 x, y = positions[name]
                 for key, (lx, ly) in labels.items():
-                    need_x = half_widths[key] + NODE_RADIUS + 12
-                    need_y = LABEL_HALF_H + NODE_RADIUS + 12
+                    need_x = half_widths[key] + NODE_RADIUS + CHIP_CLEARANCE
+                    need_y = CHIP_HALF_H + NODE_RADIUS + CHIP_CLEARANCE
                     if abs(x - lx) >= need_x or abs(y - ly) >= need_y:
                         continue
                     dx, dy = x - lx, y - ly
@@ -274,6 +274,8 @@ def relax(positions, labels=None, half_widths=None, fields_of=None, centres=None
 
 LABEL_HALF_H = 20
 CHIP_PAD = 38            # breathing room either side of a field name
+CHIP_HALF_H = 27         # half the chip's height, per chip_h below
+CHIP_CLEARANCE = 24      # gap left between a chip and the nearest portrait
 LABEL_FONT = 32          # keep in step with .map-fields text in the CSS
 
 
@@ -285,7 +287,7 @@ def label_clear(x, y, half_w, positions):
     it would land on their names.
     """
     l_left, l_right = x - half_w, x + half_w
-    l_top, l_bottom = y - LABEL_HALF_H, y + LABEL_HALF_H
+    l_top, l_bottom = y - CHIP_HALF_H, y + CHIP_HALF_H
     for nx, ny in positions.values():
         n_left, n_right = nx - NODE_RADIUS - 8, nx + NODE_RADIUS + 8
         n_top, n_bottom = ny - NODE_RADIUS - 4, ny + NAME_DROP + 6
@@ -346,8 +348,8 @@ def nudge_labels(labels, centres, positions, half_widths):
         cx, cy = centres[key]
         angle = math.atan2(cy - CENTRE[1], cx - CENTRE[0])
         for _ in range(60):
-            clash = any(abs(x - lx) < half_widths[key] + NODE_RADIUS + 12
-                        and abs(y - ly) < LABEL_HALF_H + NODE_RADIUS + 12
+            clash = any(abs(x - lx) < half_widths[key] + NODE_RADIUS + CHIP_CLEARANCE
+                        and abs(y - ly) < CHIP_HALF_H + NODE_RADIUS + CHIP_CLEARANCE
                         for x, y in positions.values())
             if not clash:
                 break
@@ -369,6 +371,13 @@ def place_labels(fields, centres, positions):
 
 PAGE_BG = (0xf6, 0xf4, 0xec)   # --bg; keep in step with the stylesheet
 CHIP_TINT = 0.13               # how much of the field's colour the chip carries
+
+
+def glow_colour(hex_colour, alpha=0.3):
+    """The field's colour as a translucent rgba, for the chip's soft halo."""
+    value = hex_colour.lstrip("#")
+    r, g, b = (int(value[i:i + 2], 16) for i in (0, 2, 4))
+    return "rgba(%d, %d, %d, %.2f)" % (r, g, b, alpha)
 
 
 def chip_colour(hex_colour):
@@ -488,6 +497,7 @@ def main():
         lines += ['  - key: "%s"' % field["key"],
                   '    color: "%s"' % field.get("color", "#55703c"),
                   '    chip: "%s"' % chip_colour(field.get("color", "#55703c")),
+                  '    glow: "%s"' % glow_colour(field.get("color", "#55703c")),
                   "    w_ko: %.1f" % w_ko, "    w_en: %.1f" % w_en,
                   "    chip_h: %d" % (LABEL_HALF_H * 2 + 14),
                   "    label_x: %.1f" % lx, "    label_y: %.1f" % ly,
