@@ -10,7 +10,7 @@ fields:
   - key: "science"
     color: "#55703c"
     chip: "#e1e3d5"
-    glow: "rgba(85, 112, 60, 0.30)"
+    glow: "rgba(85, 112, 60, 0.50)"
     w_ko: 240.9
     w_en: 472.6
     chip_h: 54
@@ -23,7 +23,7 @@ fields:
   - key: "language"
     color: "#3f4a8c"
     chip: "#dedee0"
-    glow: "rgba(63, 74, 140, 0.30)"
+    glow: "rgba(63, 74, 140, 0.50)"
     w_ko: 102.0
     w_en: 341.4
     chip_h: 54
@@ -36,7 +36,7 @@ fields:
   - key: "arts"
     color: "#2f7a75"
     chip: "#dce4dd"
-    glow: "rgba(47, 122, 117, 0.30)"
+    glow: "rgba(47, 122, 117, 0.50)"
     w_ko: 102.0
     w_en: 98.2
     chip_h: 54
@@ -49,7 +49,7 @@ fields:
   - key: "history"
     color: "#a1734a"
     chip: "#ebe3d7"
-    glow: "rgba(161, 115, 74, 0.30)"
+    glow: "rgba(161, 115, 74, 0.50)"
     w_ko: 102.0
     w_en: 143.3
     chip_h: 54
@@ -62,7 +62,7 @@ fields:
   - key: "politics"
     color: "#a05340"
     chip: "#ebdfd6"
-    glow: "rgba(160, 83, 64, 0.30)"
+    glow: "rgba(160, 83, 64, 0.50)"
     w_ko: 176.9
     w_en: 296.2
     chip_h: 54
@@ -75,7 +75,7 @@ fields:
   - key: "philosophy"
     color: "#6b4a73"
     chip: "#e4dedc"
-    glow: "rgba(107, 74, 115, 0.30)"
+    glow: "rgba(107, 74, 115, 0.50)"
     w_ko: 176.9
     w_en: 326.3
     chip_h: 54

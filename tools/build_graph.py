@@ -373,8 +373,13 @@ PAGE_BG = (0xf6, 0xf4, 0xec)   # --bg; keep in step with the stylesheet
 CHIP_TINT = 0.13               # how much of the field's colour the chip carries
 
 
-def glow_colour(hex_colour, alpha=0.3):
-    """The field's colour as a translucent rgba, for the chip's soft halo."""
+def glow_colour(hex_colour, alpha=0.5):
+    """The field's colour as a translucent rgba, for the chip's shadow.
+
+    Kept shallow rather than a wide halo: a soft glow round every name read
+    as six blurred patches competing with the portraits, where the chip only
+    needs enough of an edge to sit above the spokes.
+    """
     value = hex_colour.lstrip("#")
     r, g, b = (int(value[i:i + 2], 16) for i in (0, 2, 4))
     return "rgba(%d, %d, %d, %.2f)" % (r, g, b, alpha)

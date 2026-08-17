@@ -62,11 +62,11 @@ permalink: /people/
               different widths and only one shows at a time.
             {%- endcomment -%}
             <g class="map-field" data-field="{{ f.key }}" role="button" tabindex="0">
-            <rect class="map-chip i18n-ko" fill="{{ f.chip }}" style="filter: drop-shadow(0 2px 10px {{ f.glow }})"
+            <rect class="map-chip i18n-ko" fill="{{ f.chip }}" style="filter: drop-shadow(0 1px 2px {{ f.glow }})"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_ko }}" height="{{ f.chip_h }}"
                   transform="translate({{ f.w_ko | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="10"/>
-            <rect class="map-chip i18n-en" fill="{{ f.chip }}" style="filter: drop-shadow(0 2px 10px {{ f.glow }})"
+            <rect class="map-chip i18n-en" fill="{{ f.chip }}" style="filter: drop-shadow(0 1px 2px {{ f.glow }})"
                   x="{{ f.label_x }}" y="{{ f.label_y }}"
                   width="{{ f.w_en }}" height="{{ f.chip_h }}"
                   transform="translate({{ f.w_en | divided_by: -2.0 }}, {{ f.chip_h | divided_by: -2.0 }})" rx="10"/>
