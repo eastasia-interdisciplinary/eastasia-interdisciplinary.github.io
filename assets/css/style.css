@@ -632,9 +632,7 @@ article.post .back-link {
   align-items: baseline;
   gap: 0.2rem 0.9rem;
 }
-/* the default disclosure triangle, replaced with one that matches the type.
-   Only on a summary: the gallery borrows this heading style for its dates,
-   which do not open or close. */
+/* the default disclosure triangle, replaced with one that matches the type */
 .cycle-heading::-webkit-details-marker { display: none; }
 summary.cycle-heading { padding-left: 1.4rem; }
 summary.cycle-heading::before {
@@ -696,11 +694,44 @@ summary.cycle-heading::before {
   gap: 1.4rem;
 }
 
-/* The dates borrow the seminar cycle heading, whose spacing there comes from
-   the list under it. The gallery has to supply its own, or the photographs
-   sit on the rule and one day runs straight into the next. */
-.gallery-day .gallery-grid { margin-top: 0.85rem; }
-.gallery-day + .gallery-day { margin-top: 2.4rem; }
+/* The days hang off one vertical rule, the same thread the news is strung
+   along: a gallery grouped by date is a run of occasions in time. Set as
+   underlined headings they read as page titles instead -- which is what the
+   label at the top of the page already is. */
+.gallery-days {
+  border-left: 2px solid var(--rule);
+  padding-left: 1.7rem;
+}
+
+.gallery-day { position: relative; }
+.gallery-day + .gallery-day { margin-top: 2.6rem; }
+
+.gallery-day::before {
+  content: "";
+  position: absolute;
+  left: calc(-1.7rem - 1px);
+  top: 0.42rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--green-dark);
+  transform: translateX(-50%);
+}
+
+.gallery-date {
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.8rem;
+}
+
+.gallery-day .gallery-grid { margin-top: 0.8rem; }
 
 .gallery-item {
   flex: 1 1 0;

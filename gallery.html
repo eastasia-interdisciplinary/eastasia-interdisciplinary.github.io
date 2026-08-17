@@ -19,11 +19,11 @@ permalink: /gallery/
       per group rather than repeated on every photo.
     {%- endcomment -%}
     {% assign days = shots | group_by: "date" | sort: "name" | reverse %}
+    <div class="gallery-days">
     {% for day in days %}
-      {% assign first = day.items | first %}
       <section class="gallery-day">
-        <h3 class="cycle-heading">
-          <span class="cycle-name">
+        <h3 class="gallery-date">
+          <span class="gallery-date-name">
             <span class="i18n-ko">{{ day.name | date: "%Y년 %-m월 %-d일" }}</span>
             <span class="i18n-en">{{ day.name | date: "%-d %B %Y" }}</span>
           </span>
@@ -53,5 +53,6 @@ permalink: /gallery/
         </div>
       </section>
     {% endfor %}
+    </div>
   {% endif %}
 </main>
