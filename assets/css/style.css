@@ -741,7 +741,7 @@ code {
    attribute, so naming one would repaint every edge the same and undo the
    colour coding. */
 .map-edges line {
-  stroke-opacity: 0.55;
+  stroke-opacity: 0.3;
   stroke-width: 2;
 }
 
@@ -779,7 +779,7 @@ code {
 .map-node.is-lit .map-halo { stroke-width: 4.5; }
 .people-map svg.is-dimmed .map-node circle { filter: grayscale(0.92); }
 .people-map svg.is-dimmed .map-node.is-lit circle { filter: none; }
-.people-map svg.is-dimmed .map-edges line { stroke-opacity: 0.16; }
+.people-map svg.is-dimmed .map-edges line { stroke-opacity: 0.1; }
 .people-map svg.is-dimmed .map-edges line.is-lit { stroke-opacity: 1; stroke-width: 3.5; }
 .people-map svg.is-dimmed .map-fields g { opacity: 0.28; }
 .people-map svg.is-dimmed .map-fields g.is-lit { opacity: 1; }
