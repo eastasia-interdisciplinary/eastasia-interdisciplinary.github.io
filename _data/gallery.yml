@@ -31,6 +31,26 @@
   caption: 발표 중인 찬희
   caption_en: Chanhee, mid-talk
 
+- image: dh2026-eunkyo.jpg
+  date: 2026-07-27
+  caption: 개성상인을 발표하는 은교
+  caption_en: Eunkyo, presenting on the Kaesong merchants
+
+- image: dh2026-chanhee-podium.jpg
+  date: 2026-07-27
+  caption: 연단에 선 찬희
+  caption_en: Chanhee at the podium
+
+- image: dh2026-manifestos.jpg
+  date: 2026-07-27
+  # the slide is 「Naming and Framing Gender in Party Manifestos」; which of
+  # the two authors is at the podium is not something the photograph says
+  caption: 한·일 정당 강령 속 젠더, 발표 중
+  caption_en: Naming and Framing Gender in Party Manifestos, mid-talk
+
+- image: dh2026-podium.jpg
+  date: 2026-07-27
+
 - image: kaist-meetup.jpg
   date: 2026-07-28
   # this file arrived through a messenger, which strips EXIF, so the date is
