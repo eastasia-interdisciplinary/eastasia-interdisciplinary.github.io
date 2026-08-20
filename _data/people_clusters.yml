@@ -57,7 +57,7 @@ members:
   이찬희: [language, science]   # 코퍼스·통계 언어학
   이한석: [philosophy]
   전세은: [history]
-  정우형: [politics, history]
+  정우형: [history, politics]  # 근세 동아시아사가 중심, 국제관계가 그 방법
   정재우: [language]
   정채연: [language, science]   # 디지털인문학, 시맨틱 DB 구축
   조민경: [science, language]     # 자연어처리
