@@ -44,6 +44,12 @@ foundation_url: "https://www.kfas.or.kr"
 repo_url: "https://github.com/eastresearch/eastresearch.github.io"
 
 markdown: kramdown
+kramdown:
+  # Every entry is written twice, once per language, so a heading in the
+  # body would otherwise be given the same generated id in both copies.
+  # Nothing links to those anchors; the ids on the seminar page are set
+  # by hand in the template.
+  auto_ids: false
 permalink: /news/:year/:month/:day/:title/
 
 collections:

@@ -515,6 +515,32 @@ article.post .back-link {
   font-size: 0.88rem;
 }
 
+/* A post is prose, but a run of talks or names read better set out than run
+   together in a paragraph. The marker sits in the margin so the text block
+   keeps a straight left edge, and the name leading each line is the one
+   thing picked out -- the titles are long enough without help. */
+article.post h2,
+article.post h3 {
+  font-family: var(--font-serif);
+  color: var(--navy);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 2rem 0 0.7rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+article.post ul,
+article.post ol {
+  margin: 0 0 1.1rem;
+  padding-left: 1.1rem;
+}
+
+article.post li { margin-bottom: 0.5rem; }
+article.post li:last-child { margin-bottom: 0; }
+article.post li::marker { color: var(--green-dark); }
+article.post li strong { color: var(--navy); font-weight: 700; }
+
 /* ---------- card grid: shared by People and Seminar ---------- */
 
 .card-grid {

@@ -202,16 +202,19 @@ Builds the site and opens it in a browser at http://127.0.0.1:4000/. Pages
 rebuild as you edit, so leave it running and refresh. Nothing reaches the
 live site until you push.
 
-For the narrow layout -- the ring of fields in place of the map, the card
-that comes up over the page -- open the phone-sized window on it:
+To see a page at a size other than the window you are sitting at -- the
+narrow layout with its ring of fields, or a wide desktop screen -- open the
+preview frame:
 
 ```bash
-open tools/mobile.html
+open tools/preview.html
 ```
 
 It needs `./preview.sh` running, and has a picker for the page and for the
-screen size. It lives in `tools/`, which is excluded from the build, so it
-is never published.
+screen size, from a 320px phone up to a 1728px display. Anything wider than
+your own window is scaled down to fit, so the whole page is visible at once.
+It lives in `tools/`, which is excluded from the build, so it is never
+published.
 
 ## The people map
 

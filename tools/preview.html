@@ -1,0 +1,155 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>미리보기 · Preview</title>
+<!--
+  A window of a chosen size onto the local preview, so both layouts -- the
+  narrow one and the wide one -- can be looked at without resizing the
+  browser itself.
+
+      ./preview.sh              # in one terminal, leave it running
+      open tools/preview.html
+
+  Anything wider than the window is scaled down to fit, so a 1440px desktop
+  page can be seen whole on a laptop; the percentage is shown beside the
+  picker. It is kept in tools/, which _config.yml excludes from the build,
+  so it is never published.
+-->
+<style>
+  :root { color-scheme: light; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; gap: 1.1rem; padding: 1.6rem 1rem 2.4rem;
+    background: #2b2b33; color: #e8e6df;
+    font: 13px/1.5 -apple-system, "Pretendard", system-ui, sans-serif;
+  }
+  .bar { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; align-items: center; max-width: 860px; }
+  .bar button, .bar select {
+    font: inherit; color: #e8e6df; background: #3a3a45;
+    border: 1px solid #52525f; border-radius: 999px;
+    padding: 0.35rem 0.8rem; cursor: pointer;
+  }
+  .bar button.on { background: #cfe0bd; color: #21234f; border-color: #cfe0bd; }
+  .zoom { color: #9a9aa6; font-variant-numeric: tabular-nums; }
+
+  /* the frame is scaled from its top edge, so the stage holds the height it
+     takes up once scaled and the page below it does not jump around */
+  /* align-items defaults to stretch, which pulled the frame to the height
+     the stage had been given and clipped the page inside it */
+  .stage { width: 100%; display: flex; justify-content: center; align-items: flex-start; }
+  .device {
+    /* a flex item shrinks to the stage by default, which clipped a 1440px
+       frame instead of scaling it; it keeps its own width and is scaled */
+    flex: none;
+    transform-origin: top center;
+    border: 10px solid #14141a; border-radius: 34px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45); background: #f6f4ec;
+    overflow: hidden;
+  }
+  /* a laptop is not a phone: square corners, a thin bar instead of a bezel */
+  .device.wide { border-radius: 10px; border-width: 8px; padding-top: 22px; position: relative; }
+  .device.wide::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0; height: 22px;
+    background: #14141a;
+  }
+  .device.wide::after {
+    content: "";
+    position: absolute; top: 8px; left: 10px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #52525f;
+    box-shadow: 12px 0 0 #52525f, 24px 0 0 #52525f;
+  }
+  iframe { display: block; border: 0; width: 390px; height: 780px; background: #f6f4ec; }
+  .note { color: #9a9aa6; font-size: 12px; }
+  code { color: #cfe0bd; }
+</style>
+
+<div class="bar" id="pages"></div>
+<div class="bar">
+  <select id="size">
+    <optgroup label="모바일">
+      <option value="320x720">320 × 720 · SE</option>
+      <option value="375x760">375 × 760 · iPhone 8</option>
+      <option value="390x780" selected>390 × 780 · iPhone 14</option>
+      <option value="414x820">414 × 820 · Plus</option>
+    </optgroup>
+    <optgroup label="태블릿">
+      <option value="768x900">768 × 900 · iPad 세로</option>
+      <option value="1024x768">1024 × 768 · iPad 가로</option>
+    </optgroup>
+    <optgroup label="웹">
+      <option value="1280x800">1280 × 800 · 노트북</option>
+      <option value="1440x900">1440 × 900 · 데스크톱</option>
+      <option value="1728x1080">1728 × 1080 · 큰 화면</option>
+    </optgroup>
+  </select>
+  <button id="reload">새로고침 · Reload</button>
+  <span class="zoom" id="zoom">100%</span>
+</div>
+
+<div class="stage" id="stage">
+  <div class="device" id="device"><iframe id="frame" src="http://127.0.0.1:4000/"></iframe></div>
+</div>
+<p class="note">
+  <code>./preview.sh</code> 가 켜져 있어야 해. 언어 전환은 페이지 안의 한국어 / EN 으로.
+</p>
+
+<script>
+  var PAGES = [
+    ["홈", "/"], ["소개", "/about/"], ["사람들", "/people/"],
+    ["세미나", "/seminar/"], ["갤러리", "/gallery/"], ["소식", "/news/"],
+    ["소식 하나", "/news/2026/07/27/dh2026/"],
+    ["세미나 하나", "/seminar/2025-09-22-generics-and-hatred/"]
+  ];
+  var frame = document.getElementById("frame");
+  var device = document.getElementById("device");
+  var stage = document.getElementById("stage");
+  var size = document.getElementById("size");
+  var zoom = document.getElementById("zoom");
+  var bar = document.getElementById("pages");
+  var current = "/";
+
+  PAGES.forEach(function (page) {
+    var b = document.createElement("button");
+    b.textContent = page[0];
+    b.onclick = function () {
+      current = page[1];
+      frame.src = "http://127.0.0.1:4000" + current;
+      [].forEach.call(bar.children, function (x) { x.classList.remove("on"); });
+      b.classList.add("on");
+    };
+    if (page[1] === "/") b.classList.add("on");
+    bar.appendChild(b);
+  });
+
+  function apply() {
+    var wh = size.value.split("x");
+    var w = Number(wh[0]), h = Number(wh[1]);
+    frame.style.width = w + "px";
+    frame.style.height = h + "px";
+    var wide = w >= 900;
+    device.classList.toggle("wide", wide);
+    // the frame plus its border, and a little air either side
+    var outer = w + (wide ? 16 : 20);
+    var tall = h + (wide ? 38 : 20);
+    var scale = Math.min(1, (window.innerWidth - 48) / outer);
+    device.style.transform = "scale(" + scale + ")";
+    stage.style.height = tall * scale + "px";
+    zoom.textContent = Math.round(scale * 100) + "%";
+  }
+
+  // a size can be asked for in the address, e.g. preview.html#1440x900
+  if (location.hash && /^#\d+x\d+$/.test(location.hash)) {
+    var want = location.hash.slice(1);
+    if ([].some.call(size.options, function (o) { return o.value === want; })) {
+      size.value = want;
+    }
+  }
+
+  size.onchange = apply;
+  window.addEventListener("resize", apply);
+  document.getElementById("reload").onclick = function () {
+    frame.src = "http://127.0.0.1:4000" + current + "?t=" + Date.now();
+  };
+  apply();
+</script>
