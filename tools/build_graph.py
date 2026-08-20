@@ -145,18 +145,32 @@ def place(fields, members):
         nx, ny = nx / span_len, ny / span_len
         if (CENTRE[0] - px) * nx + (CENTRE[1] - py) * ny < 0:
             nx, ny = -nx, -ny
+        group = sorted(group)
         span = BRIDGE_SPACING * (len(group) - 1)
         # The fan is centred on the line, then nudged inward by half a step:
         # enough to keep a pair of bridges on the inside of it without
         # dragging a wider fan into the middle of the map.
         shift = min(span / 2, BRIDGE_SPACING / 2)
-        for i, (name, a, b) in enumerate(sorted(group)):
+        # Two people bridging the same pair from opposite sides -- one calling
+        # the first field theirs, the other the second -- are a special case.
+        # The pull sets them apart along the line and the fan sets them apart
+        # across it, which leaves the two of them at diagonally opposite
+        # corners: the same two fields, drawn as an oddly lopsided pair. They
+        # are mirrored across the line instead, level with each other halfway
+        # along it, so each gets a clean pair of spokes and the two are read
+        # at a glance as sharing exactly the same ground.
+        mirrored = len(group) == 2 and group[0][1] != group[1][1]
+        for i, (name, a, b) in enumerate(group):
             (ax, ay), (bx, by) = centres[a], centres[b]
-            x = ax + (bx - ax) * BRIDGE_PULL
-            y = ay + (by - ay) * BRIDGE_PULL
+            pull = 0.5 if mirrored else BRIDGE_PULL
+            x = ax + (bx - ax) * pull
+            y = ay + (by - ay) * pull
             dx, dy = bx - ax, by - ay
             length = math.hypot(dx, dy) or 1
-            offset = BRIDGE_SPACING * i - span / 2 + shift
+            if mirrored:
+                offset = MIN_SEPARATION * (i - 0.5)
+            else:
+                offset = BRIDGE_SPACING * i - span / 2 + shift
             x, y = x + nx * offset, y + ny * offset
             # a bridge lands between two hubs, which is where the field names
             # now are; slide it along the line until it is clear of both
