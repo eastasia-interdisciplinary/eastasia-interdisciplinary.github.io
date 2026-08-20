@@ -734,9 +734,15 @@ summary.cycle-heading::before {
 /* One day to a row: the photographs of an occasion belong together, so they
    share the width rather than wrapping onto a second line. A day of a single
    photograph is capped, so it does not blow up to the width of the column. */
+/* A row of photographs, wrapping once a day has more of them than fit --
+   five talks in one day squeezed five frames into a single row, small enough
+   that nothing in them could be made out. Tracks are equal, so a wrapped row
+   is the same size as the one above it rather than stretching to fill. */
 .gallery-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 1.4rem;
+  justify-items: start;
 }
 
 /* The days hang off one vertical rule, the same thread the news is strung
@@ -779,7 +785,7 @@ summary.cycle-heading::before {
 .gallery-day .gallery-grid { margin-top: 0.8rem; }
 
 .gallery-item {
-  flex: 1 1 0;
+  width: 100%;
   min-width: 0;
   max-width: 420px;
   margin: 0;
@@ -1356,10 +1362,10 @@ body.is-sheet-open { overflow: hidden; }
 /* Two to a row rather than a whole day across one: three photographs sharing
    a phone's width are ninety pixels each, which is a thumbnail, not a photo. */
 @media (max-width: 560px) {
-  .gallery-grid { flex-wrap: wrap; }
-  .gallery-item { flex: 0 1 calc(50% - 0.7rem); }
+  /* two to a row on a phone, whatever the day holds */
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   /* a day of one photograph has the row to itself, so it takes it */
-  .gallery-item:only-child { flex: 1 1 100%; }
+  .gallery-item:only-child { grid-column: 1 / -1; }
 }
 
 @media (max-width: 720px) {
