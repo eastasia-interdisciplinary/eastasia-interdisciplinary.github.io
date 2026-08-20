@@ -43,13 +43,13 @@
 
 - image: dh2026-manifestos.jpg
   date: 2026-07-27
-  # the slide is 「Naming and Framing Gender in Party Manifestos」; which of
-  # the two authors is at the podium is not something the photograph says
-  caption: 한·일 정당 강령 속 젠더, 발표 중
-  caption_en: Naming and Framing Gender in Party Manifestos, mid-talk
+  caption: 정당 강령 속 젠더를 발표하는 나현
+  caption_en: Nahyeon, presenting on gender in party manifestos
 
 - image: dh2026-podium.jpg
   date: 2026-07-27
+  caption: 같은 발표를 이어받은 채연
+  caption_en: Chaeyeon, taking up the same talk
 
 - image: kaist-meetup.jpg
   date: 2026-07-28
