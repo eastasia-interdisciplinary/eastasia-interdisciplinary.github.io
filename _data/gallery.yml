@@ -17,6 +17,11 @@
 # Photos of people other than the poster need their consent before going up:
 # unlike the profile photos, nobody submitted these of themselves.
 
+- image: dh2026-talk.jpg
+  date: 2026-07-27
+  event: DH2026
+  event_en: DH2026
+
 - image: kaist-meetup.jpg
   date: 2026-07-28
   # this file arrived through a messenger, which strips EXIF, so the date is
